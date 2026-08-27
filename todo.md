@@ -24,3 +24,7 @@
 - [ ] Kullanıcı onayıyla public redsun352/buds2-companion deposuna GitHub Actions iş akışını gönder ve Android derlemesini başlat.
 - [ ] Kullanıcının sağlayacağı yeni GitHub deposunda yazma erişimini doğrula, projeyi aktar ve Android derlemesini başlat.
 - [ ] redsun352/buds2proo deposunda yazma erişimini doğrula, Buds2 Companion'ı aktar ve Android APK derlemesini başlat.
+- [ ] Güncellenen GitHub erişimiyle redsun352/buds2proo deposuna kaynak gönderimini yeniden dene ve Android derlemesini başlat.
+- [ ] Son yetki güncellemesiyle redsun352/buds2proo deposuna yazma erişimini doğrula ve Android derlemesini başlat.
+- [ ] Yeniden bağlanan GitHub erişimiyle redsun352/buds2proo gönderimini doğrula ve Android APK derlemesini başlat.
+- [ ] Güvenli GitHub yazma anahtarıyla redsun352/buds2proo deposuna erişimi doğrula ve Android derlemesini başlat.
