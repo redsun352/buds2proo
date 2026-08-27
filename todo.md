@@ -27,4 +27,5 @@
 - [ ] Güncellenen GitHub erişimiyle redsun352/buds2proo deposuna kaynak gönderimini yeniden dene ve Android derlemesini başlat.
 - [ ] Son yetki güncellemesiyle redsun352/buds2proo deposuna yazma erişimini doğrula ve Android derlemesini başlat.
 - [ ] Yeniden bağlanan GitHub erişimiyle redsun352/buds2proo gönderimini doğrula ve Android APK derlemesini başlat.
+- [ ] Buds2 yerel modülünde eksik Android sürüm yapılandırmasını düzelterek GitHub Actions Gradle derlemesini onar.
 - [ ] Güvenli GitHub yazma anahtarıyla redsun352/buds2proo deposuna erişimi doğrula ve Android derlemesini başlat.
