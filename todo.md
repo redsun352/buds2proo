@@ -14,18 +14,22 @@
 - [x] Uygulama kullanım notlarını ve Galaxy Buds2 uyumluluk sınırlarını teslim et.
 - [x] Android ön-derleme, izin bildirimi ve yerel modül otomatik bağlamasını doğrula.
 - [x] TypeScript kontrolü, Expo lint ve bağlantı durumu birim testlerini çalıştır.
-- [ ] Android Kotlin modülünü bellek yeterli bir ortamda Gradle ile derle.
-- [ ] GitHub depo erişimini doğrula ve Android derlemesi için uygun hedef dalı belirle.
-- [ ] GitHub Actions üzerinde imzasız Android APK üretecek iş akışını ekle.
+- [x] Android Kotlin modülünü bellek yeterli bir ortamda Gradle ile derle.
+- [x] GitHub depo erişimini doğrula ve Android derlemesi için uygun hedef dalı belirle.
 - [x] GitHub Actions üzerinde imzasız Android APK üretecek iş akışını ekle.
-- [ ] İş akışını, uygulama derleme gereksinimlerini ve artifact saklama süresini doğrula.
-- [ ] Proje değişikliklerini GitHub deposuna gönder ve Android derlemesini başlat.
-- [ ] GitHub Actions derleme sonucunu ve APK artifact bağlantısını doğrula.
+- [x] GitHub Actions üzerinde imzasız Android APK üretecek iş akışını ekle.
+- [x] İş akışını, uygulama derleme gereksinimlerini ve artifact saklama süresini doğrula.
+- [x] Proje değişikliklerini GitHub deposuna gönder ve Android derlemesini başlat.
+- [x] GitHub Actions derleme sonucunu ve APK artifact bağlantısını doğrula.
 - [ ] Kullanıcı onayıyla public redsun352/buds2-companion deposuna GitHub Actions iş akışını gönder ve Android derlemesini başlat.
-- [ ] Kullanıcının sağlayacağı yeni GitHub deposunda yazma erişimini doğrula, projeyi aktar ve Android derlemesini başlat.
-- [ ] redsun352/buds2proo deposunda yazma erişimini doğrula, Buds2 Companion'ı aktar ve Android APK derlemesini başlat.
-- [ ] Güncellenen GitHub erişimiyle redsun352/buds2proo deposuna kaynak gönderimini yeniden dene ve Android derlemesini başlat.
-- [ ] Son yetki güncellemesiyle redsun352/buds2proo deposuna yazma erişimini doğrula ve Android derlemesini başlat.
-- [ ] Yeniden bağlanan GitHub erişimiyle redsun352/buds2proo gönderimini doğrula ve Android APK derlemesini başlat.
-- [ ] Buds2 yerel modülünde eksik Android sürüm yapılandırmasını düzelterek GitHub Actions Gradle derlemesini onar.
-- [ ] Güvenli GitHub yazma anahtarıyla redsun352/buds2proo deposuna erişimi doğrula ve Android derlemesini başlat.
+- [x] Kullanıcının sağlayacağı yeni GitHub deposunda yazma erişimini doğrula, projeyi aktar ve Android derlemesini başlat.
+- [x] redsun352/buds2proo deposunda yazma erişimini doğrula, Buds2 Companion'ı aktar ve Android APK derlemesini başlat.
+- [x] Güncellenen GitHub erişimiyle redsun352/buds2proo deposuna kaynak gönderimini yeniden dene ve Android derlemesini başlat.
+- [x] Son yetki güncellemesiyle redsun352/buds2proo deposuna yazma erişimini doğrula ve Android derlemesini başlat.
+- [x] Yeniden bağlanan GitHub erişimiyle redsun352/buds2proo gönderimini doğrula ve Android APK derlemesini başlat.
+- [x] Buds2 yerel modülünde eksik Android sürüm yapılandırmasını düzelterek GitHub Actions Gradle derlemesini onar.
+- [x] Güvenli GitHub yazma anahtarıyla redsun352/buds2proo deposuna erişimi doğrula ve Android derlemesini başlat.
+- [x] Uygulama simgelerini kaliteyi koruyarak küçült ve proje kaydını yeniden oluştur.
+- [x] EAS Android ön-derleme hatasının kaynağını teşhis et, yapılandırmayı düzelt ve yayınlama öncesi doğrula.
+- [ ] Uygulamanın cihazda "Android derlemesi gerekli" başlangıç durumunda kalmasına yol açan Bluetooth köprü yükleme hatasını video üzerinden teşhis et ve düzelt.
+- [ ] Metro sunucusu gerektiren debug APK yerine JavaScript paketini içeren Android release APK üret.
