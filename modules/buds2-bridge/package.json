@@ -1,0 +1,10 @@
+{
+  "name": "buds2-bridge",
+  "version": "1.0.0",
+  "description": "Android Bluetooth device state bridge for Buds2 Companion",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "private": true
+}

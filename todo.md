@@ -1,0 +1,26 @@
+# Project TODO
+
+- [x] Android Bluetooth erişimi için kullanılabilir Expo / yerel modül yaklaşımını doğrula.
+- [x] Galaxy Buds2'nin herkese açık Android API'leri ile erişilebilen bağlantı ve pil verisi kapsamını belgele.
+- [x] Bluetooth cihazı, pil, izin ve dinleme tercihi için ortak TypeScript veri modellerini oluştur.
+- [x] Yakındaki cihazlar izni ve Bluetooth kapalı durumları için uygulama içi akışı uygula.
+- [x] Ana ekranda gerçek bağlantı durumu ve erişilebilen cihaz bilgilerini göster.
+- [x] Cihazlar ekranında eşlenmiş/bağlı ses cihazlarını ve güvenli bağlantı yönlendirmesini sun.
+- [x] Dinleme tercihleri ekranını yerel kalıcılıkla uygula ve üretici komutu sınırını açıkla.
+- [x] Yardım ve uyumluluk ekranını izin/sorun giderme adımlarıyla ekle.
+- [x] Tema, sekme simgeleri ve Android odaklı erişilebilirlik detaylarını düzenle.
+- [x] Özel Buds2 Companion uygulama simgesini üret ve Android yapılandırmasına ekle.
+- [ ] Birim testleri, TypeScript kontrolü ve Expo web derlemesiyle temel akışları doğrula.
+- [x] Uygulama kullanım notlarını ve Galaxy Buds2 uyumluluk sınırlarını teslim et.
+- [x] Android ön-derleme, izin bildirimi ve yerel modül otomatik bağlamasını doğrula.
+- [x] TypeScript kontrolü, Expo lint ve bağlantı durumu birim testlerini çalıştır.
+- [ ] Android Kotlin modülünü bellek yeterli bir ortamda Gradle ile derle.
+- [ ] GitHub depo erişimini doğrula ve Android derlemesi için uygun hedef dalı belirle.
+- [ ] GitHub Actions üzerinde imzasız Android APK üretecek iş akışını ekle.
+- [x] GitHub Actions üzerinde imzasız Android APK üretecek iş akışını ekle.
+- [ ] İş akışını, uygulama derleme gereksinimlerini ve artifact saklama süresini doğrula.
+- [ ] Proje değişikliklerini GitHub deposuna gönder ve Android derlemesini başlat.
+- [ ] GitHub Actions derleme sonucunu ve APK artifact bağlantısını doğrula.
+- [ ] Kullanıcı onayıyla public redsun352/buds2-companion deposuna GitHub Actions iş akışını gönder ve Android derlemesini başlat.
+- [ ] Kullanıcının sağlayacağı yeni GitHub deposunda yazma erişimini doğrula, projeyi aktar ve Android derlemesini başlat.
+- [ ] redsun352/buds2proo deposunda yazma erişimini doğrula, Buds2 Companion'ı aktar ve Android APK derlemesini başlat.
