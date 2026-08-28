@@ -49,7 +49,13 @@
 - [x] ANC ve ekolayzır kontrol ekranının native RFCOMM köprüsüne gerçekten bağlı olduğunu doğrula ve eksik akışı düzelt.
 - [x] Düzeltilmiş Android release APK'sını üretip gerçek cihaz testine hazırla.
 
-- [ ] Kullanıcı geri bildirimi: ekolayzır ve pil durumu son APK'da da çalışmıyor; gerçek cihaz tanısını yeniden yap.
+- [x] Kullanıcı geri bildirimi: ekolayzır ve pil durumu son APK'da da çalışmıyor; gerçek cihaz tanısını yeniden yap.
 - [ ] Pil verisini proprietary Buds2 kanalından veya desteklenen Android bildirim yolundan doğrula; veri yoksa nedenini logla.
 - [ ] Ekolayzır RFCOMM handshake, çerçeve, yanıt ve cihaz uyumluluğunu logcat ile doğrula; gerekirse protokolü düzelt.
-- [ ] Tanı sonrası yeni release APK'sını üret ve kullanıcı cihazında yeniden test ettir.
+- [x] Tanı sonrası yeni release APK'sını üret ve kullanıcı cihazında yeniden test ettir.
+
+- [x] Tanı: release senkron komutu yerel `modules/buds2-bridge/android` dizinini dışladığı için native pil/status ve handshake düzeltmeleri APK'ya girmemiş; modül dizinini güvenli biçimde ayrıca aktar.
+
+- [ ] DSP hedefi: ANC/EQ komutlarının telefonda değil Buds2 firmware/DSP katmanında işlendiğini doğrula.
+- [ ] Buds2 DSP RFCOMM handshake ve komut yanıtlarını ayrıntılı tanı loglarıyla görünür yap.
+- [ ] DSP komutlarının gerçek cihazda ANC ve EQ değişikliği oluşturduğunu doğrula; onaysız sonucu başarı gösterme.

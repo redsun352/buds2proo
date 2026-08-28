@@ -15,6 +15,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
@@ -159,9 +160,12 @@ class Buds2BridgeModule : Module() {
         val output = socket.outputStream
         output.write(Buds2Protocol.managerInfo(Build.VERSION.SDK_INT))
         output.flush()
+        val initialStatusSeen = awaitInitialStatus(socket)
+        Log.i(TAG, "Buds2 DSP session ready=$initialStatusSeen command=$commandId")
         output.write(commandFrame)
         output.flush()
         val confirmed = awaitCommandConfirmation(socket, commandId)
+        Log.i(TAG, "Buds2 DSP command=$commandId confirmed=$confirmed")
         if (confirmed) {
           promise.resolve(controlResult(commandName, "confirmed", "Kulaklık komutu onayladı."))
         } else {
@@ -179,6 +183,31 @@ class Buds2BridgeModule : Module() {
         }
       }
     }
+  }
+
+  private fun awaitInitialStatus(socket: BluetoothSocket): Boolean {
+    val input = socket.inputStream
+    val buffer = ByteArrayOutputStream()
+    val deadline = System.currentTimeMillis() + INITIAL_STATUS_TIMEOUT_MS
+    while (System.currentTimeMillis() < deadline) {
+      val available = input.available()
+      if (available > 0) {
+        val chunk = ByteArray(available)
+        val count = input.read(chunk)
+        if (count > 0) {
+          buffer.write(chunk, 0, count)
+          if (Buds2Protocol.decodeExtendedStatus(buffer.toByteArray()) != null) return true
+        }
+      } else {
+        try {
+          Thread.sleep(COMMAND_POLL_INTERVAL_MS)
+        } catch (_: InterruptedException) {
+          Thread.currentThread().interrupt()
+          return false
+        }
+      }
+    }
+    return false
   }
 
   private fun awaitCommandConfirmation(socket: BluetoothSocket, commandId: Int): Boolean {
@@ -490,10 +519,12 @@ class Buds2BridgeModule : Module() {
   }
 
   private companion object {
+    const val TAG = "Buds2Bridge"
     const val PROFILE_QUERY_TIMEOUT_MS = 1200L
     const val DISCOVERY_TIMEOUT_MS = 16_000L
     const val COMMAND_CONFIRMATION_TIMEOUT_MS = 2_000L
     const val STATUS_QUERY_TIMEOUT_MS = 1_500L
+    const val INITIAL_STATUS_TIMEOUT_MS = 900L
     const val COMMAND_POLL_INTERVAL_MS = 50L
   }
 }
