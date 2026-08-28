@@ -33,6 +33,9 @@
 - [x] EAS Android ön-derleme hatasının kaynağını teşhis et, yapılandırmayı düzelt ve yayınlama öncesi doğrula.
 - [x] Uygulamanın cihazda "Android derlemesi gerekli" başlangıç durumunda kalmasına yol açan Bluetooth köprü yükleme hatasını video üzerinden teşhis et ve düzelt.
 - [x] Metro sunucusu gerektiren debug APK yerine JavaScript paketini içeren Android release APK üret.
-- [ ] Gerçek cihazda pasif kalan Buds2 Companion kontrollerinin nedenini teşhis et; izin, modül yükleme ve cihaz tarama akışını etkinleştir.
-- [ ] Android 12+ cihazlarda tarama ve bağlantı durumu için gerekli Bluetooth izinlerini birlikte iste; tarama sonucunu ekranda göster.
+- [x] Gerçek cihazda pasif kalan Buds2 Companion kontrollerinin nedenini teşhis et; izin, modül yükleme ve cihaz tarama akışını etkinleştir.
+- [x] Android 12+ cihazlarda tarama ve bağlantı durumu için gerekli Bluetooth izinlerini birlikte iste; tarama sonucunu ekranda göster.
 - [ ] Üreticiye özgü ANC, ekolayzır ve dokunmatik denetimlerin bu sürümde desteklenmediğini işlevsel arayüzden ayır ve açıkça belirt.
+- [ ] Galaxy Buds2 ANC ve ekolayzır komutları için RFCOMM/SPP protokol çerçevesini, model uyumluluğunu ve lisans koşullarını doğrula.
+- [ ] Tek uygulama soket erişimi, kullanıcı onayı ve güvenli bağlantı kesme kurallarıyla Buds2 RFCOMM köprüsünü tasarla.
+- [ ] Buds2 bağlı ve başka bir Buds istemcisi kapalıyken ANC/ekolayzır sorgu ve komut akışını gerçek cihazda doğrula.

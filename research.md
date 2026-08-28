@@ -29,6 +29,20 @@ Açık kaynak referansları, ANC, ortam sesi, ekolayzır, dokunmatik kilidi ve c
 
 > Bir Galaxy Buds RFCOMM soketine aynı anda yalnızca bir uygulama erişebilir. Bu nedenle test sırasında Galaxy Wearable ve diğer Buds izleme uygulamalarının kapatılması gerekir.[6]
 
+## Buds2 RFCOMM Deneysel Uygulama Kararı
+
+GalaxyBudsClient'in Buds2 model tanımı, yeni SPP hizmeti ve ANC/ekolayzır özelliği için model desteği bildirmektedir.[7] Aynı projenin halka açık protokol notları, mesaj çerçevesinin başlangıç baytı, küçük uçlu boyut alanı, mesaj kimliği, yük, CRC-16/CCITT ve bitiş baytından oluştuğunu; ANC ve ekolayzırın ayrı mesaj kimlikleriyle iletildiğini açıklar.[8] Bu bilgiler, uygulamanın doğrudan bu GPL lisanslı projeden kod kopyalamadan, kendi bağımsız Kotlin RFCOMM taşıyıcısını hazırlamasına temel oluşturur.
+
+Android tarafındaki bağlantı iş parçacığı ana arayüz iş parçacığından ayrı çalışacak; bağlantıdan önce cihaz taramasını iptal edecek, kısa okuma zaman aşımı kullanacak, yalnızca kullanıcı açıkça bir mod veya ön ayar seçtiğinde komut gönderecek ve her işlemden sonra soketi kapatacaktır. Android'in resmi bağlantı rehberi, `BluetoothSocket.connect()` çağrısının engelleyici olduğunu, bağlantı öncesi taramanın iptal edilmesi gerektiğini ve soketin iş bitince kapatılmasını önerir.[9]
+
+Bu sürümde uygulama yalnızca **Buds2 adıyla eşleşen, eşlenmiş ve A2DP/HFP profili bağlı görünen** bir cihaz için RFCOMM denemesi yapacaktır. Bir komut sadece geçerli bir onay cevabı alınırsa arayüzde uygulanmış olarak gösterilecek; bağlantı, kimlik, çerçeve veya komut doğrulaması başarısızsa kullanıcıya açık hata bilgisi verilecek ve yerel tercih durumu donanım durumuymuş gibi gösterilmeyecektir.
+
+## Deneysel Komut Sözleşmesi
+
+Deneysel uygulama Buds2'nin yeni SPP hizmeti için model tanımında belirtilen UUID'yi kullanır; yalnızca eşlenmiş ve adı Buds2 ile uyuşan cihaza bağlanır.[10] Gönderim tarafında ANC için kapalı, ANC ve ortam sesi olmak üzere üç mod; ekolayzır için Normal, Bas, Yumuşak ve Dinamik ön ayarları desteklenir. Her iki işlemde de RFCOMM bağlantısı tek komut denemesi için açılır, keşif kapatılır ve işlem sonunda soket kapatılır.[9]
+
+Komut cevabı kısa sürede doğrulanırsa ekran `onaylandı` sonucunu gösterir. Cevap alınamazsa komutun iletildiği ancak Buds2 tarafından doğrulanamadığı belirtilir; bu durumda kullanıcıdan kulaklığın duyulabilir/algılanabilir davranışını kontrol etmesi istenir. Bu sözleşme, doğrulanmamış bir donanım değişikliğini kesin başarı olarak göstermekten kaçınır.
+
 ## Kaynaklar
 
 [1] [Android Developers — Bluetooth permissions](https://developer.android.com/develop/connectivity/bluetooth/bt-permissions)
@@ -42,3 +56,11 @@ Açık kaynak referansları, ANC, ortam sesi, ekolayzır, dokunmatik kilidi ve c
 [5] [GalaxyBudsClient — How it works](https://github.com/timschneeb/GalaxyBudsClient#how-it-works)
 
 [6] [BudsLink — Samsung Galaxy Buds compatibility](https://maniacx.github.io/BudsLink/galaxy)
+
+[7] [GalaxyBudsClient — Buds2 device specification](https://github.com/timschneeb/GalaxyBudsClient/blob/master/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs)
+
+[8] [GalaxyBudsClient — Galaxy Buds RFCOMM protocol notes](https://github.com/timschneeb/GalaxyBudsClient/blob/master/GalaxyBudsRFCommProtocol.md)
+
+[9] [Android Developers — Connect Bluetooth devices](https://developer.android.com/develop/connectivity/bluetooth/connect-bluetooth-devices)
+
+[10] [GalaxyBudsClient — Buds2 service UUID definition](https://github.com/timschneeb/GalaxyBudsClient/blob/master/GalaxyBudsClient/Model/Constants.cs)

@@ -1,6 +1,15 @@
 export type BluetoothDeviceType = "classic" | "low-energy" | "dual" | "unknown";
 
 export type BluetoothPermissionState = "granted" | "denied" | "not-requested" | "unavailable";
+export type Buds2NoiseControlMode = "off" | "anc" | "ambient";
+export type Buds2EqualizerPreset = "normal" | "bass_boost" | "soft" | "dynamic";
+export type Buds2ControlStatus = "confirmed" | "sent_no_ack" | "blocked" | "failed";
+
+export interface Buds2ControlResult {
+  command: "noise_control" | "equalizer";
+  status: Buds2ControlStatus;
+  message: string;
+}
 
 export interface BluetoothAudioDevice {
   id: string;
@@ -27,5 +36,7 @@ export interface BluetoothSnapshot {
 export interface Buds2NativeModule {
   getBluetoothSnapshot(): Promise<BluetoothSnapshot>;
   discoverBluetoothDevices(): Promise<BluetoothSnapshot>;
+  applyNoiseControl(deviceId: string, mode: Buds2NoiseControlMode): Promise<Buds2ControlResult>;
+  applyEqualizer(deviceId: string, preset: Buds2EqualizerPreset): Promise<Buds2ControlResult>;
   openBluetoothSettings(): boolean;
 }

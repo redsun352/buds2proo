@@ -4,7 +4,9 @@ import { ActivityIndicator, Pressable, StyleSheet, Switch, Text, View } from "re
 
 import { ScreenHeader } from "@/components/buds2/screen-header";
 import { ScreenContainer } from "@/components/screen-container";
+import { useBuds2Control } from "@/hooks/use-buds2-control";
 import { useListeningPreferences } from "@/hooks/use-listening-preferences";
+import { equalizerCommandForPreference, noiseModeForAmbientProfile } from "@/lib/buds2/control-contract";
 import type { AmbientProfile, EqualizerPreset } from "@/lib/buds2/preferences";
 
 const AMBIENT_OPTIONS: { key: AmbientProfile; title: string; description: string; icon: keyof typeof MaterialCommunityIcons.glyphMap }[] = [
@@ -22,7 +24,9 @@ const EQUALIZER_OPTIONS: { key: EqualizerPreset; title: string; description: str
 
 export default function PreferencesScreen() {
   const { preferences, isReady, updatePreferences } = useListeningPreferences();
+  const { device, isApplying, isAvailable, refresh, setEqualizer, setNoiseControl } = useBuds2Control();
   const [isSaving, setIsSaving] = useState(false);
+  const [controlNotice, setControlNotice] = useState<string | null>(null);
 
   const save = async (nextValues: Omit<typeof preferences, "updatedAt">) => {
     setIsSaving(true);
@@ -33,12 +37,30 @@ export default function PreferencesScreen() {
     }
   };
 
-  const selectAmbientProfile = (ambientProfile: AmbientProfile) => {
-    void save({ ...preferences, ambientProfile });
+  const selectAmbientProfile = async (ambientProfile: AmbientProfile) => {
+    setIsSaving(true);
+    try {
+      const result = await setNoiseControl(noiseModeForAmbientProfile(ambientProfile));
+      setControlNotice(result.message);
+      if (result.status === "confirmed" || result.status === "sent_no_ack") {
+        await updatePreferences({ ...preferences, ambientProfile });
+      }
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const selectEqualizer = (equalizerPreset: EqualizerPreset) => {
-    void save({ ...preferences, equalizerPreset });
+  const selectEqualizer = async (equalizerPreset: EqualizerPreset) => {
+    setIsSaving(true);
+    try {
+      const result = await setEqualizer(equalizerCommandForPreference(equalizerPreset));
+      setControlNotice(result.message);
+      if (result.status === "confirmed" || result.status === "sent_no_ack") {
+        await updatePreferences({ ...preferences, equalizerPreset });
+      }
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const toggleReminder = (touchReminderEnabled: boolean) => {
@@ -49,9 +71,9 @@ export default function PreferencesScreen() {
     <ScreenContainer className="px-5">
       <View style={styles.headerArea}>
         <ScreenHeader
-          eyebrow="Yerel tercihler"
+          eyebrow="Buds2 denetimleri"
           title="Dinleme alanın"
-          description="Bu seçimler telefonunda saklanır. Buds2'ye doğrudan komut göndermez."
+          description="ANC ve ekolayzır, bağlı Galaxy Buds2'ye RFCOMM üzerinden gönderilir."
           icon="tune-variant"
         />
       </View>
@@ -63,6 +85,23 @@ export default function PreferencesScreen() {
         </View>
       ) : (
         <View style={styles.content}>
+          <View style={[styles.controlCard, isAvailable ? styles.controlCardReady : styles.controlCardWaiting]}>
+            <MaterialCommunityIcons color={isAvailable ? "#70DEAC" : "#FFD18A"} name={isAvailable ? "bluetooth-connect" : "bluetooth-off"} size={21} />
+            <View style={styles.controlCopy}>
+              <Text style={styles.controlTitle}>{isAvailable ? `${device?.name ?? "Galaxy Buds2"} hazır` : "Buds2 bağlantısı gerekli"}</Text>
+              <Text style={styles.controlBody}>
+                {isAvailable
+                  ? "Komutlar yalnızca kulaklıktan onay gelirse uygulanmış sayılır."
+                  : "Buds2'yi bağlayın, Galaxy Wearable'ı kapatın ve cihazlar ekranından yenileyin."}
+              </Text>
+            </View>
+            <Pressable accessibilityRole="button" onPress={() => void refresh()} style={({ pressed }) => [styles.refreshControl, pressed && styles.pressed]}>
+              <Text style={styles.refreshControlText}>Yenile</Text>
+            </Pressable>
+          </View>
+
+          {controlNotice ? <Text style={styles.controlNotice}>{controlNotice}</Text> : null}
+
           <Text style={styles.sectionLabel}>ORTAM PROFİLİ</Text>
           <View style={styles.optionGroup}>
             {AMBIENT_OPTIONS.map((option) => {
@@ -72,8 +111,9 @@ export default function PreferencesScreen() {
                   accessibilityRole="radio"
                   accessibilityState={{ selected: isSelected }}
                   key={option.key}
-                  onPress={() => selectAmbientProfile(option.key)}
-                  style={({ pressed }) => [styles.profileOption, isSelected && styles.profileOptionSelected, pressed && styles.pressed]}
+                  disabled={isApplying}
+                  onPress={() => void selectAmbientProfile(option.key)}
+                  style={({ pressed }) => [styles.profileOption, isSelected && styles.profileOptionSelected, pressed && !isApplying && styles.pressed, isApplying && styles.optionDisabled]}
                 >
                   <View style={[styles.optionIcon, isSelected && styles.optionIconSelected]}>
                     <MaterialCommunityIcons color={isSelected ? "#80D4FF" : "#AAB5C8"} name={option.icon} size={21} />
@@ -88,7 +128,7 @@ export default function PreferencesScreen() {
             })}
           </View>
 
-          <Text style={styles.sectionLabel}>EKOLAYZIR NOTU</Text>
+          <Text style={styles.sectionLabel}>EKOLAYZIR</Text>
           <View style={styles.equalizerGrid}>
             {EQUALIZER_OPTIONS.map((option) => {
               const isSelected = preferences.equalizerPreset === option.key;
@@ -97,8 +137,9 @@ export default function PreferencesScreen() {
                   accessibilityRole="radio"
                   accessibilityState={{ selected: isSelected }}
                   key={option.key}
-                  onPress={() => selectEqualizer(option.key)}
-                  style={({ pressed }) => [styles.equalizerOption, isSelected && styles.equalizerSelected, pressed && styles.pressed]}
+                  disabled={isApplying}
+                  onPress={() => void selectEqualizer(option.key)}
+                  style={({ pressed }) => [styles.equalizerOption, isSelected && styles.equalizerSelected, pressed && !isApplying && styles.pressed, isApplying && styles.optionDisabled]}
                 >
                   <Text style={[styles.equalizerTitle, isSelected && styles.equalizerTitleSelected]}>{option.title}</Text>
                   <Text style={styles.equalizerDescription}>{option.description}</Text>
@@ -123,11 +164,11 @@ export default function PreferencesScreen() {
           <View style={styles.infoCard}>
             <MaterialCommunityIcons color="#80D4FF" name="lock-outline" size={20} />
             <Text style={styles.infoCopy}>
-              Tercihler yalnızca bu telefonda tutulur. ANC, ekolayzır ve dokunmatik işlevler Buds2’nin üreticiye özgü bağlantı protokolü gerektirdiği için burada değiştirilmiyor.
+              ANC ve ekolayzır deneysel RFCOMM kontrolüyle gönderilir. Kulaklık onay vermezse seçenek değiştirilmiş sayılmaz. Dokunmatik kontroller bu sürümde yalnızca hatırlatıcı olarak saklanır.
             </Text>
           </View>
 
-          {isSaving ? <Text style={styles.saveText}>Telefonuna kaydediliyor…</Text> : <Text style={styles.saveText}>Yerel olarak kaydedilir</Text>}
+          {isSaving || isApplying ? <Text style={styles.saveText}>Buds2 ile iletişim kuruluyor…</Text> : <Text style={styles.saveText}>Onaylanan seçim cihazda da saklanır</Text>}
         </View>
       )}
     </ScreenContainer>
@@ -136,6 +177,13 @@ export default function PreferencesScreen() {
 
 const styles = StyleSheet.create({
   content: { paddingBottom: 26, paddingTop: 26 },
+  controlBody: { color: "#C4D4E7", fontSize: 12, lineHeight: 17, marginTop: 3 },
+  controlCard: { alignItems: "center", borderRadius: 18, borderWidth: 1, flexDirection: "row", gap: 10, padding: 14 },
+  controlCardReady: { backgroundColor: "#19352E", borderColor: "#2E715A" },
+  controlCardWaiting: { backgroundColor: "#3C3020", borderColor: "#6A512E" },
+  controlCopy: { flex: 1 },
+  controlNotice: { color: "#DCEBFA", fontSize: 12, lineHeight: 18, marginTop: 10 },
+  controlTitle: { color: "#F3F8FF", fontSize: 13, fontWeight: "800" },
   equalizerDescription: { color: "#93A2B7", fontSize: 11, lineHeight: 15, marginTop: 4 },
   equalizerGrid: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 10 },
   equalizerOption: { backgroundColor: "#1C2230", borderColor: "#2A3447", borderRadius: 16, borderWidth: 1, minHeight: 83, padding: 13, width: "48.5%" },
@@ -152,6 +200,7 @@ const styles = StyleSheet.create({
   optionGroup: { gap: 9, marginTop: 10 },
   optionIcon: { alignItems: "center", backgroundColor: "#283040", borderRadius: 13, height: 43, justifyContent: "center", width: 43 },
   optionIconSelected: { backgroundColor: "#254966" },
+  optionDisabled: { opacity: 0.55 },
   optionTitle: { color: "#EAF1F8", fontSize: 14, fontWeight: "800" },
   pressed: { opacity: 0.82, transform: [{ scale: 0.99 }] },
   profileOption: { alignItems: "center", backgroundColor: "#1C2230", borderColor: "#2A3447", borderRadius: 18, borderWidth: 1, flexDirection: "row", gap: 12, minHeight: 74, padding: 14 },
@@ -159,6 +208,8 @@ const styles = StyleSheet.create({
   radio: { alignItems: "center", borderColor: "#65748A", borderRadius: 10, borderWidth: 1.5, height: 20, justifyContent: "center", width: 20 },
   radioDot: { backgroundColor: "#80D4FF", borderRadius: 5, height: 10, width: 10 },
   radioSelected: { borderColor: "#80D4FF" },
+  refreshControl: { borderColor: "#6A86A5", borderRadius: 10, borderWidth: 1, paddingHorizontal: 10, paddingVertical: 7 },
+  refreshControlText: { color: "#DCEBFA", fontSize: 11, fontWeight: "800" },
   saveText: { color: "#8190A7", fontSize: 12, marginTop: 13, textAlign: "center" },
   sectionLabel: { color: "#80D4FF", fontSize: 11, fontWeight: "800", letterSpacing: 1, marginTop: 22 },
   switchCopy: { flex: 1, paddingRight: 14 },

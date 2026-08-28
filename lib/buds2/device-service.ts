@@ -1,7 +1,12 @@
 import { Platform } from "react-native";
 
 import { Buds2BridgeModule } from "@/modules/buds2-bridge";
-import type { BluetoothSnapshot } from "@/modules/buds2-bridge";
+import type {
+  BluetoothSnapshot,
+  Buds2ControlResult,
+  Buds2EqualizerPreset,
+  Buds2NoiseControlMode,
+} from "@/modules/buds2-bridge";
 
 export const EMPTY_BLUETOOTH_SNAPSHOT: BluetoothSnapshot = {
   nativeModuleAvailable: Platform.OS === "android",
@@ -32,6 +37,36 @@ export async function discoverBluetoothDevices(): Promise<BluetoothSnapshot> {
       ...EMPTY_BLUETOOTH_SNAPSHOT,
       nativeModuleAvailable: false,
       reason: "discovery_call_failed",
+    };
+  }
+}
+
+export async function applyNoiseControl(
+  deviceId: string,
+  mode: Buds2NoiseControlMode,
+): Promise<Buds2ControlResult> {
+  try {
+    return await Buds2BridgeModule.applyNoiseControl(deviceId, mode);
+  } catch {
+    return {
+      command: "noise_control",
+      status: "failed",
+      message: "ANC komutu Buds2 köprüsünde çalıştırılamadı.",
+    };
+  }
+}
+
+export async function applyEqualizer(
+  deviceId: string,
+  preset: Buds2EqualizerPreset,
+): Promise<Buds2ControlResult> {
+  try {
+    return await Buds2BridgeModule.applyEqualizer(deviceId, preset);
+  } catch {
+    return {
+      command: "equalizer",
+      status: "failed",
+      message: "Ekolayzır komutu Buds2 köprüsünde çalıştırılamadı.",
     };
   }
 }
