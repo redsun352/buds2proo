@@ -77,9 +77,10 @@ export default function HomeScreen() {
   } = useBuds2Device();
 
   const budsDevice = useMemo(() => findLikelyBuds2(snapshot.devices), [snapshot.devices]);
-  const reportedBattery = budsDevice?.batteryLevel === null || budsDevice?.batteryLevel === undefined
-    ? "Bildirilmedi"
-    : `${budsDevice.batteryLevel}%`;
+  const formatBattery = (value: number | null | undefined, fallback?: number | null) => {
+    const level = value ?? fallback;
+    return level === null || level === undefined ? "Bildirilmedi" : `${level}%`;
+  };
 
   const state = useMemo(
     () =>
@@ -158,9 +159,9 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.batteryGrid}>
-          <BatteryTile detail="Genel Bluetooth seviyesi" icon="headphones" label="Buds2" value={reportedBattery} />
-          <BatteryTile detail="Ayrı veri Android'de yok" icon="ear-hearing" label="Sol" value="Ayrı veri yok" />
-          <BatteryTile detail="Ayrı veri Android'de yok" icon="ear-hearing" label="Sağ" value="Ayrı veri yok" />
+          <BatteryTile detail="Buds2 extended-status" icon="ear-hearing" label="Sol" value={formatBattery(budsDevice?.batteryLeft, budsDevice?.batteryLevel)} />
+          <BatteryTile detail="Buds2 extended-status" icon="ear-hearing" label="Sağ" value={formatBattery(budsDevice?.batteryRight, budsDevice?.batteryLevel)} />
+          <BatteryTile detail="Buds2 extended-status" icon="battery-charging-medium" label="Kutu" value={formatBattery(budsDevice?.batteryCase)} />
         </View>
 
         <View style={styles.disclosureCard}>

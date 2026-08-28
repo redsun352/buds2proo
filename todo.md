@@ -44,7 +44,12 @@
 - [x] Yerel buds2-bridge Android modül kaynaklarını release deposuna eksiksiz aktar ve APK derlemesini doğrula.
 - [ ] Başarılı RFCOMM Android release APK artifact'ını indirip gerçek cihaz test yönergeleriyle teslim et.
 
-- [ ] Kullanıcı geri bildirimi: pil durumu, ANC ve ekolayzır özellikleri release APK'sında görünür/çalışır değil; kaynak–APK eşleşmesini teşhis et.
-- [ ] Pil seviyelerini Android Bluetooth API'sinden güvenilir biçimde yenile ve eksik veri durumunu açıkça göster.
-- [ ] ANC ve ekolayzır kontrol ekranının native RFCOMM köprüsüne gerçekten bağlı olduğunu doğrula ve eksik akışı düzelt.
-- [ ] Düzeltilmiş Android release APK'sını üretip gerçek cihaz testine hazırla.
+- [x] Kullanıcı geri bildirimi: pil durumu, ANC ve ekolayzır özellikleri release APK'sında görünür/çalışır değil; kaynak–APK eşleşmesini teşhis et.
+- [x] Pil seviyelerini Android Bluetooth API'sinden güvenilir biçimde yenile ve eksik veri durumunu açıkça göster.
+- [x] ANC ve ekolayzır kontrol ekranının native RFCOMM köprüsüne gerçekten bağlı olduğunu doğrula ve eksik akışı düzelt.
+- [x] Düzeltilmiş Android release APK'sını üretip gerçek cihaz testine hazırla.
+
+- [ ] Kullanıcı geri bildirimi: ekolayzır ve pil durumu son APK'da da çalışmıyor; gerçek cihaz tanısını yeniden yap.
+- [ ] Pil verisini proprietary Buds2 kanalından veya desteklenen Android bildirim yolundan doğrula; veri yoksa nedenini logla.
+- [ ] Ekolayzır RFCOMM handshake, çerçeve, yanıt ve cihaz uyumluluğunu logcat ile doğrula; gerekirse protokolü düzelt.
+- [ ] Tanı sonrası yeni release APK'sını üret ve kullanıcı cihazında yeniden test ettir.

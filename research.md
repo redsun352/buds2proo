@@ -64,3 +64,11 @@ Komut cevabı kısa sürede doğrulanırsa ekran `onaylandı` sonucunu gösterir
 [9] [Android Developers — Connect Bluetooth devices](https://developer.android.com/develop/connectivity/bluetooth/connect-bluetooth-devices)
 
 [10] [GalaxyBudsClient — Buds2 service UUID definition](https://github.com/timschneeb/GalaxyBudsClient/blob/master/GalaxyBudsClient/Model/Constants.cs)
+
+## 2026-08-28 Yeniden tanı: pil ve ekolayzır
+
+Kullanıcı son release APK'da ekolayzır ve pilin hâlâ çalışmadığını bildirdi. Kaynak incelemesi, pil kartlarının artık genel snapshot değerine bağlı olmasına rağmen native köprünün ayrı Buds2 pil alanlarını hiç sorgulamadığını gösterdi. Açık referans durum ayrıştırıcısında Buds2 için sol pil payload[2], sağ pil payload[3], kutu pil payload[7] ve ekolayzır modu payload[9] olarak ayrılıyor. Bu, Android `BluetoothDevice` seviyesinin tek başına yeterli olmadığını ve pil için RFCOMM durum yanıtının okunması gerektiğini gösterir.
+
+Ekolayzır için mevcut taşıyıcı komutu gönderiyor ancak başlangıç durum çerçevelerini tam olarak tüketmeden onay bekliyor. Sıradaki düzeltmede tek RFCOMM oturumunda açılış/status mesajları ayrıştırılacak, Buds2 extended-status alanları okunacak ve komut sonrası hem response hem de status-update doğrulanacak. GPLv3 referans projeden kod kopyalanmayacak; yalnızca bağımsız veri modeli ve byte alanı eşlemesi uygulanacak.
+
+Kaynaklar: [Android BluetoothDevice API](https://developer.android.com/reference/android/bluetooth/BluetoothDevice), [GalaxyBudsClient Buds2 status decoder](https://github.com/timschneeb/GalaxyBudsClient/blob/master/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs), [GalaxyBudsClient](https://github.com/timschneeb/GalaxyBudsClient), [Gadgetbridge Galaxy Buds protocol](https://gadgetbridge.org/internals/specifics/galaxy-buds-protocol/).

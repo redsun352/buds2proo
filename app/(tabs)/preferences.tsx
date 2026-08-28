@@ -16,10 +16,12 @@ const AMBIENT_OPTIONS: { key: AmbientProfile; title: string; description: string
 ];
 
 const EQUALIZER_OPTIONS: { key: EqualizerPreset; title: string; description: string }[] = [
-  { key: "dengeli", title: "Dengeli", description: "Nötr dinleme" },
+  { key: "normal", title: "Normal", description: "Ekolayzır kapalı" },
   { key: "bas", title: "Bas", description: "Alt frekans odağı" },
-  { key: "yumuşak", title: "Yumuşak", description: "Uzun dinleme odağı" },
+  { key: "yumuşak", title: "Yumuşak", description: "Yumuşak dinleme" },
   { key: "dinamik", title: "Dinamik", description: "Belirgin ayrıntı" },
+  { key: "temiz", title: "Temiz", description: "Daha berrak ses" },
+  { key: "tiz", title: "Tiz", description: "Üst frekans odağı" },
 ];
 
 export default function PreferencesScreen() {

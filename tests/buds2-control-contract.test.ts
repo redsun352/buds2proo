@@ -13,9 +13,11 @@ describe("Buds2 kontrol sözleşmesi", () => {
   });
 
   it("uygulama ekolayzır seçeneklerini desteklenen RFCOMM ön ayarlarına eşler", () => {
-    expect(equalizerCommandForPreference("dengeli")).toBe("normal");
+    expect(equalizerCommandForPreference("normal")).toBe("normal");
     expect(equalizerCommandForPreference("bas")).toBe("bass_boost");
     expect(equalizerCommandForPreference("yumuşak")).toBe("soft");
     expect(equalizerCommandForPreference("dinamik")).toBe("dynamic");
+    expect(equalizerCommandForPreference("temiz")).toBe("clear");
+    expect(equalizerCommandForPreference("tiz")).toBe("treble_boost");
   });
 });

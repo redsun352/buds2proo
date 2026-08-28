@@ -14,5 +14,7 @@ export function equalizerCommandForPreference(preset: EqualizerPreset): Buds2Equ
   if (preset === "bas") return "bass_boost";
   if (preset === "yumuşak") return "soft";
   if (preset === "dinamik") return "dynamic";
+  if (preset === "temiz") return "clear";
+  if (preset === "tiz") return "treble_boost";
   return "normal";
 }
