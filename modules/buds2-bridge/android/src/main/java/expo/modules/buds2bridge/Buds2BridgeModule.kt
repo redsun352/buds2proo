@@ -44,8 +44,8 @@ class Buds2BridgeModule : Module() {
         promise.resolve(baseSnapshot(false, false, false, emptyList()))
         return@AsyncFunction
       }
-      if (!hasConnectPermission(context)) {
-        promise.resolve(baseSnapshot(true, false, false, emptyList(), "connect_permission_required"))
+      if (!hasConnectPermission(context) || !hasScanPermission(context)) {
+        promise.resolve(baseSnapshot(true, false, false, emptyList(), "bluetooth_permission_required"))
         return@AsyncFunction
       }
       if (!adapter.isEnabled) {
@@ -180,7 +180,7 @@ class Buds2BridgeModule : Module() {
         output.write(Buds2Protocol.managerInfo(Build.VERSION.SDK_INT))
         output.flush()
         val initialStatusSeen = awaitInitialStatus(socket)
-        appendDiagnostic(context, "DSP session ready=$initialStatusSeen command=$commandId device=$deviceId")
+        appendDiagnostic(context, "DSP session ready=$initialStatusSeen command=$commandId device=${redactAddress(deviceId)}")
         Log.i(TAG, "Buds2 DSP session ready=$initialStatusSeen command=$commandId")
         output.write(commandFrame)
         output.flush()
@@ -192,9 +192,12 @@ class Buds2BridgeModule : Module() {
         } else {
           promise.resolve(controlResult(commandName, "sent_no_ack", "Komut iletildi ancak Buds2 onayı alınamadı. Değişikliği kulaklıktan kontrol edin."))
         }
-      } catch (_: IOException) {
+      } catch (error: IOException) {
+        appendDiagnostic(context, "DSP command=$commandId io_error=${error.javaClass.simpleName}")
+        Log.w(TAG, "Buds2 DSP RFCOMM I/O error", error)
         promise.resolve(controlResult(commandName, "failed", "RFCOMM bağlantısı kurulamadı. Galaxy Wearable'ı kapatıp Buds2 bağlıyken yeniden deneyin."))
-      } catch (_: SecurityException) {
+      } catch (error: SecurityException) {
+        appendDiagnostic(context, "DSP command=$commandId security_error=${error.javaClass.simpleName}")
         promise.resolve(controlResult(commandName, "blocked", "Bluetooth erişimi işlem sırasında engellendi."))
       } finally {
         try {
@@ -488,6 +491,7 @@ class Buds2BridgeModule : Module() {
           val count = input.read(chunk)
           if (count > 0) {
             buffer.write(chunk, 0, count)
+            appContext.reactContext?.let { appendDiagnostic(it, "STATUS_RX bytes=${bytesToHex(chunk, count)}") }
             status = Buds2Protocol.decodeExtendedStatus(buffer.toByteArray())
           }
         } else {
@@ -499,8 +503,10 @@ class Buds2BridgeModule : Module() {
           }
         }
       }
+      appContext.reactContext?.let { appendDiagnostic(it, "STATUS_RESULT decoded=${status != null}") }
       status
-    } catch (_: IOException) {
+    } catch (error: IOException) {
+      Log.w(TAG, "Buds2 status query I/O error", error)
       null
     } catch (_: SecurityException) {
       null
@@ -528,6 +534,10 @@ class Buds2BridgeModule : Module() {
       null
     }
   }
+
+  private fun bytesToHex(bytes: ByteArray, count: Int): String = bytes.copyOf(count).joinToString("") { "%02X".format(it) }.take(512)
+
+  private fun redactAddress(address: String): String = if (address.length >= 5) "…${address.takeLast(5)}" else "masked"
 
   private fun safeDeviceName(device: BluetoothDevice): String {
     return try {

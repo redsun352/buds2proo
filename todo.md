@@ -69,6 +69,13 @@
 - [x] Test sonuçlarını tek tanı dosyasına yaz ve Yardım ekranından paylaşılabilir hâle getir.
 - [x] Otomatik tanı akışını test edip yeni Android release APK'sını hazırla.
 
-- [ ] Kullanıcı geri bildirimi: otomatik test ve rapor paylaş seçenekleri uygulamada görünmüyor; route/UI ve APK sürüm eşleşmesini teşhis et.
-- [ ] Tanı seçeneklerini görünür bir Yardım ekranı kartı ve release sürüm etiketiyle yeniden doğrula.
-- [ ] Görünür tanı arayüzünü içeren yeni Android release APK'sını üretip teslim et.
+- [x] Kullanıcı geri bildirimi: otomatik test ve rapor paylaş seçenekleri uygulamada görünmüyor; route/UI ve APK sürüm eşleşmesini teşhis et.
+- [x] Tanı seçeneklerini görünür bir Yardım ekranı kartı ve release sürüm etiketiyle yeniden doğrula.
+- [x] Görünür tanı arayüzünü içeren yeni Android release APK'sını üretip teslim et.
+
+- [ ] Uçtan uca denetim: tüm sekmelerdeki butonların, navigation akışlarının ve hata durumlarının çalıştığını kontrol et.
+- [ ] Cihaz keşfi, eşleşme, bağlantı profilleri ve Android izin akışındaki eksikleri tamamla.
+- [ ] Pil/status veri yolunu, eksik veri durumlarını ve yenileme davranışını tamamla.
+- [ ] ANC/EQ DSP komutları, ACK/timeout hata durumları ve güvenli geri bildirim akışını tamamla.
+- [ ] Otomatik tanı testi, rapor oluşturma ve paylaşma akışını uçtan uca doğrula.
+- [ ] Release kaynak eşleşmesini, temiz prebuild, testler ve yeni APK derlemesini doğrula.

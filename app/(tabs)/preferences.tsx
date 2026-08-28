@@ -113,9 +113,9 @@ export default function PreferencesScreen() {
                   accessibilityRole="radio"
                   accessibilityState={{ selected: isSelected }}
                   key={option.key}
-                  disabled={isApplying}
+                  disabled={!isAvailable || isApplying}
                   onPress={() => void selectAmbientProfile(option.key)}
-                  style={({ pressed }) => [styles.profileOption, isSelected && styles.profileOptionSelected, pressed && !isApplying && styles.pressed, isApplying && styles.optionDisabled]}
+                  style={({ pressed }) => [styles.profileOption, isSelected && styles.profileOptionSelected, pressed && isAvailable && !isApplying && styles.pressed, (!isAvailable || isApplying) && styles.optionDisabled]}
                 >
                   <View style={[styles.optionIcon, isSelected && styles.optionIconSelected]}>
                     <MaterialCommunityIcons color={isSelected ? "#80D4FF" : "#AAB5C8"} name={option.icon} size={21} />
@@ -139,9 +139,9 @@ export default function PreferencesScreen() {
                   accessibilityRole="radio"
                   accessibilityState={{ selected: isSelected }}
                   key={option.key}
-                  disabled={isApplying}
+                  disabled={!isAvailable || isApplying}
                   onPress={() => void selectEqualizer(option.key)}
-                  style={({ pressed }) => [styles.equalizerOption, isSelected && styles.equalizerSelected, pressed && !isApplying && styles.pressed, isApplying && styles.optionDisabled]}
+                  style={({ pressed }) => [styles.equalizerOption, isSelected && styles.equalizerSelected, pressed && isAvailable && !isApplying && styles.pressed, (!isAvailable || isApplying) && styles.optionDisabled]}
                 >
                   <Text style={[styles.equalizerTitle, isSelected && styles.equalizerTitleSelected]}>{option.title}</Text>
                   <Text style={styles.equalizerDescription}>{option.description}</Text>
