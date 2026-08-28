@@ -59,3 +59,7 @@
 - [ ] DSP hedefi: ANC/EQ komutlarının telefonda değil Buds2 firmware/DSP katmanında işlendiğini doğrula.
 - [ ] Buds2 DSP RFCOMM handshake ve komut yanıtlarını ayrıntılı tanı loglarıyla görünür yap.
 - [ ] DSP komutlarının gerçek cihazda ANC ve EQ değişikliği oluşturduğunu doğrula; onaysız sonucu başarı gösterme.
+
+- [ ] Uygulama içi DSP/RFCOMM tanı kayıtlarını kişisel veri toplamadan dosyaya yaz.
+- [ ] Tanı dosyasını Yardım ekranından görüntüle, temizle ve Android paylaşım menüsüne gönder.
+- [ ] Native köprü ve TypeScript log akışını test edip yeni release APK'sında doğrula.

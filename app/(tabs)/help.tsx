@@ -1,10 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Linking, Platform, StyleSheet, Text, View } from "react-native";
+import { Alert, Linking, Platform, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
 
 import { ScreenHeader } from "@/components/buds2/screen-header";
 import { TactileButton } from "@/components/buds2/tactile-button";
 import { ScreenContainer } from "@/components/screen-container";
 import { useBuds2Device } from "@/hooks/use-buds2-device";
+import { clearDiagnosticLog, readDiagnosticLog, shareDiagnosticLog } from "@/lib/buds2/diagnostic-service";
 
 const HELP_STEPS = [
   { number: "01", title: "Buds2'yi eşle", body: "Kulaklıkları kutudan çıkarın ve Android Bluetooth ayarlarından Galaxy Buds2 olarak eşleyin." },
@@ -14,6 +16,47 @@ const HELP_STEPS = [
 
 export default function HelpScreen() {
   const { snapshot, permissionState, openBluetoothSettings } = useBuds2Device();
+  const [diagnosticLength, setDiagnosticLength] = useState(0);
+  const [diagnosticBusy, setDiagnosticBusy] = useState(false);
+
+  const refreshDiagnosticLength = async () => {
+    const content = await readDiagnosticLog();
+    setDiagnosticLength(content.length);
+  };
+
+  useEffect(() => {
+    void refreshDiagnosticLength();
+  }, []);
+
+  const handleShareDiagnostic = async () => {
+    setDiagnosticBusy(true);
+    try {
+      const result = await shareDiagnosticLog();
+      if (result === "empty") Alert.alert("Tanı kaydı boş", "Önce Buds2 bağlıyken bir DSP/ANC/EQ işlemi deneyin.");
+      if (result === "unavailable") Alert.alert("Paylaşım kullanılamıyor", "Bu cihazda dosya paylaşım menüsü kullanılamadı.");
+    } catch {
+      Alert.alert("Paylaşım başarısız", "Tanı dosyası oluşturulamadı veya paylaşım iptal edildi.");
+    } finally {
+      await refreshDiagnosticLength();
+      setDiagnosticBusy(false);
+    }
+  };
+
+  const handleClearDiagnostic = () => {
+    Alert.alert("Tanı kaydını temizle", "Mevcut DSP/RFCOMM kayıtları silinsin mi?", [
+      { text: "Vazgeç", style: "cancel" },
+      {
+        text: "Temizle",
+        style: "destructive",
+        onPress: async () => {
+          setDiagnosticBusy(true);
+          await clearDiagnosticLog();
+          setDiagnosticLength(0);
+          setDiagnosticBusy(false);
+        },
+      },
+    ]);
+  };
 
   const handleBluetoothSettings = () => {
     if (!openBluetoothSettings() && Platform.OS === "android") {
@@ -64,6 +107,21 @@ export default function HelpScreen() {
 
         <TactileButton label="Android Bluetooth ayarlarını aç" onPress={handleBluetoothSettings} style={styles.settingsButton} />
 
+        <Text style={styles.sectionTitle}>Tanı kaydı</Text>
+        <View style={styles.diagnosticCard}>
+          <Text style={styles.diagnosticBody}>
+            Uygulama, Buds2 DSP/RFCOMM denemelerinin teknik sonucunu cihaz içinde kaydeder. Sistem logcat’inin tamamını değil, bu uygulamayla ilgili tanı olaylarını içerir.
+          </Text>
+          <Text style={styles.diagnosticMeta}>
+            {diagnosticLength > 0 ? `${diagnosticLength} karakter kayıt hazır` : "Henüz kayıt yok"}
+          </Text>
+          <View style={styles.diagnosticActions}>
+            <TactileButton label="Kaydı yenile" onPress={() => void refreshDiagnosticLength()} style={styles.diagnosticButton} />
+            <TactileButton label={diagnosticBusy ? "Hazırlanıyor…" : "Dosyayı paylaş"} onPress={() => void handleShareDiagnostic()} style={styles.diagnosticButton} />
+            <TactileButton label="Temizle" onPress={handleClearDiagnostic} style={styles.diagnosticButton} />
+          </View>
+        </View>
+
         <Text style={styles.sectionTitle}>Bu sürüm ne yapar?</Text>
         <View style={styles.capabilityTable}>
           <View style={styles.capabilityRow}>
@@ -98,6 +156,11 @@ const styles = StyleSheet.create({
   compatibilityIcon: { alignItems: "center", backgroundColor: "#203E58", borderRadius: 14, height: 47, justifyContent: "center", width: 47 },
   compatibilityTitle: { color: "#ECF6FF", fontSize: 14, fontWeight: "800" },
   content: { paddingBottom: 35, paddingTop: 12 },
+  diagnosticActions: { gap: 9, marginTop: 13 },
+  diagnosticBody: { color: "#C6D0DE", fontSize: 13, lineHeight: 19 },
+  diagnosticButton: { marginTop: 0 },
+  diagnosticCard: { backgroundColor: "#1C2230", borderColor: "#2A3447", borderRadius: 18, borderWidth: 1, marginTop: 10, padding: 15 },
+  diagnosticMeta: { color: "#80D4FF", fontSize: 12, fontWeight: "800", marginTop: 10 },
   sectionTitle: { color: "#F0F5FB", fontSize: 17, fontWeight: "800", marginTop: 27 },
   settingsButton: { marginTop: 22 },
   stepBody: { color: "#9AA8BC", fontSize: 12, lineHeight: 18, marginTop: 4 },

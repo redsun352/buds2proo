@@ -20,6 +20,7 @@ import expo.modules.kotlin.Promise
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.IOException
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -104,6 +105,24 @@ class Buds2BridgeModule : Module() {
       context.startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
       true
     }
+
+    AsyncFunction("getDiagnosticLog") { promise: Promise ->
+      val context = appContext.reactContext
+      if (context == null) {
+        promise.resolve("")
+        return@AsyncFunction
+      }
+      promise.resolve(diagnosticFile(context).takeIf { it.exists() }?.readText() ?: "")
+    }
+
+    AsyncFunction("clearDiagnosticLog") { promise: Promise ->
+      val context = appContext.reactContext
+      if (context == null) {
+        promise.resolve(false)
+        return@AsyncFunction
+      }
+      promise.resolve(diagnosticFile(context).delete() || !diagnosticFile(context).exists())
+    }
   }
 
   private fun bluetoothAdapter(context: Context): BluetoothAdapter? {
@@ -161,11 +180,13 @@ class Buds2BridgeModule : Module() {
         output.write(Buds2Protocol.managerInfo(Build.VERSION.SDK_INT))
         output.flush()
         val initialStatusSeen = awaitInitialStatus(socket)
+        appendDiagnostic(context, "DSP session ready=$initialStatusSeen command=$commandId device=$deviceId")
         Log.i(TAG, "Buds2 DSP session ready=$initialStatusSeen command=$commandId")
         output.write(commandFrame)
         output.flush()
         val confirmed = awaitCommandConfirmation(socket, commandId)
         Log.i(TAG, "Buds2 DSP command=$commandId confirmed=$confirmed")
+        appendDiagnostic(context, "DSP command=$commandId confirmed=$confirmed")
         if (confirmed) {
           promise.resolve(controlResult(commandName, "confirmed", "Kulaklık komutu onayladı."))
         } else {
@@ -436,6 +457,18 @@ class Buds2BridgeModule : Module() {
     )
   }
 
+  private fun diagnosticFile(context: Context): File = File(context.filesDir, "buds2-diagnostics.log")
+
+  private fun appendDiagnostic(context: Context, message: String) {
+    try {
+      val file = diagnosticFile(context)
+      if (file.length() > MAX_DIAGNOSTIC_BYTES) file.delete()
+      file.appendText("${System.currentTimeMillis()} $message\\n")
+    } catch (_: IOException) {
+      // Tanı kaydı uygulamanın Bluetooth akışını bozmamalı.
+    }
+  }
+
   private fun queryDeviceStatus(device: BluetoothDevice): Buds2Protocol.ExtendedStatus? {
     var socket: BluetoothSocket? = null
     return try {
@@ -526,5 +559,6 @@ class Buds2BridgeModule : Module() {
     const val STATUS_QUERY_TIMEOUT_MS = 1_500L
     const val INITIAL_STATUS_TIMEOUT_MS = 900L
     const val COMMAND_POLL_INTERVAL_MS = 50L
+    const val MAX_DIAGNOSTIC_BYTES = 512_000L
   }
 }

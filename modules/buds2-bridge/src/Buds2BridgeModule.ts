@@ -17,6 +17,8 @@ const fallbackModule: Buds2NativeModule = {
   discoverBluetoothDevices: async () => unavailableSnapshot(),
   applyNoiseControl: async () => unavailableControl("noise_control"),
   applyEqualizer: async () => unavailableControl("equalizer"),
+  getDiagnosticLog: async () => "",
+  clearDiagnosticLog: async () => false,
   openBluetoothSettings: () => false,
 };
 

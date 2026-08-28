@@ -42,6 +42,8 @@ export interface Buds2NativeModule {
   getBluetoothSnapshot(): Promise<BluetoothSnapshot>;
   discoverBluetoothDevices(): Promise<BluetoothSnapshot>;
   applyNoiseControl(deviceId: string, mode: Buds2NoiseControlMode): Promise<Buds2ControlResult>;
-  applyEqualizer(deviceId: string, preset: Buds2EqualizerPreset): Promise<Buds2ControlResult>;
-  openBluetoothSettings(): boolean;
+  applyEqualizer: (deviceId: string, preset: Buds2EqualizerPreset) => Promise<Buds2ControlResult>;
+  getDiagnosticLog: () => Promise<string>;
+  clearDiagnosticLog: () => Promise<boolean>;
+  openBluetoothSettings: () => boolean;
 }
