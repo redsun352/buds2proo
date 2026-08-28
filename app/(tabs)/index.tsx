@@ -187,6 +187,12 @@ export default function HomeScreen() {
               variant="secondary"
             />
           </View>
+          <TactileButton
+            label="Otomatik tanı testine git"
+            onPress={() => router.push("/help")}
+            style={styles.diagnosticQuickButton}
+            variant="secondary"
+          />
         </View>
       </ScrollView>
     </ScreenContainer>
@@ -208,6 +214,7 @@ const styles = StyleSheet.create({
   deviceName: { color: "#F5F8FC", fontSize: 21, fontWeight: "800", letterSpacing: -0.3, marginTop: 13 },
   disclosureCard: { alignItems: "flex-start", backgroundColor: "#182130", borderColor: "#2A3547", borderRadius: 16, borderWidth: 1, flexDirection: "row", gap: 10, marginTop: 12, padding: 14 },
   disclosureText: { color: "#AAB5C8", flex: 1, fontSize: 12, lineHeight: 18 },
+  diagnosticQuickButton: { marginTop: 10 },
   earbudLeft: { backgroundColor: "#DDEEFF", borderRadius: 14, height: 26, left: 9, position: "absolute", top: 13, transform: [{ rotate: "-24deg" }], width: 21 },
   earbudRight: { backgroundColor: "#DDEEFF", borderRadius: 14, height: 26, right: 9, position: "absolute", top: 13, transform: [{ rotate: "24deg" }], width: 21 },
   earbudStemLeft: { backgroundColor: "#BFDFFF", borderBottomLeftRadius: 7, borderBottomRightRadius: 7, height: 22, left: 15, position: "absolute", top: 32, transform: [{ rotate: "-14deg" }], width: 8 },

@@ -64,7 +64,11 @@
 - [x] Tanı dosyasını Yardım ekranından görüntüle, temizle ve Android paylaşım menüsüne gönder.
 - [x] Native köprü ve TypeScript log akışını test edip yeni release APK'sında doğrula.
 
-- [ ] Kullanıcı başlatmalı kapsamlı Buds2 tanı testi için güvenli test sözleşmesini tanımla.
+- [x] Kullanıcı başlatmalı kapsamlı Buds2 tanı testi için güvenli test sözleşmesini tanımla.
 - [ ] Tanı testinde bağlantı, izin, cihaz profili, pil/status, DSP handshake ve ANC/EQ ACK sonuçlarını topla.
-- [ ] Test sonuçlarını tek tanı dosyasına yaz ve Yardım ekranından paylaşılabilir hâle getir.
-- [ ] Otomatik tanı akışını test edip yeni Android release APK'sını hazırla.
+- [x] Test sonuçlarını tek tanı dosyasına yaz ve Yardım ekranından paylaşılabilir hâle getir.
+- [x] Otomatik tanı akışını test edip yeni Android release APK'sını hazırla.
+
+- [ ] Kullanıcı geri bildirimi: otomatik test ve rapor paylaş seçenekleri uygulamada görünmüyor; route/UI ve APK sürüm eşleşmesini teşhis et.
+- [ ] Tanı seçeneklerini görünür bir Yardım ekranı kartı ve release sürüm etiketiyle yeniden doğrula.
+- [ ] Görünür tanı arayüzünü içeren yeni Android release APK'sını üretip teslim et.
