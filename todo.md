@@ -60,6 +60,11 @@
 - [ ] Buds2 DSP RFCOMM handshake ve komut yanıtlarını ayrıntılı tanı loglarıyla görünür yap.
 - [ ] DSP komutlarının gerçek cihazda ANC ve EQ değişikliği oluşturduğunu doğrula; onaysız sonucu başarı gösterme.
 
-- [ ] Uygulama içi DSP/RFCOMM tanı kayıtlarını kişisel veri toplamadan dosyaya yaz.
-- [ ] Tanı dosyasını Yardım ekranından görüntüle, temizle ve Android paylaşım menüsüne gönder.
-- [ ] Native köprü ve TypeScript log akışını test edip yeni release APK'sında doğrula.
+- [x] Uygulama içi DSP/RFCOMM tanı kayıtlarını kişisel veri toplamadan dosyaya yaz.
+- [x] Tanı dosyasını Yardım ekranından görüntüle, temizle ve Android paylaşım menüsüne gönder.
+- [x] Native köprü ve TypeScript log akışını test edip yeni release APK'sında doğrula.
+
+- [ ] Kullanıcı başlatmalı kapsamlı Buds2 tanı testi için güvenli test sözleşmesini tanımla.
+- [ ] Tanı testinde bağlantı, izin, cihaz profili, pil/status, DSP handshake ve ANC/EQ ACK sonuçlarını topla.
+- [ ] Test sonuçlarını tek tanı dosyasına yaz ve Yardım ekranından paylaşılabilir hâle getir.
+- [ ] Otomatik tanı akışını test edip yeni Android release APK'sını hazırla.

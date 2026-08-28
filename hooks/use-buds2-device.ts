@@ -26,7 +26,7 @@ export function useBuds2Device() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDiscovering, setIsDiscovering] = useState(false);
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (): Promise<BluetoothSnapshot> => {
     setIsRefreshing(true);
     try {
       const currentPermissionState = await getPermissionState();
@@ -37,6 +37,7 @@ export function useBuds2Device() {
           : currentPermissionState,
       );
       setSnapshot(nextSnapshot);
+      return nextSnapshot;
     } finally {
       setIsRefreshing(false);
     }

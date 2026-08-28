@@ -6,7 +6,14 @@ import { ScreenHeader } from "@/components/buds2/screen-header";
 import { TactileButton } from "@/components/buds2/tactile-button";
 import { ScreenContainer } from "@/components/screen-container";
 import { useBuds2Device } from "@/hooks/use-buds2-device";
-import { clearDiagnosticLog, readDiagnosticLog, shareDiagnosticLog } from "@/lib/buds2/diagnostic-service";
+import {
+  clearDiagnosticLog,
+  collectDiagnosticTest,
+  formatDiagnosticReport,
+  readDiagnosticLog,
+  shareDiagnosticReport,
+  type DiagnosticReport,
+} from "@/lib/buds2/diagnostic-service";
 
 const HELP_STEPS = [
   { number: "01", title: "Buds2'yi eşle", body: "Kulaklıkları kutudan çıkarın ve Android Bluetooth ayarlarından Galaxy Buds2 olarak eşleyin." },
@@ -15,8 +22,9 @@ const HELP_STEPS = [
 ];
 
 export default function HelpScreen() {
-  const { snapshot, permissionState, openBluetoothSettings } = useBuds2Device();
+  const { snapshot, permissionState, openBluetoothSettings, refresh } = useBuds2Device();
   const [diagnosticLength, setDiagnosticLength] = useState(0);
+  const [diagnosticReport, setDiagnosticReport] = useState<DiagnosticReport | null>(null);
   const [diagnosticBusy, setDiagnosticBusy] = useState(false);
 
   const refreshDiagnosticLength = async () => {
@@ -28,11 +36,26 @@ export default function HelpScreen() {
     void refreshDiagnosticLength();
   }, []);
 
+  const handleRunDiagnostic = async () => {
+    setDiagnosticBusy(true);
+    try {
+      const report = await collectDiagnosticTest(refresh);
+      setDiagnosticReport(report);
+      setDiagnosticLength(formatDiagnosticReport(report).length);
+      Alert.alert("Tanı tamamlandı", "Rapor hazır. Dosyayı paylaşarak sonucu gönderebilirsiniz.");
+    } catch {
+      Alert.alert("Tanı başarısız", "Bluetooth durum raporu oluşturulamadı.");
+    } finally {
+      setDiagnosticBusy(false);
+    }
+  };
+
   const handleShareDiagnostic = async () => {
     setDiagnosticBusy(true);
     try {
-      const result = await shareDiagnosticLog();
-      if (result === "empty") Alert.alert("Tanı kaydı boş", "Önce Buds2 bağlıyken bir DSP/ANC/EQ işlemi deneyin.");
+      const report = diagnosticReport ?? await collectDiagnosticTest(refresh);
+      setDiagnosticReport(report);
+      const result = await shareDiagnosticReport(report);
       if (result === "unavailable") Alert.alert("Paylaşım kullanılamıyor", "Bu cihazda dosya paylaşım menüsü kullanılamadı.");
     } catch {
       Alert.alert("Paylaşım başarısız", "Tanı dosyası oluşturulamadı veya paylaşım iptal edildi.");
@@ -51,6 +74,7 @@ export default function HelpScreen() {
         onPress: async () => {
           setDiagnosticBusy(true);
           await clearDiagnosticLog();
+          setDiagnosticReport(null);
           setDiagnosticLength(0);
           setDiagnosticBusy(false);
         },
@@ -116,8 +140,9 @@ export default function HelpScreen() {
             {diagnosticLength > 0 ? `${diagnosticLength} karakter kayıt hazır` : "Henüz kayıt yok"}
           </Text>
           <View style={styles.diagnosticActions}>
+            <TactileButton label={diagnosticBusy ? "Test çalışıyor…" : "Otomatik testi çalıştır"} onPress={() => void handleRunDiagnostic()} style={styles.diagnosticButton} />
             <TactileButton label="Kaydı yenile" onPress={() => void refreshDiagnosticLength()} style={styles.diagnosticButton} />
-            <TactileButton label={diagnosticBusy ? "Hazırlanıyor…" : "Dosyayı paylaş"} onPress={() => void handleShareDiagnostic()} style={styles.diagnosticButton} />
+            <TactileButton label={diagnosticBusy ? "Hazırlanıyor…" : "Raporu paylaş"} onPress={() => void handleShareDiagnostic()} style={styles.diagnosticButton} />
             <TactileButton label="Temizle" onPress={handleClearDiagnostic} style={styles.diagnosticButton} />
           </View>
         </View>
@@ -134,7 +159,7 @@ export default function HelpScreen() {
           </View>
           <View style={styles.capabilityRow}>
             <MaterialCommunityIcons color="#FFC971" name="alert-circle-outline" size={20} />
-            <Text style={styles.capabilityText}>Buds2’nin ANC, ekolayzır veya dokunmatik kontrolünü değiştirmez.</Text>
+            <Text style={styles.capabilityText}>Deneysel RFCOMM üzerinden ANC ve ekolayzır komutlarını test eder; dokunmatik kontrol henüz kapsam dışıdır.</Text>
           </View>
           <View style={styles.capabilityRow}>
             <MaterialCommunityIcons color="#FFC971" name="alert-circle-outline" size={20} />
