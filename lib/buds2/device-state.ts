@@ -76,6 +76,13 @@ export function deriveDeviceUiState({
   }
 
   if (budsDevice) {
+    if (!budsDevice.isBonded) {
+      return {
+        label: "Yakında bulundu",
+        tone: "neutral",
+        message: "Galaxy Buds2 bulundu. Eşleştirmeyi Android Bluetooth ayarlarından tamamlayın.",
+      };
+    }
     return {
       label: "Eşlenmiş",
       tone: "neutral",

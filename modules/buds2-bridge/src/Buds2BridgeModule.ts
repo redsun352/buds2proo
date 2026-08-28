@@ -14,6 +14,7 @@ const unavailableSnapshot = (): BluetoothSnapshot => ({
 
 const fallbackModule: Buds2NativeModule = {
   getBluetoothSnapshot: async () => unavailableSnapshot(),
+  discoverBluetoothDevices: async () => unavailableSnapshot(),
   openBluetoothSettings: () => false,
 };
 

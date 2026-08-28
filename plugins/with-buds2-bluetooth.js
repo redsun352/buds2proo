@@ -28,6 +28,9 @@ module.exports = function withBuds2Bluetooth(config) {
     ensurePermission(manifest, "android.permission.BLUETOOTH_ADMIN", {
       "android:maxSdkVersion": "30",
     });
+    ensurePermission(manifest, "android.permission.BLUETOOTH_SCAN", {
+      "android:usesPermissionFlags": "neverForLocation",
+    });
     ensurePermission(manifest, "android.permission.BLUETOOTH_CONNECT");
 
     return configWithManifest;

@@ -19,6 +19,7 @@ const CONNECTED_BUDS2: BluetoothAudioDevice = {
   id: "device-id",
   name: "Galaxy Buds2",
   deviceType: "dual",
+  isBonded: true,
   isLikelyBuds2: true,
   a2dpConnected: true,
   headsetConnected: true,
@@ -56,5 +57,17 @@ describe("Buds2 bağlantı durumu", () => {
     });
 
     expect(state).toMatchObject({ label: "Bluetooth kapalı", tone: "warning" });
+  });
+
+  it("eşlenmemiş fakat bulunan Buds2'yi ayrı bir durum olarak gösterir", () => {
+    const device = { ...CONNECTED_BUDS2, a2dpConnected: false, headsetConnected: false, isBonded: false };
+    const state = deriveDeviceUiState({
+      platform: "android",
+      snapshot: { ...BASE_SNAPSHOT, devices: [device] },
+      permissionState: "granted",
+      budsDevice: device,
+    });
+
+    expect(state).toMatchObject({ label: "Yakında bulundu", tone: "neutral" });
   });
 });

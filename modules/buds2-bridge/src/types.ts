@@ -6,6 +6,7 @@ export interface BluetoothAudioDevice {
   id: string;
   name: string;
   deviceType: BluetoothDeviceType;
+  isBonded: boolean;
   isLikelyBuds2: boolean;
   a2dpConnected: boolean;
   headsetConnected: boolean;
@@ -25,5 +26,6 @@ export interface BluetoothSnapshot {
 
 export interface Buds2NativeModule {
   getBluetoothSnapshot(): Promise<BluetoothSnapshot>;
+  discoverBluetoothDevices(): Promise<BluetoothSnapshot>;
   openBluetoothSettings(): boolean;
 }

@@ -3,6 +3,7 @@ import { PermissionsAndroid, Platform } from "react-native";
 
 import {
   EMPTY_BLUETOOTH_SNAPSHOT,
+  discoverBluetoothDevices,
   getBluetoothSnapshot,
   openBluetoothSettings,
 } from "@/lib/buds2/device-service";
@@ -12,16 +13,18 @@ async function getPermissionState(): Promise<BluetoothPermissionState> {
   if (Platform.OS !== "android") return "unavailable";
   if (Number(Platform.Version) < 31) return "granted";
 
-  const granted = await PermissionsAndroid.check(
-    PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-  );
-  return granted ? "granted" : "not-requested";
+  const [canConnect, canScan] = await Promise.all([
+    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT),
+    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN),
+  ]);
+  return canConnect && canScan ? "granted" : "not-requested";
 }
 
 export function useBuds2Device() {
   const [snapshot, setSnapshot] = useState<BluetoothSnapshot>(EMPTY_BLUETOOTH_SNAPSHOT);
   const [permissionState, setPermissionState] = useState<BluetoothPermissionState>("unavailable");
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isDiscovering, setIsDiscovering] = useState(false);
 
   const refresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -45,20 +48,35 @@ export function useBuds2Device() {
       return;
     }
 
-    const result = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-      {
-        title: "Yakındaki cihazlara erişim",
-        message:
-          "Buds2 Companion, eşlenmiş kulaklıkların bağlantı durumunu göstermek için Bluetooth erişimine ihtiyaç duyar.",
-        buttonPositive: "İzin ver",
-        buttonNegative: "Şimdi değil",
-      },
+    const result = await PermissionsAndroid.requestMultiple(
+      [
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+      ],
     );
 
-    setPermissionState(result === PermissionsAndroid.RESULTS.GRANTED ? "granted" : "denied");
+    const granted =
+      result[PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT] === PermissionsAndroid.RESULTS.GRANTED &&
+      result[PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN] === PermissionsAndroid.RESULTS.GRANTED;
+    setPermissionState(granted ? "granted" : "denied");
     await refresh();
   }, [refresh]);
+
+  const discover = useCallback(async () => {
+    setIsDiscovering(true);
+    try {
+      const currentPermissionState = await getPermissionState();
+      if (currentPermissionState !== "granted") {
+        setPermissionState(currentPermissionState);
+        return;
+      }
+      const nextSnapshot = await discoverBluetoothDevices();
+      setPermissionState(nextSnapshot.permissionGranted ? "granted" : "not-requested");
+      setSnapshot(nextSnapshot);
+    } finally {
+      setIsDiscovering(false);
+    }
+  }, []);
 
   useEffect(() => {
     void refresh();
@@ -68,7 +86,9 @@ export function useBuds2Device() {
     snapshot,
     permissionState,
     isRefreshing,
+    isDiscovering,
     refresh,
+    discover,
     requestBluetoothPermission,
     openBluetoothSettings,
   };

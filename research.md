@@ -23,6 +23,12 @@ Android'in `BluetoothA2dp` profili, bağlı ses cihazlarının listesini ve beli
 
 İlk uygulama, kaynak kodu GPLv3 lisanslı üçüncü taraf Galaxy Buds istemcilerinden kod veya protokol paketi almayacaktır. Bunun yerine Android'in genel Bluetooth API'lerine dayalı kendi Kotlin köprüsünü kullanacak, gelişmiş Buds2 komutlarını yalnızca üretici protokolü ayrı olarak doğrulanırsa sonraki sürümde ele alacaktır. Böylece uygulama kullanıcıya yanlış biçimde tam Buds2 kontrolü sunduğunu iddia etmez.
 
+## Gelişmiş Denetim Değerlendirmesi
+
+Açık kaynak referansları, ANC, ortam sesi, ekolayzır, dokunmatik kilidi ve cihaz bulma gibi gelişmiş işlevlerin Galaxy Buds tarafından A2DP üzerinden değil, **RFCOMM seri soketi** üzerinden taşınan ikili komutlarla uygulandığını belirtmektedir.[5] BudsLink bu işlevleri Buds2 için destek listesinde gösterse de Buds2 satırlarını test edilmemiş olarak işaretlemektedir.[6] Bu nedenle mevcut uygulama ileri kontrol düğmelerini çalışıyor gibi göstermeyecek; önce eşlenmiş/bağlı cihaz listesi ile kullanıcı tarafından başlatılan güvenli tarama akışını etkinleştirecektir.
+
+> Bir Galaxy Buds RFCOMM soketine aynı anda yalnızca bir uygulama erişebilir. Bu nedenle test sırasında Galaxy Wearable ve diğer Buds izleme uygulamalarının kapatılması gerekir.[6]
+
 ## Kaynaklar
 
 [1] [Android Developers — Bluetooth permissions](https://developer.android.com/develop/connectivity/bluetooth/bt-permissions)
@@ -32,3 +38,7 @@ Android'in `BluetoothA2dp` profili, bağlı ses cihazlarının listesini ve beli
 [3] [Expo — Tutorial: Create a native module](https://docs.expo.dev/modules/native-module-tutorial/)
 
 [4] [Android Developers — BluetoothA2dp](https://developer.android.com/reference/android/bluetooth/BluetoothA2dp)
+
+[5] [GalaxyBudsClient — How it works](https://github.com/timschneeb/GalaxyBudsClient#how-it-works)
+
+[6] [BudsLink — Samsung Galaxy Buds compatibility](https://maniacx.github.io/BudsLink/galaxy)

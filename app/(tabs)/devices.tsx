@@ -11,7 +11,7 @@ import type { BluetoothAudioDevice } from "@/modules/buds2-bridge";
 
 function DeviceCard({ device }: { device: BluetoothAudioDevice }) {
   const isConnected = device.a2dpConnected || device.headsetConnected;
-  const connectionLabel = isConnected ? "Bağlı" : "Eşlenmiş";
+  const connectionLabel = isConnected ? "Bağlı" : device.isBonded ? "Eşlenmiş" : "Yakında bulundu";
 
   return (
     <View style={[styles.deviceCard, device.isLikelyBuds2 && styles.budsCard]}>
@@ -41,7 +41,9 @@ export default function DevicesScreen() {
     snapshot,
     permissionState,
     isRefreshing,
+    isDiscovering,
     refresh,
+    discover,
     requestBluetoothPermission,
     openBluetoothSettings,
   } = useBuds2Device();
@@ -62,7 +64,7 @@ export default function DevicesScreen() {
         <ScreenHeader
           eyebrow="Cihazlar"
           title="Bluetooth cihazların"
-          description="Android'de eşlenmiş ses cihazları güvenli bağlantı kontrolleriyle listelenir."
+          description="Eşlenmiş cihazları listeleyin veya yakındaki Galaxy Buds2'yi tarayın."
           icon="bluetooth-connect"
         />
       </View>
@@ -72,7 +74,7 @@ export default function DevicesScreen() {
           <MaterialCommunityIcons color="#FFD18A" name="shield-key-outline" size={24} />
           <View style={styles.permissionCopy}>
             <Text style={styles.permissionTitle}>Yakındaki cihazlar izni gerekli</Text>
-            <Text style={styles.permissionBody}>Uygulama yalnızca eşlenmiş cihaz adlarını ve bağlantı profillerini okur.</Text>
+            <Text style={styles.permissionBody}>Uygulama cihaz aramak, adı göstermek ve bağlantı profilini okumak için izin ister.</Text>
           </View>
           <TactileButton label="İzin ver" onPress={() => void requestBluetoothPermission()} variant="secondary" />
         </View>
@@ -93,8 +95,8 @@ export default function DevicesScreen() {
 
       <View style={styles.listHeader}>
         <View>
-          <Text style={styles.listTitle}>Eşlenmiş cihazlar</Text>
-          <Text style={styles.listSubtitle}>{snapshot.devices.length} cihaz bulundu</Text>
+          <Text style={styles.listTitle}>Bulunan cihazlar</Text>
+          <Text style={styles.listSubtitle}>{snapshot.devices.length} cihaz listelendi</Text>
         </View>
         <TactileButton
           disabled={isRefreshing}
@@ -103,6 +105,18 @@ export default function DevicesScreen() {
           variant="ghost"
         />
       </View>
+
+      <TactileButton
+        disabled={requiresPermission || !snapshot.bluetoothEnabled || isDiscovering}
+        label={isDiscovering ? "Cihazlar aranıyor…" : "Yakındaki cihazları ara"}
+        onPress={() => void discover()}
+        style={styles.discoverButton}
+        variant="primary"
+      />
+
+      <Text style={styles.discoveryHint}>
+        Tarama yaklaşık 12 saniye sürer. Buds2 eşleştirme modunda veya telefonunuza bağlı olmalıdır.
+      </Text>
 
       <FlatList
         contentContainerStyle={snapshot.devices.length === 0 ? styles.emptyList : styles.listContent}
@@ -132,6 +146,8 @@ const styles = StyleSheet.create({
   budsIcon: { backgroundColor: "#1B3144" },
   deviceCard: { alignItems: "center", backgroundColor: "#1C2230", borderColor: "#2A3447", borderRadius: 18, borderWidth: 1, flexDirection: "row", gap: 13, padding: 15 },
   deviceCopy: { flex: 1 },
+  discoverButton: { marginBottom: 8 },
+  discoveryHint: { color: "#8290A6", fontSize: 12, lineHeight: 17, marginBottom: 12 },
   deviceIcon: { alignItems: "center", backgroundColor: "#283040", borderRadius: 14, height: 52, justifyContent: "center", width: 52 },
   deviceMeta: { color: "#97A5BA", fontSize: 12, lineHeight: 17, marginTop: 3 },
   deviceName: { color: "#F2F5FA", fontSize: 16, fontWeight: "800" },

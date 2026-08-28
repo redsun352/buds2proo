@@ -31,5 +31,8 @@
 - [x] Güvenli GitHub yazma anahtarıyla redsun352/buds2proo deposuna erişimi doğrula ve Android derlemesini başlat.
 - [x] Uygulama simgelerini kaliteyi koruyarak küçült ve proje kaydını yeniden oluştur.
 - [x] EAS Android ön-derleme hatasının kaynağını teşhis et, yapılandırmayı düzelt ve yayınlama öncesi doğrula.
-- [ ] Uygulamanın cihazda "Android derlemesi gerekli" başlangıç durumunda kalmasına yol açan Bluetooth köprü yükleme hatasını video üzerinden teşhis et ve düzelt.
-- [ ] Metro sunucusu gerektiren debug APK yerine JavaScript paketini içeren Android release APK üret.
+- [x] Uygulamanın cihazda "Android derlemesi gerekli" başlangıç durumunda kalmasına yol açan Bluetooth köprü yükleme hatasını video üzerinden teşhis et ve düzelt.
+- [x] Metro sunucusu gerektiren debug APK yerine JavaScript paketini içeren Android release APK üret.
+- [ ] Gerçek cihazda pasif kalan Buds2 Companion kontrollerinin nedenini teşhis et; izin, modül yükleme ve cihaz tarama akışını etkinleştir.
+- [ ] Android 12+ cihazlarda tarama ve bağlantı durumu için gerekli Bluetooth izinlerini birlikte iste; tarama sonucunu ekranda göster.
+- [ ] Üreticiye özgü ANC, ekolayzır ve dokunmatik denetimlerin bu sürümde desteklenmediğini işlevsel arayüzden ayır ve açıkça belirt.

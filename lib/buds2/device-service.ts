@@ -24,6 +24,18 @@ export async function getBluetoothSnapshot(): Promise<BluetoothSnapshot> {
   }
 }
 
+export async function discoverBluetoothDevices(): Promise<BluetoothSnapshot> {
+  try {
+    return await Buds2BridgeModule.discoverBluetoothDevices();
+  } catch {
+    return {
+      ...EMPTY_BLUETOOTH_SNAPSHOT,
+      nativeModuleAvailable: false,
+      reason: "discovery_call_failed",
+    };
+  }
+}
+
 export function openBluetoothSettings(): boolean {
   try {
     return Buds2BridgeModule.openBluetoothSettings();
