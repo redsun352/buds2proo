@@ -18,6 +18,7 @@ import android.provider.Settings
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -293,12 +294,22 @@ class Buds2BridgeModule : Module() {
     val profiles = intArrayOf(BluetoothProfile.A2DP, BluetoothProfile.HEADSET)
     fun resolveSnapshot() {
       if (!resolved.compareAndSet(false, true)) return
-      val devices = synchronized(lock) {
-        bondedDevices
-          .map { device -> deviceMap(device, a2dpAddresses.contains(device.address), headsetAddresses.contains(device.address)) }
-          .sortedBy { item -> (item["name"] as? String ?: "").lowercase() }
+      val profileDevices = synchronized(lock) {
+        bondedDevices.map { device ->
+          Triple(device, a2dpAddresses.contains(device.address), headsetAddresses.contains(device.address))
+        }
       }
-      promise.resolve(baseSnapshot(true, true, true, devices))
+      // The extended-status message carries Buds2-specific battery fields that Android's
+      // public Bluetooth API does not expose. Keep the socket work off the main thread.
+      controlExecutor.execute {
+        val devices = profileDevices
+          .map { (device, a2dpConnected, headsetConnected) ->
+            val status = if (isLikelyBuds2(safeDeviceName(device))) queryDeviceStatus(device) else null
+            deviceMap(device, a2dpConnected, headsetConnected, status)
+          }
+          .sortedBy { item -> (item["name"] as? String ?: "").lowercase() }
+        promise.resolve(baseSnapshot(true, true, true, devices))
+      }
     }
     fun completeProfile(profile: Int, proxy: BluetoothProfile?, devices: List<BluetoothDevice>) {
       val shouldResolve = synchronized(lock) {
@@ -363,7 +374,12 @@ class Buds2BridgeModule : Module() {
     return mapOf("command" to command, "status" to status, "message" to message)
   }
 
-  private fun deviceMap(device: BluetoothDevice, a2dpConnected: Boolean, headsetConnected: Boolean): Map<String, Any?> {
+  private fun deviceMap(
+    device: BluetoothDevice,
+    a2dpConnected: Boolean,
+    headsetConnected: Boolean,
+    status: Buds2Protocol.ExtendedStatus? = null,
+  ): Map<String, Any?> {
     val name = safeDeviceName(device).ifBlank { "Adsız Bluetooth cihazı" }
     val address = try {
       device.address
@@ -383,8 +399,72 @@ class Buds2BridgeModule : Module() {
       "isLikelyBuds2" to isLikelyBuds2(name),
       "a2dpConnected" to a2dpConnected,
       "headsetConnected" to headsetConnected,
-      "batteryLevel" to null,
+      "batteryLevel" to readBatteryLevel(device),
+      "batteryLeft" to status?.batteryLeft,
+      "batteryRight" to status?.batteryRight,
+      "batteryCase" to status?.batteryCase,
+      "equalizerMode" to status?.equalizerMode,
     )
+  }
+
+  private fun queryDeviceStatus(device: BluetoothDevice): Buds2Protocol.ExtendedStatus? {
+    var socket: BluetoothSocket? = null
+    return try {
+      socket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(Buds2Protocol.SERVICE_UUID))
+      socket.connect()
+      val output = socket.outputStream
+      output.write(Buds2Protocol.managerInfo(Build.VERSION.SDK_INT))
+      output.flush()
+      val input = socket.inputStream
+      val buffer = ByteArrayOutputStream()
+      val deadline = System.currentTimeMillis() + STATUS_QUERY_TIMEOUT_MS
+      var status: Buds2Protocol.ExtendedStatus? = null
+      while (System.currentTimeMillis() < deadline && status == null) {
+        val available = input.available()
+        if (available > 0) {
+          val chunk = ByteArray(available)
+          val count = input.read(chunk)
+          if (count > 0) {
+            buffer.write(chunk, 0, count)
+            status = Buds2Protocol.decodeExtendedStatus(buffer.toByteArray())
+          }
+        } else {
+          try {
+            Thread.sleep(COMMAND_POLL_INTERVAL_MS)
+          } catch (_: InterruptedException) {
+            Thread.currentThread().interrupt()
+            break
+          }
+        }
+      }
+      status
+    } catch (_: IOException) {
+      null
+    } catch (_: SecurityException) {
+      null
+    } finally {
+      try {
+        socket?.close()
+      } catch (_: IOException) {
+        // Soket zaten kapatılmış olabilir.
+      }
+    }
+  }
+
+  /**
+   * Android exposes this value only on some platform/vendor builds. Reflection keeps
+   * the module compatible with older SDKs and returns null instead of inventing data.
+   */
+  private fun readBatteryLevel(device: BluetoothDevice): Int? {
+    return try {
+      val method = BluetoothDevice::class.java.getMethod("getBatteryLevel")
+      val level = method.invoke(device) as? Int
+      level?.takeIf { it in 0..100 }
+    } catch (_: ReflectiveOperationException) {
+      null
+    } catch (_: SecurityException) {
+      null
+    }
   }
 
   private fun safeDeviceName(device: BluetoothDevice): String {
@@ -413,6 +493,7 @@ class Buds2BridgeModule : Module() {
     const val PROFILE_QUERY_TIMEOUT_MS = 1200L
     const val DISCOVERY_TIMEOUT_MS = 16_000L
     const val COMMAND_CONFIRMATION_TIMEOUT_MS = 2_000L
+    const val STATUS_QUERY_TIMEOUT_MS = 1_500L
     const val COMMAND_POLL_INTERVAL_MS = 50L
   }
 }

@@ -9,11 +9,12 @@ object Buds2Protocol {
   const val NOISE_CONTROLS = 120
   const val EQUALIZER = 134
   private const val MANAGER_INFO = 136
+  const val EXTENDED_STATUS_UPDATED = 97
   private const val RESPONSE = 81
   private const val SOM = 0xFD
   private const val EOM = 0xDD
 
-  fun managerInfo(androidSdk: Int): ByteArray = encode(MANAGER_INFO, byteArrayOf(1, 2, androidSdk.toByte()))
+  fun managerInfo(androidSdk: Int): ByteArray = encode(MANAGER_INFO, byteArrayOf(1, 1, androidSdk.toByte()))
 
   fun noiseControl(mode: String): ByteArray? {
     val value = when (mode) {
@@ -27,16 +28,46 @@ object Buds2Protocol {
 
   fun equalizer(preset: String): ByteArray? {
     val value = when (preset) {
-      "normal" -> 1
-      "bass_boost" -> 2
-      "soft" -> 3
-      "dynamic" -> 4
+      // Buds2 family: 0 disables EQ; 1..5 are Bass Boost, Soft, Dynamic, Clear, Treble Boost.
+      "normal" -> 0
+      "bass_boost" -> 1
+      "soft" -> 2
+      "dynamic" -> 3
+      "clear" -> 4
+      "treble_boost" -> 5
       else -> return null
     }
     return encode(EQUALIZER, byteArrayOf(value.toByte()))
   }
 
+  data class ExtendedStatus(
+    val batteryLeft: Int,
+    val batteryRight: Int,
+    val batteryCase: Int,
+    val equalizerMode: Int,
+  )
+
   fun wasCommandAccepted(raw: ByteArray, expectedCommandId: Int): Boolean {
+    return parseFrames(raw).any { frame ->
+      frame.first == RESPONSE && frame.second.size >= 2 &&
+        (frame.second[0].toInt() and 0xFF) == expectedCommandId &&
+        (frame.second[1].toInt() and 0xFF) == 0
+    }
+  }
+
+  fun decodeExtendedStatus(raw: ByteArray): ExtendedStatus? {
+    val payload = parseFrames(raw).firstOrNull { it.first == EXTENDED_STATUS_UPDATED }?.second ?: return null
+    if (payload.size < 10) return null
+    return ExtendedStatus(
+      batteryLeft = payload[2].toInt() and 0xFF,
+      batteryRight = payload[3].toInt() and 0xFF,
+      batteryCase = payload[7].toInt() and 0xFF,
+      equalizerMode = payload[9].toInt() and 0xFF,
+    )
+  }
+
+  private fun parseFrames(raw: ByteArray): List<Pair<Int, ByteArray>> {
+    val frames = mutableListOf<Pair<Int, ByteArray>>()
     var offset = 0
     while (offset + 6 < raw.size) {
       if ((raw[offset].toInt() and 0xFF) != SOM) {
@@ -45,21 +76,13 @@ object Buds2Protocol {
       }
       val size = (raw[offset + 1].toInt() and 0xFF) or ((raw[offset + 2].toInt() and 0x03) shl 8)
       val frameSize = size + 4
-      if (size < 3 || offset + frameSize > raw.size) return false
-      val messageId = raw[offset + 3].toInt() and 0xFF
+      if (size < 3 || offset + frameSize > raw.size) break
       val payloadSize = size - 3
-      val payloadStart = offset + 4
-      if (
-        messageId == RESPONSE &&
-        payloadSize >= 2 &&
-        (raw[payloadStart].toInt() and 0xFF) == expectedCommandId &&
-        (raw[payloadStart + 1].toInt() and 0xFF) == 0
-      ) {
-        return true
-      }
+      val messageId = raw[offset + 3].toInt() and 0xFF
+      frames += messageId to raw.copyOfRange(offset + 4, offset + 4 + payloadSize)
       offset += frameSize
     }
-    return false
+    return frames
   }
 
   private fun encode(messageId: Int, payload: ByteArray): ByteArray {
