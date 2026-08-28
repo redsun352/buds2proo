@@ -35,9 +35,16 @@
 - [x] Metro sunucusu gerektiren debug APK yerine JavaScript paketini içeren Android release APK üret.
 - [x] Gerçek cihazda pasif kalan Buds2 Companion kontrollerinin nedenini teşhis et; izin, modül yükleme ve cihaz tarama akışını etkinleştir.
 - [x] Android 12+ cihazlarda tarama ve bağlantı durumu için gerekli Bluetooth izinlerini birlikte iste; tarama sonucunu ekranda göster.
-- [ ] Üreticiye özgü ANC, ekolayzır ve dokunmatik denetimlerin bu sürümde desteklenmediğini işlevsel arayüzden ayır ve açıkça belirt.
-- [ ] Galaxy Buds2 ANC ve ekolayzır komutları için RFCOMM/SPP protokol çerçevesini, model uyumluluğunu ve lisans koşullarını doğrula.
-- [ ] Tek uygulama soket erişimi, kullanıcı onayı ve güvenli bağlantı kesme kurallarıyla Buds2 RFCOMM köprüsünü tasarla.
+- [x] Üreticiye özgü denetimlerin ilk sürümde etkin olmayacağı uyarısını, kullanıcı isteği üzerine deneysel ANC/ekolayzır RFCOMM denetimleriyle güncelle; dokunmatik denetimleri kapsam dışında tut.
+- [x] Galaxy Buds2 ANC ve ekolayzır komutları için RFCOMM/SPP protokol çerçevesini, model uyumluluğunu ve lisans koşullarını doğrula.
+- [x] Tek uygulama soket erişimi, kullanıcı onayı ve güvenli bağlantı kesme kurallarıyla Buds2 RFCOMM köprüsünü tasarla.
 - [ ] Buds2 bağlı ve başka bir Buds istemcisi kapalıyken ANC/ekolayzır sorgu ve komut akışını gerçek cihazda doğrula.
 - [x] RFCOMM komut onayı okunana kadar soket çıkış akışını açık tutarak bağlantı yaşam döngüsünü düzelt.
 - [x] RFCOMM yanıt bekleme döngüsünde iş parçacığı kesintisini güvenli biçimde ele al.
+- [x] Yerel buds2-bridge Android modül kaynaklarını release deposuna eksiksiz aktar ve APK derlemesini doğrula.
+- [ ] Başarılı RFCOMM Android release APK artifact'ını indirip gerçek cihaz test yönergeleriyle teslim et.
+
+- [ ] Kullanıcı geri bildirimi: pil durumu, ANC ve ekolayzır özellikleri release APK'sında görünür/çalışır değil; kaynak–APK eşleşmesini teşhis et.
+- [ ] Pil seviyelerini Android Bluetooth API'sinden güvenilir biçimde yenile ve eksik veri durumunu açıkça göster.
+- [ ] ANC ve ekolayzır kontrol ekranının native RFCOMM köprüsüne gerçekten bağlı olduğunu doğrula ve eksik akışı düzelt.
+- [ ] Düzeltilmiş Android release APK'sını üretip gerçek cihaz testine hazırla.

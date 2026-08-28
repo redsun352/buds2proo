@@ -52,14 +52,14 @@ function ConnectionCard({
   );
 }
 
-function BatteryTile({ label, detail, icon }: { label: string; detail: string; icon: keyof typeof MaterialCommunityIcons.glyphMap }) {
+function BatteryTile({ label, detail, icon, value }: { label: string; detail: string; icon: keyof typeof MaterialCommunityIcons.glyphMap; value: string }) {
   return (
     <View style={styles.batteryTile}>
       <View style={styles.batteryIcon}>
         <MaterialCommunityIcons color="#80D4FF" name={icon} size={20} />
       </View>
       <Text style={styles.batteryLabel}>{label}</Text>
-      <Text style={styles.batteryValue}>Bilinmiyor</Text>
+      <Text style={styles.batteryValue}>{value}</Text>
       <Text style={styles.batteryDetail}>{detail}</Text>
     </View>
   );
@@ -77,6 +77,9 @@ export default function HomeScreen() {
   } = useBuds2Device();
 
   const budsDevice = useMemo(() => findLikelyBuds2(snapshot.devices), [snapshot.devices]);
+  const reportedBattery = budsDevice?.batteryLevel === null || budsDevice?.batteryLevel === undefined
+    ? "Bildirilmedi"
+    : `${budsDevice.batteryLevel}%`;
 
   const state = useMemo(
     () =>
@@ -155,9 +158,9 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.batteryGrid}>
-          <BatteryTile detail="Sol kulaklık" icon="ear-hearing" label="Sol" />
-          <BatteryTile detail="Sağ kulaklık" icon="ear-hearing" label="Sağ" />
-          <BatteryTile detail="Şarj kutusu" icon="battery-charging-medium" label="Kutu" />
+          <BatteryTile detail="Genel Bluetooth seviyesi" icon="headphones" label="Buds2" value={reportedBattery} />
+          <BatteryTile detail="Ayrı veri Android'de yok" icon="ear-hearing" label="Sol" value="Ayrı veri yok" />
+          <BatteryTile detail="Ayrı veri Android'de yok" icon="ear-hearing" label="Sağ" value="Ayrı veri yok" />
         </View>
 
         <View style={styles.disclosureCard}>

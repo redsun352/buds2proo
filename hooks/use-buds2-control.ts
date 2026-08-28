@@ -14,7 +14,7 @@ function unavailableResult(command: Buds2ControlResult["command"]): Buds2Control
   return {
     command,
     status: "blocked",
-    message: "Önce Galaxy Buds2'yi bağlayın, ardından cihazlar ekranından durumu yenileyin.",
+    message    : "Galaxy Buds2'yi eşleyip bağlayın, ardından cihazlar ekranından durumu yenileyin.",
   };
 }
 
@@ -22,7 +22,9 @@ export function useBuds2Control() {
   const { snapshot, permissionState, refresh } = useBuds2Device();
   const [isApplying, setIsApplying] = useState(false);
   const device = useMemo(() => findLikelyBuds2(snapshot.devices), [snapshot.devices]);
-  const hasConnectedBuds2 = Boolean(device && (device.a2dpConnected || device.headsetConnected));
+  // Android bazı telefonlarda A2DP/HFP profil durumunu gecikmeli bildirir.
+  // RFCOMM çağrısı native tarafta ayrıca eşleşmiş Buds2 ve Bluetooth iznini doğrular.
+  const hasConnectedBuds2 = Boolean(device?.isBonded);
   const isAvailable =
     Platform.OS === "android" &&
     snapshot.nativeModuleAvailable &&
