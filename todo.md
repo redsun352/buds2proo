@@ -39,3 +39,5 @@
 - [ ] Galaxy Buds2 ANC ve ekolayzır komutları için RFCOMM/SPP protokol çerçevesini, model uyumluluğunu ve lisans koşullarını doğrula.
 - [ ] Tek uygulama soket erişimi, kullanıcı onayı ve güvenli bağlantı kesme kurallarıyla Buds2 RFCOMM köprüsünü tasarla.
 - [ ] Buds2 bağlı ve başka bir Buds istemcisi kapalıyken ANC/ekolayzır sorgu ve komut akışını gerçek cihazda doğrula.
+- [x] RFCOMM komut onayı okunana kadar soket çıkış akışını açık tutarak bağlantı yaşam döngüsünü düzelt.
+- [x] RFCOMM yanıt bekleme döngüsünde iş parçacığı kesintisini güvenli biçimde ele al.
