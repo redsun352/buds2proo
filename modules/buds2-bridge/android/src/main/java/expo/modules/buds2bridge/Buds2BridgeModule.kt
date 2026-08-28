@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
+import android.bluetooth.BluetoothSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -17,10 +18,14 @@ import android.provider.Settings
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import java.io.IOException
+import java.util.UUID
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
 class Buds2BridgeModule : Module() {
   private val mainHandler = Handler(Looper.getMainLooper())
+  private val controlExecutor = Executors.newSingleThreadExecutor()
 
   override fun definition() = ModuleDefinition {
     Name("Buds2Bridge")
@@ -31,30 +36,24 @@ class Buds2BridgeModule : Module() {
         promise.resolve(unavailableSnapshot("context_unavailable"))
         return@AsyncFunction
       }
-
-      val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
-      val adapter = bluetoothManager?.adapter
+      val adapter = bluetoothAdapter(context)
       if (adapter == null) {
         promise.resolve(baseSnapshot(false, false, false, emptyList()))
         return@AsyncFunction
       }
-
       if (!hasConnectPermission(context)) {
         promise.resolve(baseSnapshot(true, false, false, emptyList(), "connect_permission_required"))
         return@AsyncFunction
       }
-
       if (!adapter.isEnabled) {
         promise.resolve(baseSnapshot(true, false, true, emptyList(), "bluetooth_disabled"))
         return@AsyncFunction
       }
-
       val bondedDevices = try {
         adapter.bondedDevices.orEmpty().toList()
       } catch (_: SecurityException) {
         emptyList()
       }
-
       resolveDevicesWithProfiles(context, adapter, bondedDevices, promise)
     }
 
@@ -64,33 +63,49 @@ class Buds2BridgeModule : Module() {
         promise.resolve(unavailableSnapshot("context_unavailable"))
         return@AsyncFunction
       }
-
-      val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager
-      val adapter = bluetoothManager?.adapter
+      val adapter = bluetoothAdapter(context)
       if (adapter == null) {
         promise.resolve(baseSnapshot(false, false, false, emptyList()))
         return@AsyncFunction
       }
-
       if (!hasConnectPermission(context) || !hasScanPermission(context)) {
         promise.resolve(baseSnapshot(true, adapter.isEnabled, false, emptyList(), "scan_permission_required"))
         return@AsyncFunction
       }
-
       if (!adapter.isEnabled) {
         promise.resolve(baseSnapshot(true, false, true, emptyList(), "bluetooth_disabled"))
         return@AsyncFunction
       }
-
       discoverNearbyDevices(context, adapter, promise)
+    }
+
+    AsyncFunction("applyNoiseControl") { deviceId: String, mode: String, promise: Promise ->
+      val frame = Buds2Protocol.noiseControl(mode)
+      if (frame == null) {
+        promise.resolve(controlResult("noise_control", "blocked", "Geçersiz ANC modu seçildi."))
+        return@AsyncFunction
+      }
+      sendBuds2Command(deviceId, Buds2Protocol.NOISE_CONTROLS, frame, "noise_control", promise)
+    }
+
+    AsyncFunction("applyEqualizer") { deviceId: String, preset: String, promise: Promise ->
+      val frame = Buds2Protocol.equalizer(preset)
+      if (frame == null) {
+        promise.resolve(controlResult("equalizer", "blocked", "Geçersiz ekolayzır ön ayarı seçildi."))
+        return@AsyncFunction
+      }
+      sendBuds2Command(deviceId, Buds2Protocol.EQUALIZER, frame, "equalizer", promise)
     }
 
     Function("openBluetoothSettings") {
       val context = appContext.reactContext ?: return@Function false
-      val intent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-      context.startActivity(intent)
+      context.startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
       true
     }
+  }
+
+  private fun bluetoothAdapter(context: Context): BluetoothAdapter? {
+    return (context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager)?.adapter
   }
 
   private fun hasConnectPermission(context: Context): Boolean {
@@ -103,15 +118,99 @@ class Buds2BridgeModule : Module() {
       context.checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED
   }
 
+  private fun sendBuds2Command(
+    deviceId: String,
+    commandId: Int,
+    commandFrame: ByteArray,
+    commandName: String,
+    promise: Promise,
+  ) {
+    controlExecutor.execute {
+      val context = appContext.reactContext
+      if (context == null) {
+        promise.resolve(controlResult(commandName, "blocked", "Android bağlamı hazır değil."))
+        return@execute
+      }
+      if (!hasConnectPermission(context)) {
+        promise.resolve(controlResult(commandName, "blocked", "Yakındaki cihazlar izni gerekli."))
+        return@execute
+      }
+      val adapter = bluetoothAdapter(context)
+      if (adapter == null || !adapter.isEnabled) {
+        promise.resolve(controlResult(commandName, "blocked", "Bluetooth kapalı veya kullanılamıyor."))
+        return@execute
+      }
+      val device = try {
+        adapter.bondedDevices.orEmpty().firstOrNull { it.address == deviceId }
+      } catch (_: SecurityException) {
+        null
+      }
+      if (device == null || !isLikelyBuds2(safeDeviceName(device))) {
+        promise.resolve(controlResult(commandName, "blocked", "Bağlı ve eşlenmiş bir Galaxy Buds2 bulunamadı."))
+        return@execute
+      }
+
+      var socket: BluetoothSocket? = null
+      try {
+        if (adapter.isDiscovering) adapter.cancelDiscovery()
+        socket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(Buds2Protocol.SERVICE_UUID))
+        socket.connect()
+        val output = socket.outputStream
+        output.write(Buds2Protocol.managerInfo(Build.VERSION.SDK_INT))
+        output.flush()
+        output.write(commandFrame)
+        output.flush()
+        val confirmed = awaitCommandConfirmation(socket, commandId)
+        if (confirmed) {
+          promise.resolve(controlResult(commandName, "confirmed", "Kulaklık komutu onayladı."))
+        } else {
+          promise.resolve(controlResult(commandName, "sent_no_ack", "Komut iletildi ancak Buds2 onayı alınamadı. Değişikliği kulaklıktan kontrol edin."))
+        }
+      } catch (_: IOException) {
+        promise.resolve(controlResult(commandName, "failed", "RFCOMM bağlantısı kurulamadı. Galaxy Wearable'ı kapatıp Buds2 bağlıyken yeniden deneyin."))
+      } catch (_: SecurityException) {
+        promise.resolve(controlResult(commandName, "blocked", "Bluetooth erişimi işlem sırasında engellendi."))
+      } finally {
+        try {
+          socket?.close()
+        } catch (_: IOException) {
+          // Soket zaten kapatılmış olabilir.
+        }
+      }
+    }
+  }
+
+  private fun awaitCommandConfirmation(socket: BluetoothSocket, commandId: Int): Boolean {
+    val input = socket.inputStream
+    val buffer = mutableListOf<Byte>()
+    val deadline = System.currentTimeMillis() + COMMAND_CONFIRMATION_TIMEOUT_MS
+    while (System.currentTimeMillis() < deadline) {
+      val available = input.available()
+      if (available > 0) {
+        val chunk = ByteArray(available)
+        val count = input.read(chunk)
+        if (count > 0) {
+          buffer.addAll(chunk.take(count))
+          if (Buds2Protocol.wasCommandAccepted(buffer.toByteArray(), commandId)) return true
+        }
+      }
+      try {
+        Thread.sleep(COMMAND_POLL_INTERVAL_MS)
+      } catch (_: InterruptedException) {
+        Thread.currentThread().interrupt()
+        return false
+      }
+    }
+    return false
+  }
+
   private fun discoverNearbyDevices(context: Context, adapter: BluetoothAdapter, promise: Promise) {
     val completed = AtomicBoolean(false)
     val discoveredDevices = linkedMapOf<String, BluetoothDevice>()
     try {
-      adapter.bondedDevices.orEmpty().forEach { device ->
-        discoveredDevices[device.address] = device
-      }
+      adapter.bondedDevices.orEmpty().forEach { device -> discoveredDevices[device.address] = device }
     } catch (_: SecurityException) {
-      // Tarama yine de yeni cihazları ekleyebilir.
+      // Tarama yeni cihazları yine de ekleyebilir.
     }
 
     var receiver: BroadcastReceiver? = null
@@ -127,7 +226,7 @@ class Buds2BridgeModule : Module() {
       try {
         if (adapter.isDiscovering) adapter.cancelDiscovery()
       } catch (_: SecurityException) {
-        // İzin, tarama boyunca sistem tarafından geri alınmış olabilir.
+        // İzin tarama boyunca sistem tarafından geri alınmış olabilir.
       }
       val devices = discoveredDevices.values
         .map { device -> deviceMap(device, false, false) }
@@ -145,12 +244,10 @@ class Buds2BridgeModule : Module() {
         }
       }
     }
-
     val filter = IntentFilter().apply {
       addAction(BluetoothDevice.ACTION_FOUND)
       addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
     }
-
     try {
       val activeReceiver = receiver ?: run {
         finish("scan_receiver_unavailable")
@@ -194,19 +291,15 @@ class Buds2BridgeModule : Module() {
     val headsetAddresses = mutableSetOf<String>()
     val completedProfiles = mutableSetOf<Int>()
     val profiles = intArrayOf(BluetoothProfile.A2DP, BluetoothProfile.HEADSET)
-
     fun resolveSnapshot() {
       if (!resolved.compareAndSet(false, true)) return
       val devices = synchronized(lock) {
         bondedDevices
-          .map { device ->
-            deviceMap(device, a2dpAddresses.contains(device.address), headsetAddresses.contains(device.address))
-          }
+          .map { device -> deviceMap(device, a2dpAddresses.contains(device.address), headsetAddresses.contains(device.address)) }
           .sortedBy { item -> (item["name"] as? String ?: "").lowercase() }
       }
       promise.resolve(baseSnapshot(true, true, true, devices))
     }
-
     fun completeProfile(profile: Int, proxy: BluetoothProfile?, devices: List<BluetoothDevice>) {
       val shouldResolve = synchronized(lock) {
         if (!completedProfiles.add(profile)) {
@@ -221,7 +314,6 @@ class Buds2BridgeModule : Module() {
       if (proxy != null) adapter.closeProfileProxy(profile, proxy)
       if (shouldResolve) resolveSnapshot()
     }
-
     profiles.forEach { profile ->
       val requested = adapter.getProfileProxy(
         context,
@@ -234,7 +326,6 @@ class Buds2BridgeModule : Module() {
             }
             completeProfile(connectedProfile, proxy, devices)
           }
-
           override fun onServiceDisconnected(disconnectedProfile: Int) {
             completeProfile(disconnectedProfile, null, emptyList())
           }
@@ -243,7 +334,6 @@ class Buds2BridgeModule : Module() {
       )
       if (!requested) completeProfile(profile, null, emptyList())
     }
-
     mainHandler.postDelayed({ resolveSnapshot() }, PROFILE_QUERY_TIMEOUT_MS)
   }
 
@@ -269,16 +359,12 @@ class Buds2BridgeModule : Module() {
     return baseSnapshot(false, false, false, emptyList(), reason)
   }
 
-  private fun deviceMap(
-    device: BluetoothDevice,
-    a2dpConnected: Boolean,
-    headsetConnected: Boolean,
-  ): Map<String, Any?> {
-    val name = try {
-      device.name ?: "Adsız Bluetooth cihazı"
-    } catch (_: SecurityException) {
-      "Bluetooth cihazı"
-    }
+  private fun controlResult(command: String, status: String, message: String): Map<String, String> {
+    return mapOf("command" to command, "status" to status, "message" to message)
+  }
+
+  private fun deviceMap(device: BluetoothDevice, a2dpConnected: Boolean, headsetConnected: Boolean): Map<String, Any?> {
+    val name = safeDeviceName(device).ifBlank { "Adsız Bluetooth cihazı" }
     val address = try {
       device.address
     } catch (_: SecurityException) {
@@ -289,7 +375,6 @@ class Buds2BridgeModule : Module() {
     } catch (_: SecurityException) {
       false
     }
-
     return mapOf(
       "id" to address,
       "name" to name,
@@ -300,6 +385,14 @@ class Buds2BridgeModule : Module() {
       "headsetConnected" to headsetConnected,
       "batteryLevel" to null,
     )
+  }
+
+  private fun safeDeviceName(device: BluetoothDevice): String {
+    return try {
+      device.name ?: ""
+    } catch (_: SecurityException) {
+      ""
+    }
   }
 
   private fun deviceTypeName(type: Int): String {
@@ -313,13 +406,13 @@ class Buds2BridgeModule : Module() {
 
   private fun isLikelyBuds2(name: String): Boolean {
     val normalizedName = name.lowercase()
-    return normalizedName.contains("galaxy buds2") ||
-      normalizedName.contains("buds2") ||
-      normalizedName.contains("sm-r177")
+    return normalizedName.contains("galaxy buds2") || normalizedName.contains("buds2") || normalizedName.contains("sm-r177")
   }
 
   private companion object {
     const val PROFILE_QUERY_TIMEOUT_MS = 1200L
     const val DISCOVERY_TIMEOUT_MS = 16_000L
+    const val COMMAND_CONFIRMATION_TIMEOUT_MS = 2_000L
+    const val COMMAND_POLL_INTERVAL_MS = 50L
   }
 }
