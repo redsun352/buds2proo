@@ -11,6 +11,7 @@ import {
   collectDiagnosticTest,
   formatDiagnosticReport,
   readDiagnosticLog,
+  saveDiagnosticReport,
   shareDiagnosticReport,
   type DiagnosticReport,
 } from "@/lib/buds2/diagnostic-service";
@@ -26,6 +27,7 @@ export default function HelpScreen() {
   const [diagnosticLength, setDiagnosticLength] = useState(0);
   const [diagnosticReport, setDiagnosticReport] = useState<DiagnosticReport | null>(null);
   const [diagnosticBusy, setDiagnosticBusy] = useState(false);
+  const [savedDiagnosticUri, setSavedDiagnosticUri] = useState<string | null>(null);
 
   const refreshDiagnosticLength = async () => {
     const content = await readDiagnosticLog();
@@ -46,6 +48,22 @@ export default function HelpScreen() {
     } catch {
       Alert.alert("Tanı başarısız", "Bluetooth durum raporu oluşturulamadı.");
     } finally {
+      setDiagnosticBusy(false);
+    }
+  };
+
+  const handleSaveDiagnostic = async () => {
+    setDiagnosticBusy(true);
+    try {
+      const report = diagnosticReport ?? await collectDiagnosticTest(refresh);
+      setDiagnosticReport(report);
+      const uri = await saveDiagnosticReport(report);
+      setSavedDiagnosticUri(uri);
+      Alert.alert("Rapor kaydedildi", "Tanı raporu seçtiğiniz klasöre kaydedildi.");
+    } catch {
+      Alert.alert("Kayıt iptal edildi", "Bir klasör seçilmedi veya rapor kaydedilemedi.");
+    } finally {
+      await refreshDiagnosticLength();
       setDiagnosticBusy(false);
     }
   };
@@ -75,6 +93,7 @@ export default function HelpScreen() {
           setDiagnosticBusy(true);
           await clearDiagnosticLog();
           setDiagnosticReport(null);
+          setSavedDiagnosticUri(null);
           setDiagnosticLength(0);
           setDiagnosticBusy(false);
         },
@@ -139,11 +158,13 @@ export default function HelpScreen() {
           <Text style={styles.diagnosticMeta}>
             {diagnosticLength > 0 ? `${diagnosticLength} karakter kayıt hazır` : "Henüz kayıt yok"}
           </Text>
+          {savedDiagnosticUri ? <Text style={styles.savedDiagnosticText}>Dosya seçtiğiniz konuma kaydedildi.</Text> : null}
           <View style={styles.diagnosticActions}>
-            <TactileButton label={diagnosticBusy ? "Test çalışıyor…" : "Otomatik testi çalıştır"} onPress={() => void handleRunDiagnostic()} style={styles.diagnosticButton} />
-            <TactileButton label="Kaydı yenile" onPress={() => void refreshDiagnosticLength()} style={styles.diagnosticButton} />
-            <TactileButton label={diagnosticBusy ? "Hazırlanıyor…" : "Raporu paylaş"} onPress={() => void handleShareDiagnostic()} style={styles.diagnosticButton} />
-            <TactileButton label="Temizle" onPress={handleClearDiagnostic} style={styles.diagnosticButton} />
+            <TactileButton disabled={diagnosticBusy} label={diagnosticBusy ? "Test çalışıyor…" : "Otomatik testi çalıştır"} onPress={() => void handleRunDiagnostic()} style={styles.diagnosticButton} />
+            <TactileButton disabled={diagnosticBusy} label="Kaydı yenile" onPress={() => void refreshDiagnosticLength()} style={styles.diagnosticButton} />
+            <TactileButton disabled={diagnosticBusy} label={diagnosticBusy ? "Hazırlanıyor…" : "Raporu paylaş"} onPress={() => void handleShareDiagnostic()} style={styles.diagnosticButton} />
+            <TactileButton disabled={diagnosticBusy} label="Dosyaya kaydet" onPress={() => void handleSaveDiagnostic()} style={styles.diagnosticButton} />
+            <TactileButton disabled={diagnosticBusy} label="Temizle" onPress={handleClearDiagnostic} style={styles.diagnosticButton} />
           </View>
         </View>
 
@@ -186,6 +207,7 @@ const styles = StyleSheet.create({
   diagnosticButton: { marginTop: 0 },
   diagnosticCard: { backgroundColor: "#1C2230", borderColor: "#2A3447", borderRadius: 18, borderWidth: 1, marginTop: 10, padding: 15 },
   diagnosticMeta: { color: "#80D4FF", fontSize: 12, fontWeight: "800", marginTop: 10 },
+  savedDiagnosticText: { color: "#70DEAC", fontSize: 12, lineHeight: 18, marginTop: 6 },
   sectionTitle: { color: "#F0F5FB", fontSize: 17, fontWeight: "800", marginTop: 27 },
   settingsButton: { marginTop: 22 },
   stepBody: { color: "#9AA8BC", fontSize: 12, lineHeight: 18, marginTop: 4 },

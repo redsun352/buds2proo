@@ -73,9 +73,15 @@
 - [x] Tanı seçeneklerini görünür bir Yardım ekranı kartı ve release sürüm etiketiyle yeniden doğrula.
 - [x] Görünür tanı arayüzünü içeren yeni Android release APK'sını üretip teslim et.
 
-- [ ] Uçtan uca denetim: tüm sekmelerdeki butonların, navigation akışlarının ve hata durumlarının çalıştığını kontrol et.
-- [ ] Cihaz keşfi, eşleşme, bağlantı profilleri ve Android izin akışındaki eksikleri tamamla.
+- [x] Uçtan uca denetim: tüm sekmelerdeki butonların, navigation akışlarının ve hata durumlarının çalıştığını kontrol et.
+- [x] Cihaz keşfi, eşleşme, bağlantı profilleri ve Android izin akışındaki eksikleri tamamla.
 - [ ] Pil/status veri yolunu, eksik veri durumlarını ve yenileme davranışını tamamla.
 - [ ] ANC/EQ DSP komutları, ACK/timeout hata durumları ve güvenli geri bildirim akışını tamamla.
-- [ ] Otomatik tanı testi, rapor oluşturma ve paylaşma akışını uçtan uca doğrula.
-- [ ] Release kaynak eşleşmesini, temiz prebuild, testler ve yeni APK derlemesini doğrula.
+- [x] Otomatik tanı testi, rapor oluşturma ve paylaşma akışını uçtan uca doğrula.
+- [x] Release kaynak eşleşmesini, temiz prebuild, testler ve yeni APK derlemesini doğrula.
+
+- [ ] Buds2 bağlantı olayında otomatik tanıyı oturum başına bir kez başlat.
+- [ ] Bağlantı kesilip yeniden bağlanınca yeni test oturumunu güvenli biçimde tetikle; uygulama açık değilken davranışı sınırla.
+- [ ] Test bitiminde Android sistem dosya kaydetme ekranını açıp kullanıcı seçtiği konuma raporu yaz.
+- [ ] Otomatik test ilerlemesi, tamamlanma durumu ve yeniden çalıştırma seçeneğini arayüzde göster.
+- [ ] Otomatik bağlantı/test/kayıt akışını test edip yeni release APK'sını hazırla.

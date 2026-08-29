@@ -1,4 +1,5 @@
 import * as FileSystem from "expo-file-system/legacy";
+import { Directory } from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
 import { Buds2BridgeModule } from "@/modules/buds2-bridge";
@@ -71,6 +72,13 @@ export async function writeDiagnosticReport(report: DiagnosticReport): Promise<s
     encoding: FileSystem.EncodingType.UTF8,
   });
   return uri;
+}
+
+export async function saveDiagnosticReport(report: DiagnosticReport): Promise<string> {
+  const directory = await Directory.pickDirectoryAsync();
+  const file = directory.createFile(DIAGNOSTIC_FILENAME, "text/plain");
+  file.write(formatDiagnosticReport(report));
+  return file.uri;
 }
 
 export async function shareDiagnosticReport(report: DiagnosticReport): Promise<"shared" | "unavailable"> {
