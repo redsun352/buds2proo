@@ -100,6 +100,19 @@ class Buds2BridgeModule : Module() {
       sendBuds2Command(deviceId, Buds2Protocol.EQUALIZER, frame, "equalizer", promise)
     }
 
+    AsyncFunction("applyTouchLock") { deviceId: String, locked: Boolean, promise: Promise ->
+      sendBuds2Command(deviceId, Buds2Protocol.LOCK_TOUCHPAD, Buds2Protocol.touchLock(locked), "touch_lock", promise)
+    }
+
+    AsyncFunction("applyTouchOptions") { deviceId: String, left: String, right: String, promise: Promise ->
+      val frame = Buds2Protocol.touchOptions(left, right)
+      if (frame == null) {
+        promise.resolve(controlResult("touch_options", "blocked", "Geçersiz dokunmatik eylemi seçildi."))
+        return@AsyncFunction
+      }
+      sendBuds2Command(deviceId, Buds2Protocol.SET_TOUCHPAD_OPTION, frame, "touch_options", promise)
+    }
+
     Function("openBluetoothSettings") {
       val context = appContext.reactContext ?: return@Function false
       context.startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

@@ -8,11 +8,21 @@ import { useBuds2Control } from "@/hooks/use-buds2-control";
 import { useListeningPreferences } from "@/hooks/use-listening-preferences";
 import { equalizerCommandForPreference, noiseModeForAmbientProfile } from "@/lib/buds2/control-contract";
 import type { AmbientProfile, EqualizerPreset } from "@/lib/buds2/preferences";
+import type { Buds2TouchAction } from "@/modules/buds2-bridge";
 
 const AMBIENT_OPTIONS: { key: AmbientProfile; title: string; description: string; icon: keyof typeof MaterialCommunityIcons.glyphMap }[] = [
   { key: "odak", title: "Odak", description: "Dış dünyayı en aza indirgemeyi hedefleyen tercih", icon: "headphones" },
   { key: "dengeli", title: "Dengeli", description: "Günlük dinleme için nötr varsayılan", icon: "scale-balance" },
   { key: "farkındalık", title: "Farkındalık", description: "Çevrede olup bitene daha açık kalma notu", icon: "ear-hearing" },
+];
+
+const TOUCH_ACTION_OPTIONS: { key: Buds2TouchAction; title: string }[] = [
+  { key: "noise_control", title: "Gürültü modu" },
+  { key: "volume", title: "Ses düzeyi" },
+  { key: "voice_assistant", title: "Sesli asistan" },
+  { key: "spotify", title: "Spotify" },
+  { key: "other_left", title: "Sol özel" },
+  { key: "other_right", title: "Sağ özel" },
 ];
 
 const EQUALIZER_OPTIONS: { key: EqualizerPreset; title: string; description: string }[] = [
@@ -26,8 +36,11 @@ const EQUALIZER_OPTIONS: { key: EqualizerPreset; title: string; description: str
 
 export default function PreferencesScreen() {
   const { preferences, isReady, updatePreferences } = useListeningPreferences();
-  const { device, isApplying, isAvailable, refresh, setEqualizer, setNoiseControl } = useBuds2Control();
+  const { device, isApplying, isAvailable, refresh, setEqualizer, setNoiseControl, setTouchLock, setTouchOptions } = useBuds2Control();
   const [isSaving, setIsSaving] = useState(false);
+  const [touchLocked, setTouchLocked] = useState(false);
+  const [leftTouchAction, setLeftTouchAction] = useState<Buds2TouchAction>("noise_control");
+  const [rightTouchAction, setRightTouchAction] = useState<Buds2TouchAction>("noise_control");
   const [controlNotice, setControlNotice] = useState<string | null>(null);
 
   const save = async (nextValues: Omit<typeof preferences, "updatedAt">) => {
@@ -67,6 +80,36 @@ export default function PreferencesScreen() {
 
   const toggleReminder = (touchReminderEnabled: boolean) => {
     void save({ ...preferences, touchReminderEnabled });
+  };
+
+  const toggleTouchLock = async (locked: boolean) => {
+    setIsSaving(true);
+    try {
+      const result = await setTouchLock(locked);
+      setControlNotice(result.message);
+      if (result.status === "confirmed") setTouchLocked(locked);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const chooseTouchAction = async (side: "left" | "right") => {
+    const current = side === "left" ? leftTouchAction : rightTouchAction;
+    const currentIndex = TOUCH_ACTION_OPTIONS.findIndex((option) => option.key === current);
+    const next = TOUCH_ACTION_OPTIONS[(currentIndex + 1) % TOUCH_ACTION_OPTIONS.length].key;
+    const left = side === "left" ? next : leftTouchAction;
+    const right = side === "right" ? next : rightTouchAction;
+    setIsSaving(true);
+    try {
+      const result = await setTouchOptions(left, right);
+      setControlNotice(result.message);
+      if (result.status === "confirmed") {
+        if (side === "left") setLeftTouchAction(next);
+        else setRightTouchAction(next);
+      }
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -150,6 +193,34 @@ export default function PreferencesScreen() {
             })}
           </View>
 
+          <Text style={styles.sectionLabel}>DOKUNMATİK DENETİMLERİ</Text>
+          <View style={styles.touchCard}>
+            <View style={styles.switchRowCompact}>
+              <View style={styles.switchCopy}>
+                <Text style={styles.switchTitle}>Dokunmatik kilidi</Text>
+                <Text style={styles.switchDescription}>Kulaklık üzerindeki tüm dokunuşları kilitle.</Text>
+              </View>
+              <Switch
+                disabled={!isAvailable || isApplying || isSaving}
+                onValueChange={(value) => void toggleTouchLock(value)}
+                thumbColor={touchLocked ? "#E8F6FF" : "#B7C3D5"}
+                trackColor={{ false: "#3A4558", true: "#337394" }}
+                value={touchLocked}
+              />
+            </View>
+            <Text style={styles.touchHint}>Bir seçeneğe dokunarak sol veya sağ kulaklığın uzun basma eylemini sırayla değiştirin.</Text>
+            <View style={styles.touchActionRow}>
+              <Pressable disabled={!isAvailable || isApplying || isSaving} onPress={() => void chooseTouchAction("left")} style={({ pressed }) => [styles.touchAction, pressed && styles.pressed, (!isAvailable || isApplying || isSaving) && styles.optionDisabled]}>
+                <Text style={styles.touchSide}>SOL</Text>
+                <Text style={styles.touchActionTitle}>{TOUCH_ACTION_OPTIONS.find((option) => option.key === leftTouchAction)?.title}</Text>
+              </Pressable>
+              <Pressable disabled={!isAvailable || isApplying || isSaving} onPress={() => void chooseTouchAction("right")} style={({ pressed }) => [styles.touchAction, pressed && styles.pressed, (!isAvailable || isApplying || isSaving) && styles.optionDisabled]}>
+                <Text style={styles.touchSide}>SAĞ</Text>
+                <Text style={styles.touchActionTitle}>{TOUCH_ACTION_OPTIONS.find((option) => option.key === rightTouchAction)?.title}</Text>
+              </Pressable>
+            </View>
+          </View>
+
           <View style={styles.switchRow}>
             <View style={styles.switchCopy}>
               <Text style={styles.switchTitle}>Dokunmatik kontrol notu</Text>
@@ -166,7 +237,7 @@ export default function PreferencesScreen() {
           <View style={styles.infoCard}>
             <MaterialCommunityIcons color="#80D4FF" name="lock-outline" size={20} />
             <Text style={styles.infoCopy}>
-              ANC ve ekolayzır deneysel RFCOMM kontrolüyle gönderilir. Kulaklık onay vermezse seçenek değiştirilmiş sayılmaz. Dokunmatik kontroller bu sürümde yalnızca hatırlatıcı olarak saklanır.
+              ANC, ekolayzır ve dokunmatik ayarlar Buds2’nin dahili firmware/DSP katmanına RFCOMM üzerinden gönderilir. Kulaklık onay vermezse değişiklik uygulanmış sayılmaz. Galaxy Wearable veya başka bir Buds istemcisi açıkken bağlantı çakışabilir.
             </Text>
           </View>
 
@@ -215,6 +286,13 @@ const styles = StyleSheet.create({
   saveText: { color: "#8190A7", fontSize: 12, marginTop: 13, textAlign: "center" },
   sectionLabel: { color: "#80D4FF", fontSize: 11, fontWeight: "800", letterSpacing: 1, marginTop: 22 },
   switchCopy: { flex: 1, paddingRight: 14 },
+  switchRowCompact: { alignItems: "center", flexDirection: "row", justifyContent: "space-between" },
+  touchAction: { backgroundColor: "#202B3B", borderColor: "#32445E", borderRadius: 14, borderWidth: 1, flex: 1, minHeight: 69, padding: 12 },
+  touchActionRow: { flexDirection: "row", gap: 10, marginTop: 11 },
+  touchActionTitle: { color: "#EAF1F8", fontSize: 13, fontWeight: "800", marginTop: 7 },
+  touchCard: { backgroundColor: "#1C2230", borderColor: "#2A3447", borderRadius: 18, borderWidth: 1, marginTop: 10, padding: 15 },
+  touchHint: { color: "#98A6B9", fontSize: 12, lineHeight: 18, marginTop: 8 },
+  touchSide: { color: "#80D4FF", fontSize: 10, fontWeight: "800", letterSpacing: 1 },
   switchDescription: { color: "#98A6B9", fontSize: 12, lineHeight: 18, marginTop: 3 },
   switchRow: { alignItems: "center", backgroundColor: "#1C2230", borderColor: "#2A3447", borderRadius: 18, borderWidth: 1, flexDirection: "row", justifyContent: "space-between", marginTop: 20, padding: 15 },
   switchTitle: { color: "#EAF1F8", fontSize: 14, fontWeight: "800" },

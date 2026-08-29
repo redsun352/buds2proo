@@ -4,9 +4,10 @@ export type BluetoothPermissionState = "granted" | "denied" | "not-requested" | 
 export type Buds2NoiseControlMode = "off" | "anc" | "ambient";
 export type Buds2EqualizerPreset = "normal" | "bass_boost" | "soft" | "dynamic" | "clear" | "treble_boost";
 export type Buds2ControlStatus = "confirmed" | "sent_no_ack" | "blocked" | "failed";
+export type Buds2TouchAction = "voice_assistant" | "noise_control" | "volume" | "spotify" | "other_left" | "other_right";
 
 export interface Buds2ControlResult {
-  command: "noise_control" | "equalizer";
+  command: "noise_control" | "equalizer" | "touch_lock" | "touch_options";
   status: Buds2ControlStatus;
   message: string;
 }
@@ -43,6 +44,8 @@ export interface Buds2NativeModule {
   discoverBluetoothDevices(): Promise<BluetoothSnapshot>;
   applyNoiseControl(deviceId: string, mode: Buds2NoiseControlMode): Promise<Buds2ControlResult>;
   applyEqualizer: (deviceId: string, preset: Buds2EqualizerPreset) => Promise<Buds2ControlResult>;
+  applyTouchLock: (deviceId: string, locked: boolean) => Promise<Buds2ControlResult>;
+  applyTouchOptions: (deviceId: string, left: Buds2TouchAction, right: Buds2TouchAction) => Promise<Buds2ControlResult>;
   getDiagnosticLog: () => Promise<string>;
   clearDiagnosticLog: () => Promise<boolean>;
   openBluetoothSettings: () => boolean;

@@ -8,6 +8,8 @@ object Buds2Protocol {
   const val SERVICE_UUID = "2e73a4ad-332d-41fc-90e2-16bef06523f2"
   const val NOISE_CONTROLS = 120
   const val EQUALIZER = 134
+  const val LOCK_TOUCHPAD = 144
+  const val SET_TOUCHPAD_OPTION = 146
   private const val MANAGER_INFO = 136
   const val EXTENDED_STATUS_UPDATED = 97
   private const val RESPONSE = 81
@@ -24,6 +26,28 @@ object Buds2Protocol {
       else -> return null
     }
     return encode(NOISE_CONTROLS, byteArrayOf(value.toByte()))
+  }
+
+  fun touchLock(locked: Boolean): ByteArray {
+    val enabled = if (locked) 0 else 1
+    // Buds2 supports tap, double-tap, triple-tap, hold and call touch flags.
+    return encode(LOCK_TOUCHPAD, ByteArray(7) { enabled.toByte() })
+  }
+
+  fun touchOptions(left: String, right: String): ByteArray? {
+    val leftValue = touchActionValue(left) ?: return null
+    val rightValue = touchActionValue(right) ?: return null
+    return encode(SET_TOUCHPAD_OPTION, byteArrayOf(leftValue, rightValue))
+  }
+
+  private fun touchActionValue(action: String): Byte? = when (action) {
+    "voice_assistant" -> 1
+    "noise_control" -> 2
+    "volume" -> 3
+    "spotify" -> 4
+    "other_left" -> 5
+    "other_right" -> 6
+    else -> null
   }
 
   fun equalizer(preset: String): ByteArray? {

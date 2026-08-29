@@ -1,0 +1,899 @@
+=== Buds2 device specs ===
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/IDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/StubDeviceSpec.cs
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2AbsoluteBlack-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2AbsoluteBlack-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2Black-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2Black-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2Green-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2Green-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2Grey-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2Grey-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2MaisonKitsune-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2MaisonKitsune-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2ProGrey-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2ProGrey-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2ProViolet-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2ProViolet-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2ProWhite-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2ProWhite-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2ThomBrown-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2ThomBrown-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2Violet-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2Violet-1.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2White-0.png
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Resources/Device/Realistic/Buds2White-1.png
+
+=== message ids ===
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:14:    AMBIENT_WEARING_STATUS_UPDATED = 137,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:46:    SET_MODE_CHANGE = 16,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:51:    HIDDEN_FACTORYINFO_MODE1 = 21, // also called: COMMAND_FOR_TEST_HANDLER
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:52:    HIDDEN_FACTORYINFO_MODE2 = 22,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:53:    HIDDEN_FACTORYINFO_MODE3 = 23,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:62:    SET_DEBUG_MODE = 32,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:63:    DEBUG_MODE_LOG = 33,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:64:    DEBUG_SKU = 34,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:66:    DEBUG_GET_VERSION = 36,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:68:    DEBUG_GET_ALL_DATA = 38,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:70:    DEBUG_BUILD_INFO = 40,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:71:    DEBUG_SERIAL_NUMBER = 41,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:75:    TOUCH_ON_BUDS = 45,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:91:    LOG_SET_CONFIG = 61,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:117:    STATUS_ALERT = 87, // Buds3Pro: sent, if water is detected and charging is stopped
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:126:    STATUS_UPDATED = 96,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:127:    EXTENDED_STATUS_UPDATED = 97,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:130:    SET_HOT_COMMAND = 100,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:132:    SET_BIXBY_KEYWORD = 102,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:133:    SET_HEARING_TEST_RESULT = 103,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:140:    SET_CALL_PATH_CONTROL = 110,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:141:    SET_ANC_WITH_ONE_EARBUD = 111,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:149:    NOISE_CONTROLS_UPDATE = 119,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:150:    NOISE_CONTROLS = 120,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:151:    SET_TOUCH_AND_HOLD_NOISE_CONTROLS = 121,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:152:    SET_DETECT_CONVERSATIONS = 122,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:153:    SET_DETECT_CONVERSATIONS_DURATION = 123,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:154:    SET_SPATIAL_AUDIO = 124,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:155:    SET_SPEAK_SEAMLESSLY = 125,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:156:    SET_AMPLIFY_AMBIENT_SOUND = 126,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:158:    SET_AMBIENT_MODE = 128,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:160:    CUSTOMIZE_AMBIENT_SOUND = 130, /* prior: SET_A2DP_VOL */
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:161:    NOISE_REDUCTION_LEVEL = 131,  /* prior: A2DP_VOLUME_UPDATED */
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:164:    EQUALIZER = 134,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:167:    CUSTOM_EQUALIZE_SEND = 137, /* prior: AMBIENT_WEARING_STATUS_UPDATED */
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:168:    SET_IN_BAND_RINGTONE = 138,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:169:    SET_SIDETONE = 139,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:173:    SET_HEARING_ENHANCEMENTS = 143,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:174:    LOCK_TOUCHPAD = 144,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:175:    TOUCH_UPDATED = 145,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:176:    SET_TOUCHPAD_OPTION = 146,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:177:    SET_TOUCHPAD_OTHER_OPTION = 147,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:178:    BATTERY_TYPE = 148,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:181:    SET_VOICE_WAKE_UP = 151,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:182:    SET_NOISE_REDUCTION = 152,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:185:    NOISE_REDUCTION_MODE_UPDATE = 155,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:186:    VOICE_WAKE_UP_LISTENING_STATUS = 156,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:193:    MUTE_EARBUD_STATUS_UPDATED = 163,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:194:    VOICE_NOTI_STATUS = 164,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:201:    SELF_TEST = 171,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:202:    SET_FMM_CONFIG = 172,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:205:    SET_SEAMLESS_CONNECTION = 175,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:213:    FOTA_CHANGE_HALL_IC_STATUS = 183,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:223:    SET_VOICE_CMD = 193,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:227:    SET_ADAPTIVE_VOLUME_ENABLED = 197,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:234:    HEARING_TEST_DATA = 204, // previous: READ_BATTERY_RECOVERY_VOLTAGE
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:236:    SOC_BATTERY_CYCLE = 206,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:237:    RESET_BATTERY_SOC_CYCLE = 207,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:249:    ADAPTIVE_EQ_STATUS = 219,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:271:    DEBUG_ERROR_CODE = 241, 
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:272:    DEBUG_EVENT = 242,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:280:    SD_BATTERY_STATUS = 250,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:284:    SD_TOUCH_RES = 254,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:285:    SET_TOUCH_TYPE = 255
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:324:    UPDATE_FAILED_TO_SET_LENGTH = 16,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:325:    UPDATE_FAILED_TO_SET_CRC32 = 17,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:336:    APP_STATUS_BASE_CODE = 128,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:363:    APP_SYS_LOW_BATTERY = 155,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:401:    APP_STATUS_END_CODE = 256
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:14:    AMBIENT_WEARING_STATUS_UPDATED = 137,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:46:    SET_MODE_CHANGE = 16,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:51:    HIDDEN_FACTORYINFO_MODE1 = 21, // also called: COMMAND_FOR_TEST_HANDLER
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:52:    HIDDEN_FACTORYINFO_MODE2 = 22,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:53:    HIDDEN_FACTORYINFO_MODE3 = 23,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:62:    SET_DEBUG_MODE = 32,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:63:    DEBUG_MODE_LOG = 33,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:64:    DEBUG_SKU = 34,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:66:    DEBUG_GET_VERSION = 36,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:68:    DEBUG_GET_ALL_DATA = 38,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:70:    DEBUG_BUILD_INFO = 40,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:71:    DEBUG_SERIAL_NUMBER = 41,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:75:    TOUCH_ON_BUDS = 45,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:91:    LOG_SET_CONFIG = 61,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:117:    STATUS_ALERT = 87, // Buds3Pro: sent, if water is detected and charging is stopped
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:126:    STATUS_UPDATED = 96,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:127:    EXTENDED_STATUS_UPDATED = 97,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:130:    SET_HOT_COMMAND = 100,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:132:    SET_BIXBY_KEYWORD = 102,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:133:    SET_HEARING_TEST_RESULT = 103,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:140:    SET_CALL_PATH_CONTROL = 110,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:141:    SET_ANC_WITH_ONE_EARBUD = 111,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:149:    NOISE_CONTROLS_UPDATE = 119,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:150:    NOISE_CONTROLS = 120,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:151:    SET_TOUCH_AND_HOLD_NOISE_CONTROLS = 121,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:152:    SET_DETECT_CONVERSATIONS = 122,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:153:    SET_DETECT_CONVERSATIONS_DURATION = 123,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:154:    SET_SPATIAL_AUDIO = 124,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:155:    SET_SPEAK_SEAMLESSLY = 125,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:156:    SET_AMPLIFY_AMBIENT_SOUND = 126,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:158:    SET_AMBIENT_MODE = 128,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:160:    CUSTOMIZE_AMBIENT_SOUND = 130, /* prior: SET_A2DP_VOL */
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:161:    NOISE_REDUCTION_LEVEL = 131,  /* prior: A2DP_VOLUME_UPDATED */
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:164:    EQUALIZER = 134,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:167:    CUSTOM_EQUALIZE_SEND = 137, /* prior: AMBIENT_WEARING_STATUS_UPDATED */
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:168:    SET_IN_BAND_RINGTONE = 138,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:169:    SET_SIDETONE = 139,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:173:    SET_HEARING_ENHANCEMENTS = 143,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:174:    LOCK_TOUCHPAD = 144,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:175:    TOUCH_UPDATED = 145,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:176:    SET_TOUCHPAD_OPTION = 146,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:177:    SET_TOUCHPAD_OTHER_OPTION = 147,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:178:    BATTERY_TYPE = 148,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:181:    SET_VOICE_WAKE_UP = 151,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:182:    SET_NOISE_REDUCTION = 152,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:185:    NOISE_REDUCTION_MODE_UPDATE = 155,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:186:    VOICE_WAKE_UP_LISTENING_STATUS = 156,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:193:    MUTE_EARBUD_STATUS_UPDATED = 163,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:194:    VOICE_NOTI_STATUS = 164,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:201:    SELF_TEST = 171,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:202:    SET_FMM_CONFIG = 172,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:205:    SET_SEAMLESS_CONNECTION = 175,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:213:    FOTA_CHANGE_HALL_IC_STATUS = 183,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:223:    SET_VOICE_CMD = 193,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:227:    SET_ADAPTIVE_VOLUME_ENABLED = 197,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:234:    HEARING_TEST_DATA = 204, // previous: READ_BATTERY_RECOVERY_VOLTAGE
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:236:    SOC_BATTERY_CYCLE = 206,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:237:    RESET_BATTERY_SOC_CYCLE = 207,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:249:    ADAPTIVE_EQ_STATUS = 219,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:271:    DEBUG_ERROR_CODE = 241, 
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:272:    DEBUG_EVENT = 242,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:280:    SD_BATTERY_STATUS = 250,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:284:    SD_TOUCH_RES = 254,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:285:    SET_TOUCH_TYPE = 255
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:324:    UPDATE_FAILED_TO_SET_LENGTH = 16,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:325:    UPDATE_FAILED_TO_SET_CRC32 = 17,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:336:    APP_STATUS_BASE_CODE = 128,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:363:    APP_SYS_LOW_BATTERY = 155,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppMessageEnums.cs:401:    APP_STATUS_END_CODE = 256
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:63:        FEATURE_BATTERY = 257,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:67:        FEATURE_TOUCH_LOCK = 261,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:79:        FEATURE_TOUCH_LONG_PRESS_HOTKEY_VOICE_ASSISTANT = 273,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:80:        FEATURE_TOUCH_LONG_PRESS_HOTKEY_ANC = 274,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:81:        FEATURE_TOUCH_LONG_PRESS_HOTKEY_AMBIENT = 275,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:82:        FEATURE_TOUCH_LONG_PRESS_HOTKEY_VOLUME_CTRL = 276,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:84:        FEATURE_TOUCH_LONG_PRESS_HOTKEY_MUSIC_PLAYER = 278,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:86:        FEATURE_TOUCH_CONTROL = 280,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:102:        STATE_BATTERY_L = 520,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:103:        STATE_BATTERY_R = 521,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:104:        STATE_BATTERY_CRADLE = 522,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:108:        STATE_TOUCH_LOCK = 526,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:109:        STATE_TOUCH_LONG_PRESS_HOTKEY_MAPPING_L = 527,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SppAlternativeMessage.cs:110:        STATE_TOUCH_LONG_PRESS_HOTKEY_MAPPING_R = 528,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SpatialSensorManager.cs:89:        await BluetoothImpl.Instance.SendRequestAsync(MsgIds.SET_SPATIAL_AUDIO, 1);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/SpatialSensorManager.cs:98:        await BluetoothImpl.Instance.SendRequestAsync(MsgIds.SET_SPATIAL_AUDIO, 0);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:29:        {0x0009,"TWU_AT_CMD_ID_TSP_SELF_TEST_ABS_VALUE_GET"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:35:        {0x0012,"TWU_AT_CMD_ID_ACC_SELFTEST"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:39:        {0x001C,"TWU_AT_CMD_ID_GYRO_SELFTEST"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:78:        {0x0055,"TWU_AT_CMD_ID_FACTORY_RESET"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:143:        {0x00CD,"TWU_AT_CMD_ID_BATT_POGO_STATUS_GET"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:158:        {0x00E2,"TWU_AT_CMD_ID_HALLIC_SH_SELFTEST"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:192:        {0x990F,"SET_HIGH_BATTERY"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:200:        {0x99F5,"TWU_AT_CMD_ID_RESET_SFLASH_FILE_STATE"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:201:        {0xAAAA,"TWU_AT_CMD_ID_SET_FACTORY_UART_DISABLE"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:208:        {0xAC06,"TWU_AT_CMD_ID_AUDIO_ANC_SET_BEST_FB_ADC"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:209:        {0xAC07,"TWU_AT_CMD_ID_AUDIO_ANC_SET_BEST_FF_ADC"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:216:        {0xAC0E,"TWU_AT_CMD_ID_AUDIO_ANC_SET_SWEEPSOUND_RESULT"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:222:        {0xAC14,"TWU_AT_CMD_ID_AUDIO_SET_EQ_MDOE"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:223:        {0xAC1E,"TWU_AT_CMD_ID_AUDIO_ANC_SET_GOLDEN_SAMPLE_DATA"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:262:        {0xF010, "TWU_AT_CMD_UNSET_USER_UART_ENABLE"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/HiddenCmds.cs:263:        {0xF011, "TWU_AT_CMD_SET_USER_UART_ENABLE"},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/Usage2ReportDecoder.cs:186:        { "9013", ("EARBUDS_LOW_BATTERY", []) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/Usage2ReportDecoder.cs:191:        { "9019", ("EARBUDS_ACTIVE_NOISE_CANCELING_DURATION", []) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/Usage2ReportDecoder.cs:192:        { "9021", ("EARBUDS_BATTERY_CONSUMPTION_FOR_EACH_USE", []) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/Usage2ReportDecoder.cs:200:        { "9029", ("NUM_OF_TIMES_DIFFERENCE_BATTERY_EXCEEDED_15_PERCENT_A_WEEK", []) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/Usage2ReportDecoder.cs:203:        { "EB0001", ("WEAR_BOTH_NOISE_CONTROL_OFF", []) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/Usage2ReportDecoder.cs:204:        { "EB0002", ("WEAR_LEFT_NOISE_CONTROL_OFF", []) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/Usage2ReportDecoder.cs:205:        { "EB0003", ("WEAR_RIGHT_NOISE_CONTROL_OFF", []) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/SelfTestDecoder.cs:6:[MessageDecoder(MsgIds.SELF_TEST)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/TouchUpdateDecoder.cs:6:[MessageDecoder(MsgIds.TOUCH_UPDATED)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/TouchAndHoldNoiseControlsEncoder.cs:8:[MessageEncoder(MsgIds.SET_TOUCH_AND_HOLD_NOISE_CONTROLS)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/TouchAndHoldNoiseControlsEncoder.cs:20:        return new SppMessage(MsgIds.SET_TOUCH_AND_HOLD_NOISE_CONTROLS, MsgTypes.Request, states);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/StatusUpdateDecoder.cs:10:[MessageDecoder(MsgIds.STATUS_UPDATED)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/StatusUpdateDecoder.cs:33:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/StatusUpdateDecoder.cs:35:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/StatusUpdateDecoder.cs:37:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/SetTouchOptionsEncoder.cs:6:[MessageEncoder(MsgIds.SET_TOUCHPAD_OPTION)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/SetTouchOptionsEncoder.cs:14:        return new SppMessage(MsgIds.SET_TOUCHPAD_OPTION, MsgTypes.Request, [
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/SocBatteryCycleDecoder.cs:7:[MessageDecoder(MsgIds.SOC_BATTERY_CYCLE)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/SetOtherOptionDecoder.cs:6:[MessageDecoder(MsgIds.SET_TOUCHPAD_OTHER_OPTION)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/SetFmmConfigEncoder.cs:10:[MessageEncoder(MsgIds.SET_FMM_CONFIG)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/SetFmmConfigEncoder.cs:133:                Log.Error(e, "Failed to serialize SET_FMM_CONFIG for left earbud");
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/SetFmmConfigEncoder.cs:211:        return new SppMessage(MsgIds.SET_FMM_CONFIG, payload: stream.ToArray(), model: TargetModel);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/NoiseReductionModeUpdateDecoder.cs:5:[MessageDecoder(MsgIds.NOISE_REDUCTION_MODE_UPDATE)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/GenericEventDecoder.cs:9:[MessageDecoder(MsgIds.DEBUG_EVENT)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/GenericEventDecoder.cs:45:        EARBUD_STATUS = 1,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/GenericEventDecoder.cs:48:        BATTERY_INFO = 18,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/NoiseControlUpdateDecoder.cs:6:[MessageDecoder(MsgIds.NOISE_CONTROLS_UPDATE)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/SetInBandRingtoneDecoder.cs:8:[MessageDecoder(MsgIds.SET_IN_BAND_RINGTONE)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/SetEqualizerEncoder.cs:7:[MessageEncoder(MsgIds.EQUALIZER)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/SetEqualizerEncoder.cs:32:        return new SppMessage(MsgIds.EQUALIZER, MsgTypes.Request, payload);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/SetFmmConfigDecoder.cs:5:[MessageDecoder(MsgIds.SET_FMM_CONFIG)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/MuteUpdateDecoder.cs:6:[MessageDecoder(MsgIds.MUTE_EARBUD_STATUS_UPDATED)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/DebugBuildInfoDecoder.cs:6:[MessageDecoder(MsgIds.DEBUG_BUILD_INFO)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AmbientWearingUpdateDecoder.cs:10:[MessageDecoder((MsgIds)LegacyMsgIds.AMBIENT_WEARING_STATUS_UPDATED)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/BatteryTypeDecoder.cs:7:[MessageDecoder(MsgIds.BATTERY_TYPE)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/LockTouchpadEncoder.cs:7:[MessageEncoder(MsgIds.LOCK_TOUCHPAD)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Encoder/LockTouchpadEncoder.cs:35:        return new SppMessage(MsgIds.LOCK_TOUCHPAD, MsgTypes.Request, stream.ToArray());
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/DebugSkuDecoder.cs:9:[MessageDecoder(MsgIds.DEBUG_SKU)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/DebugSerialNumberDecoder.cs:7:[MessageDecoder(MsgIds.DEBUG_SERIAL_NUMBER)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:28:                case MsgIds.SET_SIDETONE:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:29:                case MsgIds.SET_ANC_WITH_ONE_EARBUD:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:34:                case MsgIds.SET_VOICE_WAKE_UP:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:37:                case MsgIds.NOISE_CONTROLS:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:38:                case MsgIds.NOISE_REDUCTION_LEVEL:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:39:                case MsgIds.SET_NOISE_REDUCTION:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:40:                case MsgIds.EQUALIZER:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:42:                case MsgIds.SET_SPEAK_SEAMLESSLY:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:43:                case MsgIds.SET_DETECT_CONVERSATIONS:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:44:                case MsgIds.SET_DETECT_CONVERSATIONS_DURATION:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:48:                case MsgIds.SET_CALL_PATH_CONTROL:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:49:                case MsgIds.SET_SEAMLESS_CONNECTION:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:53:                case MsgIds.SET_TOUCH_AND_HOLD_NOISE_CONTROLS:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:59:                case MsgIds.LOCK_TOUCHPAD:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/AcknowledgementDecoder.cs:62:                case MsgIds.SET_TOUCHPAD_OPTION:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/DebugGetAllDataDecoder.cs:12:[MessageDecoder(MsgIds.DEBUG_GET_ALL_DATA)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/DebugGetAllDataDecoder.cs:210:            Models.BudsPro or Models.Buds2 or Models.Buds2Pro or Models.BudsFe or Models.BudsCore)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:13:[MessageDecoder(MsgIds.EXTENDED_STATUS_UPDATED)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:108:    [Device(Models.BudsPro, Models.Buds2Pro)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:110:    [Device(Models.BudsPro, Models.Buds2Pro)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:118:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:120:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:122:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:124:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:126:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:128:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:133:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:149:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:152:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:154:    [Device(Models.Buds2, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:157:    [Device(Models.Buds2Pro, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:159:    [Device(Models.Buds2Pro, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:161:    [Device(Models.Buds2Pro, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:163:    [Device(Models.Buds2Pro, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:165:    [Device(Models.Buds2Pro, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:167:    [Device(Models.Buds2Pro, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:169:    [Device(Models.Buds2Pro, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:171:    [Device(Models.Buds2Pro, Selector.GreaterEqual)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:332:                else // >= Buds2
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:495:                    else if (TargetModel == Models.Buds2)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs:542:                    else if (TargetModel == Models.Buds2Pro)
+
+=== device model feature references ===
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/TrayItemTypes.cs:5:    ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/TrayItemTypes.cs:8:    ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/TrayItemTypes.cs:9:    LockTouchpad,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:13:        { Features.SeamlessConnection, new FeatureRule(3) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:14:        { Features.AmbientVoiceFocus, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:15:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:16:        { Features.LegacyAmbientSoundVolumeLevels, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:17:        { Features.BuildInfo, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:18:        { Features.BatteryType, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:19:        { Features.Voltage, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:20:        { Features.Current, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:21:        { Features.PairingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:22:        { Features.AmbientSoundVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:23:        { Features.SppLegacyMessageHeader, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:24:        { Features.UsageReport, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:29:    public ITouchMap TouchMap => new BudsTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:35:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsDeviceSpec.cs:36:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StubTouchMap.cs:6:public class StubTouchMap : ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/UsageReportPageViewModel.cs:81:        if(e.TotalBatteryCapacity != null)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/UsageReportPageViewModel.cs:82:            MeteringItems.Add(new ItemViewHolder(Strings.MeteringTotalBattCapacity, string.Format(Strings.MilliampHoursUnit, e.TotalBatteryCapacity.Value.ToString())));
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:14:        { Features.StereoPan, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:15:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:16:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:17:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:18:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:19:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:20:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:21:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:22:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:23:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:24:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:25:        { Features.AncNoiseReductionLevels, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:26:        { Features.AmbientSidetone, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:27:        { Features.AmbientCustomize, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:28:        { Features.NoiseControlsWithOneEarbud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:29:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:30:        { Features.AdvancedTouchLock, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:31:        { Features.AdvancedTouchLockForCalls, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:32:        { Features.CallPathControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:33:        { Features.FmgRingWhileWearing, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:34:        { Features.ChargingState, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:35:        { Features.NoiseControlModeDualSide, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:36:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:37:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:38:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:39:        { Features.UsageReport, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:44:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:49:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:50:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsCoreDeviceSpec.cs:51:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs:6:public class StandardTouchMap : ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs:11:        {TouchOptions.NoiseControl, 2},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:14:        { Features.StereoPan, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:15:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:16:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:17:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:18:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:19:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:20:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:21:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:22:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:23:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:24:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:25:        { Features.AncNoiseReductionLevels, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:26:        { Features.AmbientSidetone, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:27:        { Features.AmbientCustomize, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:28:        { Features.NoiseControlsWithOneEarbud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:29:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:30:        { Features.AdvancedTouchLock, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:31:        { Features.AdvancedTouchLockForCalls, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:32:        { Features.CallPathControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:33:        { Features.FmgRingWhileWearing, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:34:        { Features.ChargingState, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:35:        { Features.NoiseControlModeDualSide, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:36:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:37:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:38:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:39:        { Features.UsageReport, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:44:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:49:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:50:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3FeDeviceSpec.cs:51:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs:7:public interface ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:14:        { Features.StereoPan, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:15:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:16:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:17:        { Features.DetectConversations, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:18:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:19:        { Features.NoiseControlModeDualSide, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:20:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:21:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:22:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:23:        { Features.SpatialSensor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:24:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:25:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:26:        { Features.ExtraClearCallSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:27:        { Features.AmbientExtraLoud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:28:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:29:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:30:        { Features.AmbientSidetone, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:31:        { Features.AmbientCustomize, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:32:        { Features.NoiseControlsWithOneEarbud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:33:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:34:        { Features.AdvancedTouchLock, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:35:        { Features.AdvancedTouchLockForCalls, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:36:        { Features.FmgRingWhileWearing, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:37:        { Features.CallPathControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:38:        { Features.ChargingState, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:39:        { Features.AutoAdjustSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:40:        { Features.HeadTracking, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:41:        { Features.CradleSerialNumber, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:42:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:43:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:44:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:45:        { Features.UsageReport, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:46:        { Features.HotCommandLanguageUpdate, new FeatureRule(2) }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:51:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:56:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:57:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4ProDeviceSpec.cs:58:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:23:public partial class TouchpadPageViewModel : MainPageViewModelBase
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:25:    public override Control CreateView() => new TouchpadPage { DataContext = this };
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:27:    public TouchpadPageViewModel()
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:54:        LeftAction = e.TouchpadOptionL;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:55:        RightAction = e.TouchpadOptionR;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:56:        IsTouchpadLocked = e.TouchpadLock;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:59:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.AdvancedTouchLock))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:66:            if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.AdvancedTouchLockForCalls))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:80:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.NoiseControlModeDualSide))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:82:            NoiseControlCycleMode = e switch
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:84:                { NoiseControlTouchLeftAnc: true, NoiseControlTouchLeftOff: true } => NoiseControlCycleModes.AncOff,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:85:                { NoiseControlTouchLeftAmbient: true, NoiseControlTouchLeftOff: true } => NoiseControlCycleModes.AmbOff,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:86:                { NoiseControlTouchLeftAmbient: true, NoiseControlTouchLeftAnc: true } => NoiseControlCycleModes.AncAmb,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:87:                _ => NoiseControlCycleModes.Unknown
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:89:            NoiseControlCycleModeRight = e switch
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:91:                { NoiseControlTouchAnc: true, NoiseControlTouchOff: true } => NoiseControlCycleModes.AncOff,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:92:                { NoiseControlTouchAmbient: true, NoiseControlTouchOff: true } => NoiseControlCycleModes.AmbOff,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:93:                { NoiseControlTouchAmbient: true, NoiseControlTouchAnc: true } => NoiseControlCycleModes.AncAmb,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:94:                _ => NoiseControlCycleModes.Unknown
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:99:            NoiseControlCycleMode = e switch
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:101:                { NoiseControlTouchAnc: true, NoiseControlTouchOff: true } => NoiseControlCycleModes.AncOff,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:102:                { NoiseControlTouchAmbient: true, NoiseControlTouchOff: true } => NoiseControlCycleModes.AmbOff,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:103:                { NoiseControlTouchAmbient: true, NoiseControlTouchAnc: true } => NoiseControlCycleModes.AncAmb,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:104:                _ => NoiseControlCycleModes.Unknown
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:121:            case nameof(IsTouchpadLocked):
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:122:                if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.AdvancedTouchLock))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:124:                    await BluetoothImpl.Instance.SendAsync(new LockTouchpadEncoder
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:126:                        LockAll = IsTouchpadLocked,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:137:                    await BluetoothImpl.Instance.SendRequestAsync(MsgIds.LOCK_TOUCHPAD,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:138:                        IsTouchpadLocked);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:146:            case nameof(NoiseControlCycleMode) or nameof(NoiseControlCycleModeRight):
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:147:                await BluetoothImpl.Instance.SendAsync(new TouchAndHoldNoiseControls
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:149:                    CycleMode = NoiseControlCycleMode,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:150:                    CycleModeRight = NoiseControlCycleModeRight
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:173:                if (LeftAction == TouchOptions.NoiseControl || RightAction == TouchOptions.NoiseControl)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:174:                    OnPropertyChanged(null, new PropertyChangedEventArgs(nameof(NoiseControlCycleMode)));
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:185:                case Event.LockTouchpadToggle:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:186:                    IsTouchpadLocked = !IsTouchpadLocked;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:198:        IsNoiseControlCycleModeEditable = LeftAction == TouchOptions.NoiseControl || 
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:199:                                          (!BluetoothImpl.Instance.DeviceSpec.Supports(Features.NoiseControlModeDualSide) && RightAction == TouchOptions.NoiseControl);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:200:        IsNoiseControlCycleModeRightEditable = RightAction == TouchOptions.NoiseControl;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:202:        LeftControlCycleModeLabel = BluetoothImpl.Instance.DeviceSpec.Supports(Features.NoiseControlModeDualSide) ? 
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:203:            Strings.TouchpadNoiseControlModeL : Strings.TouchpadNoiseControlMode;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:211:            : Strings.TouchpadDefaultAction;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:214:            : Strings.TouchpadDefaultAction;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:225:            var table = BluetoothImpl.Instance.DeviceSpec.TouchMap.LookupTable;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:252:    [Reactive] private NoiseControlCycleModes _noiseControlCycleMode;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:253:    [Reactive] private NoiseControlCycleModes _noiseControlCycleModeRight;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:255:    [Reactive] private bool _isTouchpadLocked;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:264:    [Reactive] private bool _isNoiseControlCycleModeEditable;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:265:    [Reactive] private bool _isNoiseControlCycleModeRightEditable;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:266:    [Reactive] private string _leftControlCycleModeLabel = Strings.TouchpadNoiseControlMode;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/TouchpadPageViewModel.cs:273:    public override string TitleKey => Keys.MainpageTouchpad;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/BudsTouchMap.cs:6:public class BudsTouchMap : ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:14:        { Features.StereoPan, null},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:15:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:16:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:17:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:18:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:19:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:20:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:21:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:22:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:23:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:24:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:25:        { Features.AdvancedTouchLock, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:26:        { Features.AdvancedTouchLockForCalls, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:27:        { Features.NoiseControlsWithOneEarbud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:28:        { Features.AmbientCustomize, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:29:        { Features.AmbientSidetone, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:30:        { Features.FmgRingWhileWearing, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:31:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:32:        { Features.CallPathControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:33:        { Features.ChargingState, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:34:        { Features.NoiseControlModeDualSide, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:35:        { Features.PairingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:36:        { Features.AmbientSoundVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:37:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:38:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:39:        { Features.SpatialSensor, null  },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:40:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:41:        { Features.UsageReport, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:42:        { Features.HotCommandLanguageUpdate, new FeatureRule(2) }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:47:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:52:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:53:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3DeviceSpec.cs:54:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:14:        { Features.StereoPan, null},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:15:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:16:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:17:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:18:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:19:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:20:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:21:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:22:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:23:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:24:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:25:        { Features.AdvancedTouchLock, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:26:        { Features.AdvancedTouchLockForCalls, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:27:        { Features.NoiseControlsWithOneEarbud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:28:        { Features.AmbientCustomize, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:29:        { Features.AmbientSidetone, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:30:        { Features.FmgRingWhileWearing, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:31:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:32:        { Features.CallPathControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:33:        { Features.ChargingState, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:34:        { Features.NoiseControlModeDualSide, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:35:        { Features.PairingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:36:        { Features.AmbientSoundVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:37:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:38:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:39:        { Features.SpatialSensor, null  },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:40:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:41:        { Features.UsageReport, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:42:        { Features.HotCommandLanguageUpdate, new FeatureRule(2) }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:47:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:52:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:53:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds4DeviceSpec.cs:54:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:14:        { Features.StereoPan, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:15:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:16:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:17:        { Features.DetectConversations, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:18:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:19:        { Features.NoiseControlModeDualSide, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:20:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:21:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:22:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:23:        { Features.SpatialSensor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:24:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:25:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:26:        { Features.ExtraClearCallSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:27:        { Features.AmbientExtraLoud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:28:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:29:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:30:        { Features.AmbientSidetone, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:31:        { Features.AmbientCustomize, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:32:        { Features.NoiseControlsWithOneEarbud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:33:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:34:        { Features.AdvancedTouchLock, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:35:        { Features.AdvancedTouchLockForCalls, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:36:        { Features.FmgRingWhileWearing, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:37:        { Features.CallPathControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:38:        { Features.ChargingState, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:39:        { Features.AutoAdjustSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:40:        { Features.HeadTracking, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:41:        { Features.CradleSerialNumber, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:42:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:43:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:44:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:45:        { Features.UsageReport, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:46:        { Features.HotCommandLanguageUpdate, new FeatureRule(2) }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:51:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:56:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:57:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds3ProDeviceSpec.cs:58:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:21:        SppMessageReceiver.Instance.BatteryTypeResponse += OnBatteryTypeReceived;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:83:    private void OnBatteryTypeReceived(object? sender, BatteryTypeDecoder e)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:85:        BatteryType = e is { LeftBatteryType: not null, RightBatteryType: not null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:86:            ? $"{Strings.Left}: {e.LeftBatteryType}, {Strings.Right}: {e.RightBatteryType}"
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:105:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.BatteryType))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:106:            await BluetoothImpl.Instance.SendRequestAsync(MsgIds.BATTERY_TYPE);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:107:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.BuildInfo))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:109:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.DebugSku))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:111:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.CradleSerialNumber))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/SystemInfoPageViewModel.cs:131:    [Reactive] private string _batteryType = Placeholder;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:9:public class Buds2DeviceSpec : IDeviceSpec
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:14:        { Features.StereoPan, null},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:15:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:16:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:17:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:18:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:19:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:20:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:21:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:22:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:23:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:24:        { Features.DoubleTapVolume, new FeatureRule(5) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:25:        { Features.AdvancedTouchLock, new FeatureRule(4) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:26:        { Features.AdvancedTouchLockForCalls, new FeatureRule(7) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:27:        { Features.NoiseControlsWithOneEarbud, new FeatureRule(3) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:28:        { Features.AmbientCustomize, new FeatureRule(5) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:29:        { Features.AmbientSidetone, new FeatureRule(6)  },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:30:        { Features.FmgRingWhileWearing, new FeatureRule(9) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:31:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:32:        { Features.CallPathControl, new FeatureRule(7) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:33:        { Features.ChargingState, new FeatureRule(10) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:34:        { Features.NoiseControlModeDualSide, new FeatureRule(5) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:35:        { Features.PairingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:36:        { Features.AmbientSoundVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:37:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:38:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:39:        { Features.SpatialSensor, new FeatureRule(10) }, // 10 may be inaccurate
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:40:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:41:        { Features.UsageReport, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:44:    public Models Device => Models.Buds2;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:45:    public string DeviceBaseName => "Buds2";
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:46:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:51:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:52:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2DeviceSpec.cs:53:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/BudsPlusTouchMap.cs:6:public class BudsPlusTouchMap : ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:9:public class Buds2ProDeviceSpec : IDeviceSpec
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:14:        { Features.StereoPan, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:15:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:16:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:17:        { Features.DetectConversations, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:18:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:19:        { Features.NoiseControlModeDualSide, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:20:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:21:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:22:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:23:        { Features.SpatialSensor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:24:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:25:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:26:        { Features.ExtraClearCallSound, new FeatureRule(13) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:27:        { Features.AmbientExtraLoud, new FeatureRule(13) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:28:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:29:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:30:        { Features.AmbientSidetone, new FeatureRule(1) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:31:        { Features.AmbientCustomize, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:32:        { Features.NoiseControlsWithOneEarbud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:33:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:34:        { Features.AdvancedTouchLock, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:35:        { Features.AdvancedTouchLockForCalls, new FeatureRule(1) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:36:        { Features.FmgRingWhileWearing, new FeatureRule(4) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:37:        { Features.CallPathControl, new FeatureRule(1) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:38:        { Features.ChargingState, new FeatureRule(11, 1) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:39:        { Features.AutoAdjustSound, new FeatureRule(3) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:40:        { Features.HeadTracking, new FeatureRule(8) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:41:        { Features.CradleSerialNumber, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:42:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:43:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:44:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:45:        { Features.UsageReport, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:48:    public Models Device => Models.Buds2Pro;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:49:    public string DeviceBaseName => "Buds2 Pro";
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:50:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:55:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:56:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Buds2ProDeviceSpec.cs:57:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs:21:        Specs.Add(new Buds2ProDeviceSpec()); // important: B2Pro is added before B2 to avoid false positives
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs:22:        Specs.Add(new Buds2DeviceSpec());
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs:36:            // If the device has this SPP service (>= Buds2), it can be renamed, so we can't rely on the name
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs:67:                    return FindByModel(Models.Buds2Pro);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs:71:                    // Likely Buds2
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs:72:                    return FindByModel(Models.Buds2);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:13:        { Features.SeamlessConnection, new FeatureRule(3)  },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:14:        { Features.AmbientPassthrough, new FeatureRule(5) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:15:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:16:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:17:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:18:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:19:        { Features.StereoPan, new FeatureRule(7) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:20:        { Features.SpatialSensor, new FeatureRule(9) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:21:        { Features.BixbyWakeup, new FeatureRule(1) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:22:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:23:        { Features.BuildInfo, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:24:        { Features.Voltage, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:25:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:26:        { Features.CallPathControl, new FeatureRule(8) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:27:        { Features.PairingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:28:        { Features.AmbientSoundVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:29:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:30:        { Features.SmartThingsFind, new FeatureRule(4) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:31:        { Features.UsageReport, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:32:        { Features.HiddenAtMode, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:37:    public ITouchMap TouchMap => new BudsLiveTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:43:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsLiveDeviceSpec.cs:44:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:14:        { Features.StereoPan, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:15:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:16:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:17:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:18:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:19:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:20:        { Features.GearFitTest, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:21:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:22:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:23:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:24:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:25:        { Features.AncNoiseReductionLevels, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:26:        { Features.AmbientSidetone, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:27:        { Features.AmbientCustomize, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:28:        { Features.NoiseControlsWithOneEarbud, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:29:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:30:        { Features.AdvancedTouchLock, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:31:        { Features.AdvancedTouchLockForCalls, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:32:        { Features.CallPathControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:33:        { Features.FmgRingWhileWearing, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:34:        { Features.ChargingState, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:35:        { Features.NoiseControlModeDualSide, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:36:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:37:        { Features.Rename, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:38:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:39:        { Features.UsageReport, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:44:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:49:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:50:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsFeDeviceSpec.cs:51:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:13:        { Features.SeamlessConnection, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:14:        { Features.StereoPan, new FeatureRule(5) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:15:        { Features.DoubleTapVolume, new FeatureRule(7) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:16:        { Features.FirmwareUpdates, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:17:        { Features.DetectConversations, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:18:        { Features.NoiseControl, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:19:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:20:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:21:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:22:        { Features.SpatialSensor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:23:        { Features.Voltage, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:24:        { Features.BixbyWakeup, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:25:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:26:        { Features.Anc, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:27:        { Features.AncNoiseReductionLevels, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:28:        { Features.BuildInfo, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:29:        { Features.AmbientSidetone, new FeatureRule(8)  },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:30:        { Features.AmbientCustomize, new FeatureRule(8) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:31:        { Features.AmbientCustomizeLegacy, new FeatureRule(8) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:32:        { Features.DebugSku, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:33:        { Features.CallPathControl, new FeatureRule(10) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:34:        { Features.NoiseControlModeDualSide, new FeatureRule(8) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:35:        { Features.PairingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:36:        { Features.AmbientSoundVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:37:        { Features.NoiseControlsWithOneEarbud, new FeatureRule(8) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:38:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:39:        { Features.SmartThingsFind, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:40:        { Features.UsageReport, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:41:        { Features.HiddenAtMode, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:46:    public ITouchMap TouchMap => new StandardTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:51:            TrayItemTypes.ToggleNoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:52:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsProDeviceSpec.cs:53:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/IDeviceSpec.cs:16:    public ITouchMap TouchMap { get; }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:13:        { Features.AmbientSound, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:14:        { Features.AmbientSidetone, new FeatureRule(8)  },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:15:        { Features.AmbientExtraLoud, new FeatureRule(9)  },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:16:        { Features.SeamlessConnection, new FeatureRule(11)  },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:17:        { Features.FirmwareUpdates, new FeatureRule(8) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:18:        { Features.GamingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:19:        { Features.DoubleTapVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:20:        { Features.CaseBattery, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:21:        { Features.FragmentedMessages, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:22:        { Features.BuildInfo, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:23:        { Features.Voltage, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:24:        { Features.CallPathControl, new FeatureRule(13) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:25:        { Features.PairingMode, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:26:        { Features.AmbientSoundVolume, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:27:        { Features.DeviceColor, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:28:        { Features.SmartThingsFind, new FeatureRule(12) },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:29:        { Features.UsageReport, null },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:30:        { Features.HiddenAtMode, null }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:35:    public ITouchMap TouchMap => new BudsPlusTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:41:            TrayItemTypes.ToggleEqualizer,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/BudsPlusDeviceSpec.cs:42:            TrayItemTypes.LockTouchpad
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/BudsLiveTouchMap.cs:6:public class BudsLiveTouchMap : ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/StubDeviceSpec.cs:14:    public ITouchMap TouchMap => new StubTouchMap();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Features.cs:12:    NoiseControl,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Features.cs:13:    NoiseControlModeDualSide,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Features.cs:14:    NoiseControlAdaptive,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Features.cs:20:    CaseBattery,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Features.cs:21:    BatteryType,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Features.cs:26:    FirmwareUpdates,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Features.cs:30:    NoiseControlsWithOneEarbud,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FindMyBudsPageViewModel.cs:46:                if (IsSearching && BluetoothImpl.Instance.DeviceSpec.Supports(Features.FmgRingWhileWearing))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:17:public partial class NoiseControlPageViewModel : MainPageViewModelBase
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:19:    public override Control CreateView() => new NoiseControlPage { DataContext = this };
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:22:    public NoiseControlPageViewModel()
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:37:        SppMessageReceiver.Instance.NoiseControlUpdateResponse += (_, mode) =>
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:40:            SetNoiseControlMode(mode);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:50:                        SetNoiseControlMode((NoiseControlModes)param.Value);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:63:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.NoiseControl))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:65:            IsAmbientSoundEnabled = e.NoiseControlMode == NoiseControlModes.AmbientSound;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:66:            IsAncEnabled = e.NoiseControlMode == NoiseControlModes.NoiseReduction;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:75:        IsNcWithOneEarbudAllowed = e.NoiseControlsWithOneEarbud;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:86:    private async void SendNoiseControlState()
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:88:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.NoiseControl))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:90:            var mode = IsAmbientSoundEnabled ? NoiseControlModes.AmbientSound : 
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:91:                IsAncEnabled ? NoiseControlModes.NoiseReduction : NoiseControlModes.Off;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:96:            if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.AmbientSound))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:98:            if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.Anc))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:117:                    SendNoiseControlState();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:140:    public NoiseControlModes NoiseControlMode => IsAmbientSoundEnabled
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:141:        ? NoiseControlModes.AmbientSound
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:143:            ? NoiseControlModes.NoiseReduction
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:144:            : NoiseControlModes.Off;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:146:    private void SetNoiseControlMode(NoiseControlModes mode)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:150:            case NoiseControlModes.Off:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:154:            case NoiseControlModes.AmbientSound:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:158:            case NoiseControlModes.NoiseReduction:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:186:                case Event.SetNoiseControlState:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:187:                    if(arg is NoiseControlModes mode)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/NoiseControlPageViewModel.cs:188:                        SetNoiseControlMode(mode);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:22:public partial class BatteryHistoryPageViewModel : SubPageViewModelBase
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:24:    public override Control CreateView() => new BatteryHistoryPage { DataContext = this };
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:25:    public override string TitleKey => Keys.SystemBatteryStatistics;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:36:    [Reactive] private BatteryHistoryOverlays _selectedOverlay = BatteryHistoryOverlays.None;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:37:    [Reactive] private BatteryHistoryTimeSpans _selectedTimeSpan = BatteryHistoryTimeSpans.Last12Hours;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:38:    [Reactive] private BatteryHistoryTools _selectedTool = BatteryHistoryTools.PanAndZoom;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:40:    public BatteryHistoryPageViewModel()
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:56:                    BatteryHistoryTools.PanAndZoom => new Avalonia.Input.Cursor(StandardCursorType.Arrow),
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:57:                    BatteryHistoryTools.MeasureTime => new Avalonia.Input.Cursor(StandardCursorType.RightSide),
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:58:                    BatteryHistoryTools.MeasureBattery => new Avalonia.Input.Cursor(StandardCursorType.TopSide),
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:101:        await using var disposableQuery = await BatteryHistoryManager.BeginDisposableQueryAsync();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:107:        var batteryL = new List<float>();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:108:        var batteryR = new List<float>();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:113:            BatteryHistoryOverlays.None => null,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:114:            BatteryHistoryOverlays.HostDevice => new HorizontalBarOverlay<DevicesInverted>(),
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:115:            BatteryHistoryOverlays.NoiseControls => new HorizontalBarOverlay<NoiseControlModes>(),
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:116:            BatteryHistoryOverlays.Wearing => new HorizontalBarOverlay<LegacyWearStates>(),
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:125:            batteryL.Add(record.BatteryL > 0 ? record.BatteryL ?? float.NaN : float.NaN);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:126:            batteryR.Add(record.BatteryR > 0 ? record.BatteryR ?? float.NaN : float.NaN);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:129:            if (record.BatteryL == null && record.BatteryR == null)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:143:                case HorizontalBarOverlay<NoiseControlModes> singleBarOverlay:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:144:                    singleBarOverlay.Add(date, record.NoiseControlMode);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:163:        var plotBatteryL = Plot.Add.Scatter(timestamp, batteryL);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:164:        plotBatteryL.MarkerShape = MarkerShape.None;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:165:        plotBatteryL.LineWidth = 2;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:166:        plotBatteryL.LegendText = Strings.Left;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:168:        var plotBatteryR = Plot.Add.Scatter(timestamp, batteryR);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:169:        plotBatteryR.MarkerShape = MarkerShape.None;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:170:        plotBatteryR.LineWidth = 2;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/BatteryHistoryPageViewModel.cs:171:        plotBatteryR.LegendText = Strings.Right;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:15:public partial class EqualizerPageViewModel : MainPageViewModelBase
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:17:    public EqualizerPageViewModel()
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:28:                await BluetoothImpl.Instance.SendAsync(new SetEqualizerEncoder
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:45:            case Event.EqualizerToggle:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:49:            case Event.EqualizerNextPreset:
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:68:            IsEqEnabled = e.EqualizerEnabled;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:70:            var preset = e.EqualizerMode;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:82:            IsEqEnabled = e.EqualizerMode != 0;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:84:            EqPreset = e.EqualizerMode == 0 ? 2 : e.EqualizerMode - 1;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/EqualizerPageViewModel.cs:90:    public override Control CreateView() => new EqualizerPage { DataContext = this };
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/AmbientCustomizePageViewModel.cs:38:        if(BluetoothImpl.Instance.DeviceSpec.Supports(Features.AmbientExtraLoud) && IsAmbientExtraLoudEnabled)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/AmbientCustomizePageViewModel.cs:42:            BluetoothImpl.Instance.DeviceSpec.Supports(Features.AmbientCustomizeLegacy) ||
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/AmbientCustomizePageViewModel.cs:43:                (BluetoothImpl.Instance.DeviceSpec.Supports(Features.AmbientExtraLoud) && IsAmbientExtraLoudEnabled) ? 4 : 2;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/AmbientCustomizePageViewModel.cs:101:                EventDispatcher.Instance.Dispatch(Event.SetNoiseControlState, NoiseControlModes.AmbientSound);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/AmbientCustomizePageViewModel.cs:122:                        EventDispatcher.Instance.Dispatch(Event.SetNoiseControlState, NoiseControlModes.Off);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/AmbientCustomizePageViewModel.cs:126:                        EventDispatcher.Instance.Dispatch(Event.SetNoiseControlState, NoiseControlModes.AmbientSound);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/AmbientCustomizePageViewModel.cs:137:                        EventDispatcher.Instance.Dispatch(Event.SetNoiseControlState, NoiseControlModes.Off);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/AmbientCustomizePageViewModel.cs:141:                        EventDispatcher.Instance.Dispatch(Event.SetNoiseControlState, NoiseControlModes.AmbientSound);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:17:using GalaxyBudsClient.Model.Firmware;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:25:public partial class FirmwarePageViewModel : SubPageViewModelBase
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:27:    public override Control CreateView() => new FirmwarePage { DataContext = this };
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:32:    public ObservableCollection<FirmwareRemoteBinary> AvailableFirmware { get; } = [];
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:34:    private readonly FirmwareRemoteClient _client = new();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:37:    public FirmwarePageViewModel()
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:40:        AvailableFirmware.CollectionChanged += (_, _) => NoResults = !AvailableFirmware.Any(); 
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:55:        if (BluetoothImpl.Instance.DeviceSpec.Supports(Features.DebugSku))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:65:        if (Settings.Data.FirmwareWarningAccepted) 
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:76:        Settings.Data.FirmwareWarningAccepted = result;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:85:        if (param is not FirmwareRemoteBinary firmware) return;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:87:        if (firmware.Model != BluetoothImpl.Instance.CurrentModel)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:113:            binary = await _client.DownloadFirmware(firmware);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:130:            Log.Error(ex, "FirmwareSelectionPage.Next: Network error");
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:138:        await PrepareInstallation(binary, firmware.BuildName ?? Strings.FwSelectUnknownBuild);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:150:            new("Firmware binary") { Patterns = new List<string> { "*.bin" } },
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:174:        FirmwareBinary? binary;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:177:            binary = new FirmwareBinary(data, buildName, false);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:179:        catch (FirmwareParseException ex)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:190:         * Safety check: Verify whether the firmware binary is compatible with the current device to avoid hard bricks.
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:196:        var firmwareModel = binary.DetectedModel;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:197:        if (firmwareModel == null)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:199:            Log.Warning("FirmwareSelectionPage.PrepareInstallation: Firmware model is null; skipping verification");
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:201:        else if(connectedModel != firmwareModel)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:208:                    firmwareModel.Value.GetModelMetadataAttribute()?.Name ?? Strings.Unknown, 
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:237:            Log.Warning("FirmwarePage: Refresh already in progress");
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:243:        FirmwareRemoteBinary[] firmwareBins;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:246:            firmwareBins = await _client.SearchForFirmware(IsDowngradingAllowed);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:247:            AvailableFirmware.Clear();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:269:            Log.Error(ex, "FirmwarePage.RefreshList: Network error");
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:273:        firmwareBins
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:275:            .ForEach(x => AvailableFirmware.Add(x));
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:280:    private async Task BeginTransfer(FirmwareBinary binary)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Interface/ViewModels/Pages/FirmwarePageViewModel.cs:282:        var dialog = new FirmwareUpdateDialog();

@@ -80,8 +80,16 @@
 - [x] Otomatik tanı testi, rapor oluşturma ve paylaşma akışını uçtan uca doğrula.
 - [x] Release kaynak eşleşmesini, temiz prebuild, testler ve yeni APK derlemesini doğrula.
 
-- [ ] Buds2 bağlantı olayında otomatik tanıyı oturum başına bir kez başlat.
-- [ ] Bağlantı kesilip yeniden bağlanınca yeni test oturumunu güvenli biçimde tetikle; uygulama açık değilken davranışı sınırla.
-- [ ] Test bitiminde Android sistem dosya kaydetme ekranını açıp kullanıcı seçtiği konuma raporu yaz.
+- [x] Buds2 bağlantı olayında otomatik tanıyı oturum başına bir kez başlat.
+- [x] Bağlantı kesilip yeniden bağlanınca yeni test oturumunu güvenli biçimde tetikle; uygulama açık değilken davranışı sınırla.
+- [x] Test bitiminde Android sistem dosya kaydetme ekranını açıp kullanıcı seçtiği konuma raporu yaz.
 - [ ] Otomatik test ilerlemesi, tamamlanma durumu ve yeniden çalıştırma seçeneğini arayüzde göster.
-- [ ] Otomatik bağlantı/test/kayıt akışını test edip yeni release APK'sını hazırla.
+- [x] Otomatik bağlantı/test/kayıt akışını test edip yeni release APK'sını hazırla.
+
+- [ ] GalaxyBudsClient referansından Buds2 cihaz modeli ve desteklenen özellikleri sistematik olarak çıkar.
+- [ ] SPP/RFCOMM mesaj kimlikleri, frame/CRC, handshake, status ve ACK sözleşmesini belgeleyip bağımsız uygulamaya uyarla.
+- [ ] Pil/status, ANC/EQ, dokunmatik ve güvenli diğer Buds2 özelliklerinin uygulanabilirlik tablosunu oluştur.
+- [ ] Lisans sınırlarını koruyarak yalnızca bağımsız implementasyon için gerekli teknik bulguları kullan.
+
+- [ ] Buds2 dokunmatik kilidi ve sol/sağ dokunma eylemleri için bağımsız RFCOMM encoder ve native API ekle.
+- [ ] Dokunmatik ayarları Tercihler ekranında bağlantı güvenliği ve ACK geri bildirimiyle sun.

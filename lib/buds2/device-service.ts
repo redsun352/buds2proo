@@ -6,6 +6,7 @@ import type {
   Buds2ControlResult,
   Buds2EqualizerPreset,
   Buds2NoiseControlMode,
+  Buds2TouchAction,
 } from "@/modules/buds2-bridge";
 
 export const EMPTY_BLUETOOTH_SNAPSHOT: BluetoothSnapshot = {
@@ -67,6 +68,37 @@ export async function applyEqualizer(
       command: "equalizer",
       status: "failed",
       message: "Ekolayzır komutu Buds2 köprüsünde çalıştırılamadı.",
+    };
+  }
+}
+
+export async function applyTouchLock(
+  deviceId: string,
+  locked: boolean,
+): Promise<Buds2ControlResult> {
+  try {
+    return await Buds2BridgeModule.applyTouchLock(deviceId, locked);
+  } catch {
+    return {
+      command: "touch_lock",
+      status: "failed",
+      message: "Dokunmatik kilidi Buds2 köprüsünde çalıştırılamadı.",
+    };
+  }
+}
+
+export async function applyTouchOptions(
+  deviceId: string,
+  left: Buds2TouchAction,
+  right: Buds2TouchAction,
+): Promise<Buds2ControlResult> {
+  try {
+    return await Buds2BridgeModule.applyTouchOptions(deviceId, left, right);
+  } catch {
+    return {
+      command: "touch_options",
+      status: "failed",
+      message: "Dokunmatik eylemleri Buds2 köprüsünde çalıştırılamadı.",
     };
   }
 }

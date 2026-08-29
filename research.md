@@ -72,3 +72,12 @@ Kullanıcı son release APK'da ekolayzır ve pilin hâlâ çalışmadığını b
 Ekolayzır için mevcut taşıyıcı komutu gönderiyor ancak başlangıç durum çerçevelerini tam olarak tüketmeden onay bekliyor. Sıradaki düzeltmede tek RFCOMM oturumunda açılış/status mesajları ayrıştırılacak, Buds2 extended-status alanları okunacak ve komut sonrası hem response hem de status-update doğrulanacak. GPLv3 referans projeden kod kopyalanmayacak; yalnızca bağımsız veri modeli ve byte alanı eşlemesi uygulanacak.
 
 Kaynaklar: [Android BluetoothDevice API](https://developer.android.com/reference/android/bluetooth/BluetoothDevice), [GalaxyBudsClient Buds2 status decoder](https://github.com/timschneeb/GalaxyBudsClient/blob/master/GalaxyBudsClient/Message/Decoder/ExtendedStatusUpdateDecoder.cs), [GalaxyBudsClient](https://github.com/timschneeb/GalaxyBudsClient), [Gadgetbridge Galaxy Buds protocol](https://gadgetbridge.org/internals/specifics/galaxy-buds-protocol/).
+
+## GalaxyBudsClient kapsamlı inceleme — 2026-08-28
+
+- Resmi GalaxyBudsClient deposu GPL-3.0 lisanslı, Samsung’a bağlı olmayan bir projedir; Buds cihazları için ayrıntılı pil, tanı/self-test, gizli debug bilgileri ve özelleştirilebilir uzun basma dokunmatik eylemleri listeler.
+- Proje, A2DP ses akışından ayrı olarak SPP/RFCOMM üzerinden üreticiye özgü ikili veri alışverişi kullanır; protokol formatı tamamen standart değildir.
+- Gadgetbridge belgesi, pil değerlerinin normal ve özel/debug mesaj yollarında farklı mesaj kimlikleriyle alınabildiğini ve protokolün kısmen belgelendiğini belirtir.
+- Buds2 Companion bağımsız Kotlin/TypeScript implementasyonu kullanmaya devam eder; GPL kaynak kodu veya türev kod kopyalanmaz. Yalnızca protokol gözlemleri ve kamuya açık teknik bulgular araştırma girdisi olarak kullanılır.
+
+Referanslar: https://github.com/timschneeb/GalaxyBudsClient ; https://gadgetbridge.org/internals/specifics/galaxy-buds-protocol/ ; https://repology.org/project/galaxybudsclient/packages

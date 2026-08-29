@@ -2,12 +2,13 @@ import { useCallback, useMemo, useState } from "react";
 import { Platform } from "react-native";
 
 import { useBuds2Device } from "@/hooks/use-buds2-device";
-import { applyEqualizer, applyNoiseControl } from "@/lib/buds2/device-service";
+import { applyEqualizer, applyNoiseControl, applyTouchLock, applyTouchOptions } from "@/lib/buds2/device-service";
 import { findLikelyBuds2 } from "@/lib/buds2/device-state";
 import type {
   Buds2ControlResult,
   Buds2EqualizerPreset,
   Buds2NoiseControlMode,
+  Buds2TouchAction,
 } from "@/modules/buds2-bridge";
 
 function unavailableResult(command: Buds2ControlResult["command"]): Buds2ControlResult {
@@ -55,6 +56,17 @@ export function useBuds2Control() {
     [device?.id, run],
   );
 
+  const setTouchLock = useCallback(
+    (locked: boolean) => run("touch_lock", () => applyTouchLock(device?.id ?? "", locked)),
+    [device?.id, run],
+  );
+
+  const setTouchOptions = useCallback(
+    (left: Buds2TouchAction, right: Buds2TouchAction) =>
+      run("touch_options", () => applyTouchOptions(device?.id ?? "", left, right)),
+    [device?.id, run],
+  );
+
   const setEqualizer = useCallback(
     (preset: Buds2EqualizerPreset) =>
       run("equalizer", () => applyEqualizer(device?.id ?? "", preset)),
@@ -68,5 +80,7 @@ export function useBuds2Control() {
     refresh,
     setEqualizer,
     setNoiseControl,
+    setTouchLock,
+    setTouchOptions,
   };
 }

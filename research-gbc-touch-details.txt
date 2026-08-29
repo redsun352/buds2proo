@@ -1,0 +1,164 @@
+=== StandardTouchMap ===
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-1-using System.Collections.Generic;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-2-using GalaxyBudsClient.Model.Constants;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-3-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-4-namespace GalaxyBudsClient.Model.Specifications.Touch;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-5-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs:6:public class StandardTouchMap : ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-7-{
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-8-    public Dictionary<TouchOptions, byte> LookupTable => new()
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-9-    {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-10-        {TouchOptions.VoiceAssistant, 1},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-11-        {TouchOptions.NoiseControl, 2},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-12-        {TouchOptions.Volume, 3},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-13-        {TouchOptions.SpotifySpotOn, 4},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-14-        {TouchOptions.OtherL, 5},
+--
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-3-using GalaxyBudsClient.Model.Constants;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-4-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-5-namespace GalaxyBudsClient.Model.Specifications.Touch;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-6-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-7-public interface ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-8-{
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-9-    Dictionary<TouchOptions, byte> LookupTable { get; }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-10-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs:11:    byte ToByte(TouchOptions id)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-12-    {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-13-        return LookupTable[id];
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-14-    }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-15-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-16-    TouchOptions FromByte(byte b)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-17-    {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-18-        return LookupTable.FirstOrDefault(x => x.Value == b).Key;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-19-    }
+--
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-43-                    .Replace(deviceIdPrefix, string.Empty);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-44-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-45-                if (deviceIdHex != null)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-46-                {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-47-                    try
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-48-                    {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-49-                        var deviceIdBytes = Enumerable.Range(0, deviceIdHex.Length)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-50-                            .Where(x => x % 2 == 0)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs:51:                            .Select(x => Convert.ToByte(deviceIdPrefix.Substring(x, 2), 16))
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-52-                            .ToArray();
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-53-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-54-                        // Check based on DeviceManager.getWearableDeviceFromBudsUUID() from the Wearable container app
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-55-                        if (((DeviceIds)BitConverter.ToInt32(deviceIdBytes)).GetAssociatedModel() is Models model)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-56-                        {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-57-                            return FindByModel(model);
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-58-                        }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/DeviceSpecHelper.cs-59-                    }
+--
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-1-using System.Collections.Generic;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-2-using GalaxyBudsClient.Model.Constants;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-3-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-4-namespace GalaxyBudsClient.Model.Specifications.Touch;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-5-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs:6:public class StandardTouchMap : ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-7-{
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-8-    public Dictionary<TouchOptions, byte> LookupTable => new()
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-9-    {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-10-        {TouchOptions.VoiceAssistant, 1},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-11-        {TouchOptions.NoiseControl, 2},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-12-        {TouchOptions.Volume, 3},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-13-        {TouchOptions.SpotifySpotOn, 4},
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/StandardTouchMap.cs-14-        {TouchOptions.OtherL, 5},
+--
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-3-using GalaxyBudsClient.Model.Constants;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-4-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-5-namespace GalaxyBudsClient.Model.Specifications.Touch;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-6-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-7-public interface ITouchMap
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-8-{
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-9-    Dictionary<TouchOptions, byte> LookupTable { get; }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-10-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs:11:    byte ToByte(TouchOptions id)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-12-    {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-13-        return LookupTable[id];
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-14-    }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-15-
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-16-    TouchOptions FromByte(byte b)
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-17-    {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-18-        return LookupTable.FirstOrDefault(x => x.Value == b).Key;
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Specifications/Touch/ITouchMap.cs-19-    }
+--
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-380-            AncOff = 1,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-381-            [LocalizableDescription(Keys.TouchpadNoiseControlModeAmbOff)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-382-            AmbOff = 2,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-383-            [IgnoreDataMember, LocalizableDescription(Keys.Unknown)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-384-            Unknown = 99
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-385-        }
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-386-        
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-387-        [CompiledEnum]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs:388:        public enum TouchOptions
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-389-        {
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-390-            [LocalizableDescription(Keys.TouchoptionVoice)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-391-            VoiceAssistant,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-392-            [LocalizableDescription(Keys.TouchoptionQuickambientsound)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-393-            QuickAmbientSound,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-394-            [LocalizableDescription(Keys.TouchoptionVolume)]
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-395-            Volume,
+/tmp/galaxybudsclient-research/GalaxyBudsClient/Model/Constants.cs-396-            [LocalizableDescription(Keys.TouchoptionAmbientsound)]
+=== touch encoders ===
+using System.IO;
+using GalaxyBudsClient.Generated.Model.Attributes;
+using GalaxyBudsClient.Model.Specifications;
+
+namespace GalaxyBudsClient.Message.Encoder;
+
+[MessageEncoder(MsgIds.LOCK_TOUCHPAD)]
+public class LockTouchpadEncoder : BaseMessageEncoder
+{
+    public bool LockAll { get; init; }
+    public bool TapOn { get; init; }
+    public bool DoubleTapOn { get; init; }
+    public bool TripleTapOn { get; init; }
+    public bool HoldTapOn { get; init; }
+    public bool DoubleTapCallOn { get; init; }
+    public bool HoldTapCallOn { get; init; }
+    
+    public override SppMessage Encode()
+    {
+        using var stream = new MemoryStream();
+        var writer = new BinaryWriter(stream);
+
+        writer.Write(!LockAll);
+        writer.Write(TapOn);
+        writer.Write(DoubleTapOn);
+        writer.Write(TripleTapOn);
+        writer.Write(HoldTapOn);
+
+        if (DeviceSpec.Supports(Features.AdvancedTouchLockForCalls))
+        {
+            writer.Write(DoubleTapCallOn);
+            writer.Write(HoldTapCallOn);
+        }
+            
+        return new SppMessage(MsgIds.LOCK_TOUCHPAD, MsgTypes.Request, stream.ToArray());
+    }
+}=== relevant decoders ===
+﻿using System;
+using GalaxyBudsClient.Generated.Model.Attributes;
+
+namespace GalaxyBudsClient.Message.Decoder;
+
+[MessageDecoder(MsgIds.TOUCH_UPDATED)]
+internal class TouchUpdateDecoder(SppMessage msg) : BaseMessageDecoder(msg)
+{
+    public bool TouchpadLocked { get; } = Convert.ToBoolean(msg.Payload[0]);
+}using System.IO;
+
+namespace GalaxyBudsClient.Message.Parameter;
+
+public class SetTouchpadOptionAckParameter : MessageAsDictionary, IAckParameter
+{
+    public byte LeftOption { get; }
+    public byte RightOption { get; }
+    
+    public SetTouchpadOptionAckParameter(BinaryReader reader)
+    {
+        LeftOption = reader.ReadByte();
+        RightOption = reader.ReadByte();
+    }
+}
