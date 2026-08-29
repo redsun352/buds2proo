@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Switch, Text, View } from "react-native";
 
 import { ScreenHeader } from "@/components/buds2/screen-header";
@@ -42,6 +42,13 @@ export default function PreferencesScreen() {
   const [leftTouchAction, setLeftTouchAction] = useState<Buds2TouchAction>("noise_control");
   const [rightTouchAction, setRightTouchAction] = useState<Buds2TouchAction>("noise_control");
   const [controlNotice, setControlNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isReady) return;
+    setTouchLocked(preferences.touchLocked);
+    setLeftTouchAction(preferences.touchLeftAction);
+    setRightTouchAction(preferences.touchRightAction);
+  }, [isReady, preferences.touchLeftAction, preferences.touchLocked, preferences.touchRightAction]);
 
   const save = async (nextValues: Omit<typeof preferences, "updatedAt">) => {
     setIsSaving(true);
@@ -87,7 +94,10 @@ export default function PreferencesScreen() {
     try {
       const result = await setTouchLock(locked);
       setControlNotice(result.message);
-      if (result.status === "confirmed") setTouchLocked(locked);
+      if (result.status === "confirmed") {
+        setTouchLocked(locked);
+        await updatePreferences({ ...preferences, touchLocked: locked });
+      }
     } finally {
       setIsSaving(false);
     }
@@ -104,8 +114,13 @@ export default function PreferencesScreen() {
       const result = await setTouchOptions(left, right);
       setControlNotice(result.message);
       if (result.status === "confirmed") {
-        if (side === "left") setLeftTouchAction(next);
-        else setRightTouchAction(next);
+        if (side === "left") {
+          setLeftTouchAction(next);
+          await updatePreferences({ ...preferences, touchLeftAction: next });
+        } else {
+          setRightTouchAction(next);
+          await updatePreferences({ ...preferences, touchRightAction: next });
+        }
       }
     } finally {
       setIsSaving(false);

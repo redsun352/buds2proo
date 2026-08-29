@@ -1,5 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import type { Buds2TouchAction } from "@/modules/buds2-bridge";
+
 export type AmbientProfile = "odak" | "dengeli" | "farkındalık";
 export type EqualizerPreset = "normal" | "bas" | "yumuşak" | "dinamik" | "temiz" | "tiz";
 
@@ -7,6 +9,9 @@ export interface ListeningPreferences {
   ambientProfile: AmbientProfile;
   equalizerPreset: EqualizerPreset;
   touchReminderEnabled: boolean;
+  touchLocked: boolean;
+  touchLeftAction: Buds2TouchAction;
+  touchRightAction: Buds2TouchAction;
   updatedAt: number;
 }
 
@@ -16,6 +21,9 @@ export const DEFAULT_LISTENING_PREFERENCES: ListeningPreferences = {
   ambientProfile: "dengeli",
   equalizerPreset: "normal",
   touchReminderEnabled: true,
+  touchLocked: false,
+  touchLeftAction: "noise_control",
+  touchRightAction: "noise_control",
   updatedAt: 0,
 };
 

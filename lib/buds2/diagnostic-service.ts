@@ -38,7 +38,18 @@ export async function collectDiagnosticTest(
   return { startedAt, completedAt: new Date().toISOString(), snapshot, nativeEvents, notes };
 }
 
+function redactSnapshotForExport(snapshot: BluetoothSnapshot): BluetoothSnapshot {
+  return {
+    ...snapshot,
+    devices: snapshot.devices.map((device, index) => ({
+      ...device,
+      id: `device-${String(index + 1).padStart(2, "0")}`,
+    })),
+  };
+}
+
 export function formatDiagnosticReport(report: DiagnosticReport): string {
+  const exportSnapshot = redactSnapshotForExport(report.snapshot);
   return [
     "Buds2 Companion otomatik tanı raporu",
     `Başlangıç: ${report.startedAt}`,
@@ -46,15 +57,15 @@ export function formatDiagnosticReport(report: DiagnosticReport): string {
     "",
     "[GENEL DURUM]",
     JSON.stringify({
-      nativeModuleAvailable: report.snapshot.nativeModuleAvailable,
-      bluetoothSupported: report.snapshot.bluetoothSupported,
-      bluetoothEnabled: report.snapshot.bluetoothEnabled,
-      permissionGranted: report.snapshot.permissionGranted,
-      reason: report.snapshot.reason ?? null,
+      nativeModuleAvailable: exportSnapshot.nativeModuleAvailable,
+      bluetoothSupported: exportSnapshot.bluetoothSupported,
+      bluetoothEnabled: exportSnapshot.bluetoothEnabled,
+      permissionGranted: exportSnapshot.permissionGranted,
+      reason: exportSnapshot.reason ?? null,
     }, null, 2),
     "",
     "[CIHAZLAR]",
-    JSON.stringify(report.snapshot.devices, null, 2),
+    JSON.stringify(exportSnapshot.devices, null, 2),
     "",
     "[NOTLAR]",
     report.notes.length ? report.notes.map((note) => `- ${note}`).join("\n") : "- Yok",

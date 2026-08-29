@@ -81,3 +81,8 @@ Kaynaklar: [Android BluetoothDevice API](https://developer.android.com/reference
 - Buds2 Companion bağımsız Kotlin/TypeScript implementasyonu kullanmaya devam eder; GPL kaynak kodu veya türev kod kopyalanmaz. Yalnızca protokol gözlemleri ve kamuya açık teknik bulgular araştırma girdisi olarak kullanılır.
 
 Referanslar: https://github.com/timschneeb/GalaxyBudsClient ; https://gadgetbridge.org/internals/specifics/galaxy-buds-protocol/ ; https://repology.org/project/galaxybudsclient/packages
+
+
+## Kullanıcı tanı raporu bulgusu — 2026-08-29
+
+Gönderilen raporda Galaxy Buds2 cihazı eşlenmiş ve A2DP/HFP profilleriyle bağlı görünmektedir. Extended-status çözümlemesi `batteryLevel=100`, `batteryLeft=100`, `batteryRight=100`, `batteryCase=75` ve `equalizerMode=1` döndürmüştür. Native olaylarda birden fazla `STATUS_RX` ve `STATUS_RESULT decoded=true` kaydı vardır; bu nedenle gerçek cihazda status/pil okuma yolu çalışmıştır. Ancak raporda EQ veya dokunmatik yazma komutu ACK’i yoktur; bu rapor yalnızca status okumasını kanıtlar. Dışa aktarılan raporlarda cihaz MAC adresleri anonimleştirilmelidir.

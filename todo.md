@@ -86,10 +86,15 @@
 - [ ] Otomatik test ilerlemesi, tamamlanma durumu ve yeniden çalıştırma seçeneğini arayüzde göster.
 - [x] Otomatik bağlantı/test/kayıt akışını test edip yeni release APK'sını hazırla.
 
-- [ ] GalaxyBudsClient referansından Buds2 cihaz modeli ve desteklenen özellikleri sistematik olarak çıkar.
-- [ ] SPP/RFCOMM mesaj kimlikleri, frame/CRC, handshake, status ve ACK sözleşmesini belgeleyip bağımsız uygulamaya uyarla.
-- [ ] Pil/status, ANC/EQ, dokunmatik ve güvenli diğer Buds2 özelliklerinin uygulanabilirlik tablosunu oluştur.
-- [ ] Lisans sınırlarını koruyarak yalnızca bağımsız implementasyon için gerekli teknik bulguları kullan.
+- [x] GalaxyBudsClient referansından Buds2 cihaz modeli ve desteklenen özellikleri sistematik olarak çıkar.
+- [x] SPP/RFCOMM mesaj kimlikleri, frame/CRC, handshake, status ve ACK sözleşmesini belgeleyip bağımsız uygulamaya uyarla.
+- [x] Pil/status, ANC/EQ, dokunmatik ve güvenli diğer Buds2 özelliklerinin uygulanabilirlik tablosunu oluştur.
+- [x] Lisans sınırlarını koruyarak yalnızca bağımsız implementasyon için gerekli teknik bulguları kullan.
 
-- [ ] Buds2 dokunmatik kilidi ve sol/sağ dokunma eylemleri için bağımsız RFCOMM encoder ve native API ekle.
-- [ ] Dokunmatik ayarları Tercihler ekranında bağlantı güvenliği ve ACK geri bildirimiyle sun.
+- [x] Buds2 dokunmatik kilidi ve sol/sağ dokunma eylemleri için bağımsız RFCOMM encoder ve native API ekle.
+- [x] Dokunmatik ayarları Tercihler ekranında bağlantı güvenliği ve ACK geri bildirimiyle sun.
+
+- [ ] Gönderilen raporda Buds2’nin gerçekten bağlı, pil/status yanıtının dolu ve EQ modunun 1 olarak okunduğunu kaydet.
+- [ ] Tanı raporundaki gerçek cihaz MAC adresini dışa aktarılan raporda maskele; tanı logunda yalnızca anonim cihaz kimliği kullan.
+- [ ] Rapor sonucuna göre güvenli status/pil okuma ve DSP komut test sonuçlarını anlaşılır biçimde göster.
+- [ ] Raporla doğrulanan düzeltmeleri test edip yeni release APK’sını üret.
